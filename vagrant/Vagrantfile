@@ -1,0 +1,51 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+PRIVATE_IP = "192.168.42.10"
+HOST_IP =    "192.168.42.1"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.define 'dinghy'
+
+  config.vm.box = "codekitchen/boot2docker"
+
+  config.vm.network "private_network", ip: PRIVATE_IP
+
+  config.ssh.shell = "sh"
+  config.ssh.username = "docker"
+
+  # Forward the Docker TLS port
+  config.vm.network :forwarded_port, guest: 2376, host: 2376
+
+  # Disable synced folder by default, we add the full NFS mount below
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  # Fix busybox/udhcpc issue
+  config.vm.provision :shell, run: "always", inline: <<-EOT
+    if ! grep -qs ^nameserver /etc/resolv.conf; then
+      sudo /sbin/udhcpc
+    fi
+    cat /etc/resolv.conf
+  EOT
+
+  # Adjust datetime after suspend and resume
+  config.vm.provision :shell, run: "always", inline: <<-EOT
+    sudo /usr/local/bin/ntpclient -s -h pool.ntp.org
+    date
+  EOT
+
+  # Mount the NFS volume from our own unfs daemon
+  config.vm.provision :shell, run: "always" do |s|
+    mount_dir = ENV.fetch("HOME")
+    s.inline = <<-EOT
+      echo mounting #{mount_dir} via NFS
+      sudo umount #{mount_dir} 2> /dev/null
+      sudo mkdir -p #{mount_dir}
+      sudo chown docker #{mount_dir}
+      sudo mount -t nfs #{HOST_IP}:#{mount_dir} #{mount_dir} -o nfsvers=3,tcp,mountport=19321,port=19321,nolock,hard,intr
+    EOT
+  end
+end
