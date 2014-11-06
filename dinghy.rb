@@ -4,7 +4,7 @@ class Dinghy < Formula
   homepage 'https://github.com/codekitchen/dinghy'
   # TODO: grab the specified version tag
   url 'https://github.com/codekitchen/dinghy.git'
-  version '1.3.0-1'
+  version '1.3.0-2'
 
   depends_on 'docker'
   depends_on 'unfs3'

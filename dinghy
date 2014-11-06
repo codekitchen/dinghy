@@ -10,6 +10,7 @@ require 'socket'
 BREW = Pathname.new(`brew --prefix`.strip)
 DINGHY = Pathname.new(File.realpath(__FILE__)) + "../.."
 VAGRANT = BREW+"var/dinghy/vagrant"
+HOST_IP = "192.168.42.1"
 
 class Unfs
   def up
@@ -42,6 +43,10 @@ class Unfs
     end
   end
 
+  def mount_dir
+    ENV.fetch("HOME")
+  end
+
   def plist_install_path
     "#{ENV.fetch("HOME")}/Library/LaunchAgents/dinghy.unfs.plist"
   end
@@ -60,8 +65,6 @@ class Vagrant
     if command_failed
       raise("There was an error bringing up the Vagrant box. Dinghy cannot continue.")
     end
-
-    install_docker_keys
   end
 
   def check_for_vagrant
@@ -71,6 +74,15 @@ class Vagrant
 Vagrant is not installed. Please install Vagrant before continuing.
 https://www.vagrantup.com
       EOS
+    end
+  end
+
+  def mount(unfs)
+    cd
+    puts "Mounting NFS #{unfs.mount_dir}"
+    system "vagrant", "ssh", "--", "sudo mount -t nfs #{HOST_IP}:#{unfs.mount_dir} #{unfs.mount_dir} -o nfsvers=3,tcp,mountport=19321,port=19321,nolock,hard,intr"
+    if command_failed
+      raise("Failed mounting NFS share.")
     end
   end
 
@@ -138,8 +150,12 @@ command = ARGV.shift
 
 case command.downcase
 when "init", "up"
-  Vagrant.new.up
-  Unfs.new.up
+  vagrant = Vagrant.new
+  unfs = Unfs.new
+  vagrant.up
+  unfs.up
+  vagrant.mount(unfs)
+  vagrant.install_docker_keys
   CheckEnv.new.run
 when "halt"
   Vagrant.new.halt

@@ -5,7 +5,6 @@
 VAGRANTFILE_API_VERSION = "2"
 
 PRIVATE_IP = "192.168.42.10"
-HOST_IP =    "192.168.42.1"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define 'dinghy'
@@ -41,11 +40,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :shell, run: "always" do |s|
     mount_dir = ENV.fetch("HOME")
     s.inline = <<-EOT
-      echo mounting #{mount_dir} via NFS
+      echo Preparing #{mount_dir} NFS mount
       sudo umount #{mount_dir} 2> /dev/null
       sudo mkdir -p #{mount_dir}
       sudo chown docker #{mount_dir}
-      sudo mount -t nfs #{HOST_IP}:#{mount_dir} #{mount_dir} -o nfsvers=3,tcp,mountport=19321,port=19321,nolock,hard,intr
     EOT
   end
 end
