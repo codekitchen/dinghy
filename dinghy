@@ -138,8 +138,8 @@ command = ARGV.shift
 
 case command.downcase
 when "init", "up"
-  Unfs.new.up
   Vagrant.new.up
+  Unfs.new.up
   CheckEnv.new.run
 when "halt"
   Vagrant.new.halt
