@@ -52,7 +52,7 @@ flavor of NFS sharing is safer than Vagrant's built-in solution.
 
 ## caveats
 
-Containers won't be able to `chmod` on volumes shared via NFS. This prevents
+Containers won't be able to `chown` on volumes shared via NFS. This prevents
 the official postgres docker image from working with an NFS volume,
 you'll need to use a docker volume local to the VM instead. I'm looking
 for ways to fix this.
