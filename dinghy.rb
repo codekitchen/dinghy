@@ -28,9 +28,12 @@ class Dinghy < Formula
     end
 
     (prefix/"etc").install "dinghy-nfs-exports", "dinghy.unfs.plist", "dinghy.ntp.plist"
+
     FileUtils.mkdir_p(var/"dinghy/vagrant")
     FileUtils.cp("vagrant/Vagrantfile", var/"dinghy/vagrant/Vagrantfile")
-    bin.install "dinghy"
+
+    bin.install "bin/dinghy"
+    prefix.install "cli"
   end
 
   def caveats; <<-EOS.undent
