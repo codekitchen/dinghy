@@ -37,7 +37,13 @@ boot2docker, but with some unique features:
    slow. It increases our Rails application's bootup time by an order of
    magnitude.
 
+1. Dinghy is built on top of Vagrant, which makes Dinghy itself simpler
+   and if you already use Vagrant, allows integration with all of your
+   current Vagrant tooling.
+
 1. Dinghy supports both VirtualBox and VMWare Fusion (requires the paid Vagrant plugin).
+
+1. Dinghy allows setting VM RAM and CPU parameters dynamically on each startup.
 
 ## a note on NFS sharing
 

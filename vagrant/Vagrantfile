@@ -4,7 +4,9 @@
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
-PRIVATE_IP = "192.168.42.10"
+PRIVATE_IP = ENV.fetch("DINGHY_PRIVATE_IP", "192.168.42.10")
+RAM = ENV["DINGHY_VM_RAM"]
+CPUS = ENV["DINGHY_VM_CPUS"]
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define 'dinghy'
@@ -15,6 +17,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.ssh.shell = "sh"
   config.ssh.username = "docker"
+
+  config.vm.provider :vmware_fusion do |v|
+    v.vmx['memsize'] = RAM if RAM
+    v.vmx['numvcpus'] = CPUS if CPUS
+  end
+
+  config.vm.provider :virtualbox do |v|
+    v.customize ['modifyvm', :id, '--memory', RAM] if RAM
+    v.customize ['modifyvm', :id, '--cpus', CPUS] if CPUS
+  end
 
   # Forward the Docker TLS port
   config.vm.network :forwarded_port, guest: 2376, host: 2376
