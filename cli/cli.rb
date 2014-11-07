@@ -32,6 +32,12 @@ class DinghyCLI < Thor
     Vagrant.new.ssh(args.join(' '))
   end
 
+  desc "status", "get VM and NFS status"
+  def status
+    puts " VM: #{Vagrant.new.status}"
+    puts "NFS: #{Unfs.new.status}"
+  end
+
   desc "halt", "stop the VM and NFS"
   def halt
     Vagrant.new.halt
@@ -75,11 +81,18 @@ class Unfs
   def wait_for_unfs
     Timeout.timeout(20) do
       puts "Waiting for NFS daemon..."
-      begin
-        TCPSocket.open("192.168.42.1", 19321)
-      rescue Errno::ECONNREFUSED
+      while status != :running
         sleep 1
       end
+    end
+  end
+
+  def status
+    begin
+      TCPSocket.open("192.168.42.1", 19321)
+      :running
+    rescue Errno::ECONNREFUSED
+      :stopped
     end
   end
 
@@ -146,6 +159,12 @@ https://www.vagrantup.com
     else
       system "vagrant", "ssh"
     end
+  end
+
+  def status
+    cd
+    output = `vagrant status --machine-readable`.split("\n")
+    output.find { |line| line =~ /state-human-short/ }.split(",")[3]
   end
 
   def mount(unfs)
