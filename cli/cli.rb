@@ -25,6 +25,7 @@ class DinghyCLI < Thor
     vagrant.mount(unfs)
     vagrant.install_docker_keys
     CheckEnv.new.run
+    Ntp.new.up
   end
 
   desc "ssh [args...]", "run vagrant ssh on the VM"
@@ -42,6 +43,7 @@ class DinghyCLI < Thor
   def halt
     Vagrant.new.halt
     Unfs.new.halt
+    Ntp.new.halt
   end
 
   option :force,
@@ -66,21 +68,56 @@ VAGRANT = BREW+"var/dinghy/vagrant"
 HOST_IP = "192.168.42.1"
 VM_IP = "192.168.42.10"
 
-class Unfs
+module Plist
   def up
     halt
 
     FileUtils.ln_s(plist_path, plist_install_path)
     unless system("launchctl", "load", plist_install_path)
-      raise("Could not start the NFS daemon.")
+      raise("Could not start the #{name} daemon.")
     end
+  end
 
+  def halt
+    if File.exist?(plist_install_path)
+      puts "Stopping #{name} daemon..."
+      system("launchctl", "unload", plist_install_path)
+      FileUtils.rm(plist_install_path)
+    end
+  end
+
+  def plist_install_path
+    "#{ENV.fetch("HOME")}/Library/LaunchAgents/#{plist_name}"
+  end
+
+  def plist_path
+    DINGHY+plist_name
+  end
+end
+
+class Ntp
+  include Plist
+
+  def plist_name
+    "dinghy.ntp.plist"
+  end
+
+  def name
+    "NTP"
+  end
+end
+
+class Unfs
+  include Plist
+
+  def up
+    super
     wait_for_unfs
   end
 
   def wait_for_unfs
     Timeout.timeout(20) do
-      puts "Waiting for NFS daemon..."
+      puts "Waiting for #{name} daemon..."
       while status != :running
         sleep 1
       end
@@ -96,24 +133,16 @@ class Unfs
     end
   end
 
-  def halt
-    if File.exist?(plist_install_path)
-      puts "Stopping NFS daemon..."
-      system("launchctl", "unload", plist_install_path)
-      FileUtils.rm(plist_install_path)
-    end
-  end
-
   def mount_dir
     ENV.fetch("HOME")
   end
 
-  def plist_install_path
-    "#{ENV.fetch("HOME")}/Library/LaunchAgents/dinghy.unfs.plist"
+  def plist_name
+    "dinghy.unfs.plist"
   end
 
-  def plist_path
-    DINGHY+"dinghy.unfs.plist"
+  def name
+    "NFS"
   end
 end
 
