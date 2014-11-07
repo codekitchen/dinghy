@@ -7,8 +7,10 @@
 
     <key>ProgramArguments</key>
     <array>
-      <string>%BIN%/dinghy</string>
+      <string>/usr/bin/env</string>
+      <string>vagrant</string>
       <string>ssh</string>
+      <string>--</string>
       <string>sudo</string>
       <string>ntpclient</string>
       <string>-s</string>
@@ -30,6 +32,9 @@
 
     <key>RunAtLoad</key>
     <true/>
+
+    <key>WorkingDirectory</key>
+    <string>%VAGRANT%</string>
   </dict>
 </plist>
 

@@ -5,7 +5,7 @@
   <key>KeepAlive</key>
   <true/>
   <key>Label</key>
-  <string>homebrew.mxcl.dinghy.plist</string>
+  <string>dinghy.unfs.plist</string>
   <key>ProgramArguments</key>
   <array>
     <string>%PREFIX%/sbin/unfsd</string>

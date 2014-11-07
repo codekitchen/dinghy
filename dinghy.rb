@@ -24,7 +24,7 @@ class Dinghy < Formula
       s.gsub!("%ETC%", prefix/"etc")
     end
     inreplace("dinghy.ntp.plist") do |s|
-      s.gsub!("%BIN%", bin)
+      s.gsub!("%VAGRANT%", var/"dinghy/vagrant")
     end
 
     (prefix/"etc").install "dinghy-nfs-exports", "dinghy.unfs.plist", "dinghy.ntp.plist"
