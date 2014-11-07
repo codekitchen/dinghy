@@ -30,7 +30,7 @@ class Dinghy < Formula
   end
 
   def caveats; <<-EOS.undent
-    Run `dinghy init` to bring up the VM and NFS service.
+    Run `dinghy up` to bring up the VM and NFS service.
     EOS
   end
 end

@@ -14,7 +14,7 @@ Then:
 This will install the Docker client as well, using Homebrew. Dinghy will
 use your default Vagrant provider, be it VMWare Fusion or Virtual Box:
 
-    $ dinghy init
+    $ dinghy up
 
 Once the VM is up, you'll get instructions to add some Docker-related
 environment variables, so that your Docker client can contact the Docker
