@@ -61,7 +61,7 @@ require 'timeout'
 require 'socket'
 
 BREW = Pathname.new(`brew --prefix`.strip)
-DINGHY = Pathname.new(File.realpath(__FILE__)) + "../.."
+DINGHY = BREW+"opt/dinghy/etc"
 VAGRANT = BREW+"var/dinghy/vagrant"
 HOST_IP = "192.168.42.1"
 VM_IP = "192.168.42.10"
@@ -113,7 +113,7 @@ class Unfs
   end
 
   def plist_path
-    BREW+"var/dinghy/dinghy.unfs.plist"
+    DINGHY+"dinghy.unfs.plist"
   end
 end
 
