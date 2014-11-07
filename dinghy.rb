@@ -17,13 +17,16 @@ class Dinghy < Formula
       s.gsub!("%GID%", Process.gid.to_s)
     end
 
-    (var/"dinghy").install "vagrant", "dinghy.unfs.plist"
+    (var/"dinghy").install "vagrant", "dinghy.unfs.plist", "dinghy.ntp.plist"
 
     # Not using the normal homebrew plist infrastructure here, since dinghy
     # controls the loading and unloading of its own plist.
     inreplace "#{var}/dinghy/dinghy.unfs.plist" do |s|
       s.gsub!("%PREFIX%", HOMEBREW_PREFIX)
       s.gsub!("%ETC%", etc)
+    end
+    inreplace "#{var}/dinghy/dinghy.ntp.plist" do |s|
+      s.gsub!("%BIN%", bin)
     end
 
     bin.install "dinghy"

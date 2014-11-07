@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>dinghy.ntp.plist</string>
+
+    <key>ProgramArguments</key>
+    <array>
+      <string>%BIN%/dinghy</string>
+      <string>ssh</string>
+      <string>sudo</string>
+      <string>ntpclient</string>
+      <string>-s</string>
+      <string>-h</string>
+      <string>pool.ntp.org</string>
+    </array>
+
+    <key>StartCalendarInterval</key>
+    <integer>3600</integer>
+
+    <key>RunAtLoad</key>
+    <true/>
+  </dict>
+</plist>
+
