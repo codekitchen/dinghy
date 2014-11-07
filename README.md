@@ -12,9 +12,10 @@ Then:
     $ brew install https://raw.githubusercontent.com/codekitchen/dinghy/latest/dinghy.rb
 
 This will install the Docker client as well, using Homebrew. Dinghy will
-use your default Vagrant provider, be it VMWare Fusion or Virtual Box:
+use your default Vagrant provider, be it VMWare Fusion or Virtual Box,
+though that can be overridden with an option:
 
-    $ dinghy help
+    $ dinghy help up
     $ dinghy up
 
 Once the VM is up, you'll get instructions to add some Docker-related
