@@ -32,7 +32,7 @@ As we've begun using Docker more heavily in development on OS X, we've run into
 a few issues with the current boot2docker solution. Dinghy builds on
 boot2docker, but with some unique features:
 
-1. Dinghy uses NFS for sharing files with the VM, and with the Docker containers
+1. It uses NFS for sharing files with the VM, and with the Docker containers
    inside the VM. boot2docker recently added support for sharing all of
    `/Users` into your VM, but VirtualBox native file sharing is extremely
    slow. It increases our Rails application's bootup time by an order of
@@ -42,9 +42,14 @@ boot2docker, but with some unique features:
    and if you already use Vagrant, allows integration with all of your
    current Vagrant tooling.
 
-1. Dinghy supports both VirtualBox and VMWare Fusion (requires the paid Vagrant plugin).
+1. Support for both VirtualBox and VMWare Fusion (requires the paid Vagrant plugin).
 
-1. Dinghy allows setting VM RAM and CPU parameters dynamically on each startup.
+1. Allow setting VM RAM and CPU parameters dynamically on each startup.
+
+1. With vanilla boot2docker VMs on OS X, the clock will get out of synch
+   if your computer sleeps with the VM running. Dinghy attempts to solve
+   this issue by forcing an NTP sync every half hour, or when your
+   computer wakes up.
 
 ## a note on NFS sharing
 
