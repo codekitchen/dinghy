@@ -27,6 +27,11 @@ class DinghyCLI < Thor
     CheckEnv.new.run
   end
 
+  desc "ssh [args...]", "run vagrant ssh on the VM"
+  def ssh(*args)
+    Vagrant.new.ssh(args.join(' '))
+  end
+
   desc "halt", "stop the VM and NFS"
   def halt
     Vagrant.new.halt
@@ -131,13 +136,21 @@ https://www.vagrantup.com
     end
   end
 
-  def mount(unfs)
+  def ssh(command)
     cd
-    puts "Mounting NFS #{unfs.mount_dir}"
-    system "vagrant", "ssh", "--", "sudo mount -t nfs #{HOST_IP}:#{unfs.mount_dir} #{unfs.mount_dir} -o nfsvers=3,tcp,mountport=19321,port=19321,nolock,hard,intr"
-    if command_failed?
-      raise("Failed mounting NFS share.")
+    if command && !command.empty?
+      system "vagrant", "ssh", "--", command
+      if command_failed?
+        raise("Error executing command: #{command}")
+      end
+    else
+      system "vagrant", "ssh"
     end
+  end
+
+  def mount(unfs)
+    puts "Mounting NFS #{unfs.mount_dir}"
+    ssh("sudo mount -t nfs #{HOST_IP}:#{unfs.mount_dir} #{unfs.mount_dir} -o nfsvers=3,tcp,mountport=19321,port=19321,nolock,hard,intr")
   end
 
   def halt
