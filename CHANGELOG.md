@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 1.3.0-4 - 2014-10-07
+
+### Changed
+- Fixed DHCP setup race condition in VMWare Fusion.
+
 ## 1.3.0-3 - 2014-10-07
 
 ### Added
