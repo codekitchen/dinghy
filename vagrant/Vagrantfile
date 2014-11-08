@@ -38,9 +38,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Fix busybox/udhcpc issue
   config.vm.provision :shell, run: "always", inline: <<-EOT
-    if ! grep -qs ^nameserver /etc/resolv.conf; then
-      sudo /sbin/udhcpc
-    fi
+    sleep 5
+    sudo /sbin/udhcpc > /dev/null
     cat /etc/resolv.conf
   EOT
 
