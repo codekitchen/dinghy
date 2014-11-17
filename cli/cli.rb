@@ -70,6 +70,7 @@ module Plist
   def up
     halt
 
+    puts "Starting #{name} daemon, this will require sudo"
     system!("linking", "sudo", "cp", plist_path.to_s, plist_install_path.to_s)
     system!("launching", "sudo", "launchctl", "load", plist_install_path.to_s)
   end
