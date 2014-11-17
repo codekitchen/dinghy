@@ -25,7 +25,6 @@ class DinghyCLI < Thor
     vagrant.mount(unfs)
     vagrant.install_docker_keys
     CheckEnv.new.run
-    Ntp.new.up
   end
 
   desc "ssh [args...]", "run vagrant ssh on the VM"
@@ -43,7 +42,6 @@ class DinghyCLI < Thor
   def halt
     Vagrant.new.halt
     Unfs.new.halt
-    Ntp.new.halt
   end
 
   option :force,
@@ -94,18 +92,6 @@ module Plist
 
   def system!(step, *args)
     system(*args) || raise("Error with the #{name} daemon during #{step}")
-  end
-end
-
-class Ntp
-  include Plist
-
-  def plist_name
-    "dinghy.ntp.plist"
-  end
-
-  def name
-    "NTP"
   end
 end
 

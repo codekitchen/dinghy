@@ -45,8 +45,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Adjust datetime after suspend and resume
   config.vm.provision :shell, run: "always", inline: <<-EOT
-    sudo /usr/local/bin/ntpclient -s -h pool.ntp.org
-    date
+    echo '*/5 * * * * /usr/local/bin/ntpclient -s -h pool.ntp.org' | sudo crontab -
   EOT
 
   # Mount the NFS volume from our own unfs daemon
