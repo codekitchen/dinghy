@@ -56,7 +56,8 @@ boot2docker, but with some unique features:
 
 Dinghy shares your home directory (`/Users/<you>`) over NFS, using a
 private network interface between your host machine and the Dinghy
-Vagrant VM. This sharing is done in userspace, as your user, not as root.
+Vagrant VM. This sharing is done using a separate NFS daemon, not the
+system NFS daemon.
 
 Be aware that there isn't a lot of security around NFSv3 file shares.
 We've tried to lock things down as much as possible (this NFS daemon
