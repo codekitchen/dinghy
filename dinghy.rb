@@ -13,8 +13,6 @@ class Dinghy < Formula
   def install
     inreplace("dinghy-nfs-exports") do |s|
       s.gsub!("%HOME%", ENV.fetch("HOME"))
-      s.gsub!("%UID%", Process.uid.to_s)
-      s.gsub!("%GID%", Process.gid.to_s)
     end
 
     # Not using the normal homebrew plist infrastructure here, since dinghy
@@ -23,11 +21,8 @@ class Dinghy < Formula
       s.gsub!("%PREFIX%", HOMEBREW_PREFIX)
       s.gsub!("%ETC%", prefix/"etc")
     end
-    inreplace("dinghy.ntp.plist") do |s|
-      s.gsub!("%VAGRANT%", var/"dinghy/vagrant")
-    end
 
-    (prefix/"etc").install "dinghy-nfs-exports", "dinghy.unfs.plist", "dinghy.ntp.plist"
+    (prefix/"etc").install "dinghy-nfs-exports", "dinghy.unfs.plist"
 
     FileUtils.mkdir_p(var/"dinghy/vagrant")
     FileUtils.cp("vagrant/Vagrantfile", var/"dinghy/vagrant/Vagrantfile")
