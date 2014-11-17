@@ -18,6 +18,7 @@
     <string>-l</string>
     <string>192.168.42.1</string>
     <string>-p</string>
+    <string>-b</string>
     <string>-d</string>
   </array>
   <key>RunAtLoad</key>

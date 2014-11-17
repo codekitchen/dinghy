@@ -72,26 +72,28 @@ module Plist
   def up
     halt
 
-    FileUtils.ln_s(plist_path, plist_install_path)
-    unless system("launchctl", "load", plist_install_path)
-      raise("Could not start the #{name} daemon.")
-    end
+    system!("linking", "sudo", "cp", plist_path.to_s, plist_install_path.to_s)
+    system!("launching", "sudo", "launchctl", "load", plist_install_path.to_s)
   end
 
   def halt
     if File.exist?(plist_install_path)
       puts "Stopping #{name} daemon..."
-      system("launchctl", "unload", plist_install_path)
-      FileUtils.rm(plist_install_path)
+      system!("stopping", "sudo", "launchctl", "unload", plist_install_path.to_s)
+      system!("removing", "sudo", "rm", plist_install_path.to_s)
     end
   end
 
   def plist_install_path
-    "#{ENV.fetch("HOME")}/Library/LaunchAgents/#{plist_name}"
+    "/System/Library/LaunchAgents/#{plist_name}"
   end
 
   def plist_path
     DINGHY+plist_name
+  end
+
+  def system!(step, *args)
+    system(*args) || raise("Error with the #{name} daemon during #{step}")
   end
 end
 
@@ -198,7 +200,7 @@ https://www.vagrantup.com
 
   def mount(unfs)
     puts "Mounting NFS #{unfs.mount_dir}"
-    ssh("sudo mount -t nfs #{HOST_IP}:#{unfs.mount_dir} #{unfs.mount_dir} -o nfsvers=3,tcp,mountport=19321,port=19321,nolock,hard,intr")
+    ssh("sudo mount -t nfs #{HOST_IP}:#{unfs.mount_dir} #{unfs.mount_dir} -o nfsvers=3,udp,mountport=19321,port=19321,nolock,hard,intr")
   end
 
   def halt
