@@ -5,7 +5,7 @@ class Dinghy < Formula
   # TODO: grab the specified version tag
   url 'https://github.com/codekitchen/dinghy.git', :branch => :latest
   head 'https://github.com/codekitchen/dinghy.git', :branch => :master
-  version '1.3.0-4'
+  version '1.3.0-5'
 
   depends_on 'docker'
   depends_on 'unfs3'
