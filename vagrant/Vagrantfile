@@ -38,9 +38,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
   # Fix busybox/udhcpc issue
+  # remove the eth1 dhcp daemon, to avoid issues with vmware changing the private network IP address
   config.vm.provision :shell, run: "always", inline: <<-EOT
     sleep 5
     sudo /sbin/udhcpc > /dev/null
+    pgrep -lf udhcpc | grep eth1 | cut -f1 -d' ' | sudo xargs kill
     cat /etc/resolv.conf
   EOT
 
