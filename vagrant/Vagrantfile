@@ -46,6 +46,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Adjust datetime after suspend and resume
   config.vm.provision :shell, run: "always", inline: <<-EOT
+    sudo /etc/init.d/services/crond start
     echo '*/5 * * * * /usr/local/bin/ntpclient -s -h pool.ntp.org' | sudo crontab -
   EOT
 
