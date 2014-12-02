@@ -9,6 +9,7 @@ class Dinghy < Formula
 
   depends_on 'docker'
   depends_on 'unfs3'
+  depends_on 'dnsmasq'
 
   def install
     inreplace("dinghy-nfs-exports") do |s|
@@ -17,12 +18,12 @@ class Dinghy < Formula
 
     # Not using the normal homebrew plist infrastructure here, since dinghy
     # controls the loading and unloading of its own plist.
-    inreplace("dinghy.unfs.plist") do |s|
+    inreplace(["dinghy.unfs.plist", "dinghy.dnsmasq.plist"]) do |s|
       s.gsub!("%PREFIX%", HOMEBREW_PREFIX)
-      s.gsub!("%ETC%", prefix/"etc")
+      s.gsub!("%ETC%", prefix/"etc", false)
     end
 
-    (prefix/"etc").install "dinghy-nfs-exports", "dinghy.unfs.plist"
+    (prefix/"etc").install "dinghy-nfs-exports", "dinghy.unfs.plist", "dinghy.dnsmasq.plist"
 
     FileUtils.mkdir_p(var/"dinghy/vagrant")
     FileUtils.cp("vagrant/Vagrantfile", var/"dinghy/vagrant/Vagrantfile")

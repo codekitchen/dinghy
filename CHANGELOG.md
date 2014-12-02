@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+### Added
+- Add a DNS daemon to resolve \*.docker to the VM's IP.
+
 ## 1.3.0-5 - 2014-11-17
 
 ### Changed

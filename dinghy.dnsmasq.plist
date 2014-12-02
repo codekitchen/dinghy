@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>KeepAlive</key>
+  <true/>
+  <key>Label</key>
+  <string>dinghy.dnsmasq.plist</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>%PREFIX%/sbin/dnsmasq</string>
+    <string>--no-daemon</string>
+    <string>--listen-address</string>
+    <string>192.168.42.1</string>
+    <string>--bind-interfaces</string>
+    <string>--no-resolv</string>
+    <string>--address=/docker/192.168.42.10</string>
+    <string>--pid-file=%PREFIX%/var/dinghy/dnsmasq.pid</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>WorkingDirectory</key>
+  <string>%PREFIX%</string>
+</dict>
+</plist>
+
