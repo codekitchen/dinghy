@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - Add a DNS daemon to resolve \*.docker to the VM's IP.
+- Added a restart command (halt + up).
 
 ## 1.3.0-5 - 2014-11-17
 
