@@ -5,7 +5,7 @@
   <key>KeepAlive</key>
   <true/>
   <key>Label</key>
-  <string>dinghy.unfs.plist</string>
+  <string>dinghy.unfs</string>
   <key>ProgramArguments</key>
   <array>
     <string>%PREFIX%/sbin/unfsd</string>

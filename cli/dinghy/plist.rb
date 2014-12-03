@@ -30,11 +30,11 @@ module Plist
   end
 
   def starting_message
-    "Starting #{name} daemon"
+    "Starting the #{name} daemon"
   end
 
   def stopping_message
-    "Stopping #{name} daemon"
+    "Stopping the #{name} daemon"
   end
 end
 

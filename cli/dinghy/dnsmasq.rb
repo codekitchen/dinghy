@@ -1,6 +1,6 @@
 require 'tempfile'
 
-require 'dinghy/dnsmasq'
+require 'dinghy/plist'
 
 class Dnsmasq
   include Plist

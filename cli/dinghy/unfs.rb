@@ -14,7 +14,7 @@ class Unfs
   def wait_for_unfs
     Timeout.timeout(20) do
       puts "Waiting for #{name} daemon..."
-      while status != :running
+      while status != "running"
         sleep 1
       end
     end

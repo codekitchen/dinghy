@@ -52,6 +52,35 @@ boot2docker, but with some unique features:
    this issue by forcing an NTP sync every half hour, or when your
    computer wakes up.
 
+## DNS
+
+Dinghy installs a DNS server listening on the private interface, which
+resolves \*.docker to the Dinghy VM. For instance, if you have a running
+container that exposes port 3000, and you like to call it `joe`, you can
+connect to it at `joe.docker` port 3000, e.g. `http://joe.docker:3000/`.
+
+## optional HTTP proxy
+
+Dinghy will optionally run a HTTP proxy inside a docker container in
+the VM, giving you easy access to web apps running in other containers.
+This uses the excellent [nginx-proxy](https://github.com/jwilder/nginx-proxy)
+docker tool.
+
+To enable the proxy, run dinghy up with the --proxy option:
+
+    $ dinghy up --proxy
+
+This might take a few minutes the first time, to download the container
+image.
+
+Any containers that you want proxied, make sure the `VIRTUAL_HOST`
+environment variable is set, either with the `-e` option to docker or
+the environment hash in fig. For instance setting
+`VIRTUAL_HOST=myapp.docker` will make the container's first exposed port
+available at `http://myapp.docker/`.
+
+See the nginx-proxy documentation for further details.
+
 ## a note on NFS sharing
 
 Dinghy shares your home directory (`/Users/<you>`) over NFS, using a
@@ -77,6 +106,8 @@ for ways to fix this.
  - https://github.com/markusn/unfs3
  - https://github.com/Homebrew/homebrew
  - http://vagrantup.com
+ - http://www.thekelleys.org.uk/dnsmasq/doc.html
+ - https://github.com/jwilder/nginx-proxy
 
 ## future plans
 

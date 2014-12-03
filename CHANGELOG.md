@@ -4,8 +4,9 @@ All notable changes to this project will be documented in this file.
 ## Unreleased
 
 ### Added
-- Add a DNS daemon to resolve \*.docker to the VM's IP.
+- A new DNS daemon resolves \*.docker to the VM's IP.
 - Added a restart command (halt + up).
+- An optional http proxy service that listens on \*.docker port 80.
 
 ## 1.3.0-5 - 2014-11-17
 
