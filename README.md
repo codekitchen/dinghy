@@ -93,13 +93,6 @@ We've tried to lock things down as much as possible (this NFS daemon
 doesn't even listen on other interfaces, for example). We feel that this
 flavor of NFS sharing is safer than Vagrant's built-in solution.
 
-## caveats
-
-Containers won't be able to `chown` on volumes shared via NFS. This prevents
-the official postgres docker image from working with an NFS volume,
-you'll need to use a docker volume local to the VM instead. I'm looking
-for ways to fix this.
-
 ## built on
 
  - https://github.com/mitchellh/boot2docker-vagrant-box
