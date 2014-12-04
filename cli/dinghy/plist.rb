@@ -6,13 +6,13 @@ module Plist
 
     puts starting_message
     system!("linking", "cp", plist_path.to_s, plist_install_path.to_s)
-    system!("launching", "launchctl", "load", plist_install_path.to_s)
+    system!("launching", "launchctl", "load", "-w", plist_install_path.to_s)
   end
 
   def halt
     if File.exist?(plist_install_path)
       puts stopping_message
-      system!("stopping", "launchctl", "unload", plist_install_path.to_s)
+      system!("stopping", "launchctl", "unload", "-w", plist_install_path.to_s)
       system!("removing", "rm", plist_install_path.to_s)
     end
   end
@@ -42,7 +42,7 @@ module RootPlist
   include Plist
 
   def plist_install_path
-    "/Library/LaunchAgents/#{plist_name}"
+    "/Library/LaunchDaemons/#{plist_name}"
   end
 
   def system!(step, *args)
