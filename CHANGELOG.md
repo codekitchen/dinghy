@@ -1,12 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## 2.0.0 - 2014-12-04
 
 ### Added
 - A new DNS daemon resolves \*.docker to the VM's IP.
 - Added a restart command (halt + up).
 - An optional http proxy service that listens on \*.docker port 80.
+
+### Changed
+- New versioning scheme, no longer tying dinghy release version to
+  docker/boot2docker version.
 
 ## 1.3.0-5 - 2014-11-17
 

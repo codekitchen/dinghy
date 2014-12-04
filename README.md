@@ -56,8 +56,9 @@ boot2docker, but with some unique features:
 
 Dinghy installs a DNS server listening on the private interface, which
 resolves \*.docker to the Dinghy VM. For instance, if you have a running
-container that exposes port 3000, and you like to call it `joe`, you can
-connect to it at `joe.docker` port 3000, e.g. `http://joe.docker:3000/`.
+container that exposes port 3000 to the host, and you like to call it
+`joe`, you can connect to it at `joe.docker` port 3000, e.g.
+`http://joe.docker:3000/` or `telnet joe.docker 3000`.
 
 ## optional HTTP proxy
 
@@ -101,8 +102,3 @@ flavor of NFS sharing is safer than Vagrant's built-in solution.
  - http://vagrantup.com
  - http://www.thekelleys.org.uk/dnsmasq/doc.html
  - https://github.com/jwilder/nginx-proxy
-
-## future plans
-
-I plan to maintain and improve dinghy in the short term, but I'd love to
-see it eventually obsoleted by further boot2docker development.
