@@ -8,6 +8,7 @@ require 'dinghy/dnsmasq'
 require 'dinghy/http_proxy'
 require 'dinghy/unfs'
 require 'dinghy/vagrant'
+require 'dinghy/version'
 
 class DinghyCLI < Thor
   option :memory,
@@ -74,5 +75,11 @@ class DinghyCLI < Thor
   def destroy
     halt
     Vagrant.new.destroy(force: options[:force])
+  end
+
+  map "-v" => :version
+  desc "version", "display dinghy version"
+  def version
+    puts "Dinghy #{DINGHY_VERSION}"
   end
 end
