@@ -22,9 +22,11 @@ class Unfs
 
   def status
     begin
-      TCPSocket.open(HOST_IP, 19321)
+      Timeout.timeout(1) do
+        TCPSocket.open(HOST_IP, 19321)
+      end
       "running"
-    rescue Errno::ECONNREFUSED
+    rescue Errno::ECONNREFUSED, Timeout::Error
       "not running"
     end
   end
