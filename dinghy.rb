@@ -1,14 +1,11 @@
-require 'pathname'
 require 'formula'
-
-require Pathname(__FILE__).realpath.dirname.join('version')
 
 class Dinghy < Formula
   homepage 'https://github.com/codekitchen/dinghy'
   # TODO: grab the specified version tag
   url 'https://github.com/codekitchen/dinghy.git', :branch => :latest
   head 'https://github.com/codekitchen/dinghy.git', :branch => :master
-  version DINGHY_VERSION
+  version "2.0.2"
 
   depends_on 'docker'
   depends_on 'unfs3'
