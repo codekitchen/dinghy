@@ -4,8 +4,11 @@ Faster, safer Docker on OS X with Vagrant.
 
 ## install
 
-First, install [Homebrew](https://github.com/Homebrew/homebrew) and
-[Vagrant](http://vagrantup.com) if you haven't already.
+First the prerequisites:
+
+1. OS X Yosemite (10.10) (Mavericks has a known issue, see [#6](https://github.com/codekitchen/dinghy/issues/6))
+1. [Homebrew](https://github.com/Homebrew/homebrew)
+1. [Vagrant](http://vagrantup.com)
 
 Then:
 
