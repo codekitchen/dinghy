@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 2.0.3 - 2014-12-05
+
 ### Added
 - Version command `dinghy -v`.
 - Don't hang on `dinghy status` if the virtual interface isn't created.
