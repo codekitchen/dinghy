@@ -6,6 +6,7 @@ $LOAD_PATH << File.dirname(__FILE__)
 require 'dinghy/check_env'
 require 'dinghy/dnsmasq'
 require 'dinghy/http_proxy'
+require 'dinghy/preferences'
 require 'dinghy/unfs'
 require 'dinghy/vagrant'
 require 'dinghy/version'
@@ -24,7 +25,6 @@ class DinghyCLI < Thor
     desc: "which Vagrant provider to use, only takes effect when initializing a new VM"
   option :proxy,
     type: :boolean,
-    default: false,
     desc: "start the HTTP proxy as well"
   desc "up", "start the Docker VM and services"
   def up
@@ -36,9 +36,12 @@ class DinghyCLI < Thor
     vagrant.install_docker_keys
     Dnsmasq.new.up
     CheckEnv.new.run
-    if options[:proxy]
+
+    proxy = options[:proxy] || options[:proxy].nil? && previously_proxied?
+    if proxy
       HttpProxy.new.up
     end
+    preferences.update(proxy: !!proxy)
   end
 
   desc "ssh [args...]", "run vagrant ssh on the VM"
@@ -81,5 +84,15 @@ class DinghyCLI < Thor
   desc "version", "display dinghy version"
   def version
     puts "Dinghy #{DINGHY_VERSION}"
+  end
+
+  private
+
+  def preferences
+    @preferences ||= Preferences.load
+  end
+
+  def previously_proxied?
+    preferences[:proxy] == true
   end
 end

@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Version command `dinghy -v`.
 - Don't hang on `dinghy status` if the virtual interface isn't created.
+- Remember the `--proxy` option on subsequent VM starts, so you don't
+  need to pass it every time.
 
 ## 2.0.2 - 2014-12-05
 
