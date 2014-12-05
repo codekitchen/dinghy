@@ -1,6 +1,8 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
 ## 2.0.2 - 2014-12-05
 
 ### Changed
