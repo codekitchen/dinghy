@@ -3,8 +3,6 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
-## 2.0.6 - 2014-12-30
-
 ### Changed
 - Disable Vagrant ssh key replacement, working around a Vagrant 1.7 issue.
 

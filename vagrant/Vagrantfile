@@ -20,7 +20,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.shell = "sh"
   config.ssh.username = "docker"
   if config.ssh.respond_to?(:insert_key=)
-    config.ssh.insert_key = true
+    config.ssh.insert_key = false
   end
 
   config.vm.provider :vmware_fusion do |v|
