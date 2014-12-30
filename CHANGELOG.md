@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+- Vagrant box version check in Vagrantfile.
+
 ## 2.0.7 - 2014-12-30
 
 ### Changed
