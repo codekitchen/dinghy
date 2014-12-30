@@ -65,6 +65,14 @@ https://www.vagrantup.com
     system "vagrant destroy #{options[:force] && '--force'}"
   end
 
+  def upgrade
+    cd
+    system "vagrant box update"
+    # ideally we wouldn't destroy the box if they're already running the newest
+    # version
+    destroy(force: true)
+  end
+
   def install_docker_keys
     cd
     FileUtils.mkdir_p(key_dir)

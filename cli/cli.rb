@@ -80,6 +80,13 @@ class DinghyCLI < Thor
     Vagrant.new.destroy(force: options[:force])
   end
 
+  desc "upgrade", "upgrade the boot2docker VM to the newest available"
+  def upgrade
+    halt
+    Vagrant.new.upgrade
+    puts "VM base box updated, run `dinghy up` to re-create the VM"
+  end
+
   map "-v" => :version
   desc "version", "display dinghy version"
   def version

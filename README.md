@@ -109,6 +109,19 @@ We've tried to lock things down as much as possible (this NFS daemon
 doesn't even listen on other interfaces, for example). We feel that this
 flavor of NFS sharing is safer than Vagrant's built-in solution.
 
+## upgrading
+
+To update Dinghy itself, run:
+
+    $ brew reinstall https://github.com/codekitchen/dinghy/raw/latest/dinghy.rb
+
+To update the Docker VM, run:
+
+    $ dinghy upgrade
+
+This will delete your current VM, so you'll have to re-download docker
+image layers. It won't delete any data on the NFS share, though.
+
 ## built on
 
  - https://github.com/mitchellh/boot2docker-vagrant-box

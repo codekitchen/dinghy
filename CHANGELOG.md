@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+- Upgrade command
+
 ## 2.0.3 - 2014-12-05
 
 ### Added
