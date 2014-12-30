@@ -19,6 +19,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.ssh.shell = "sh"
   config.ssh.username = "docker"
+  if config.ssh.respond_to?(:insert_key=)
+    config.ssh.insert_key = true
+  end
 
   config.vm.provider :vmware_fusion do |v|
     v.vmx['memsize'] = RAM if RAM
