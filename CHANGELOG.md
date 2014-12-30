@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+- Remove the docker SSL port forward from the Vagrantfile, it's on the
+  base box now.
+
 ## 2.0.4 - 2014-12-30
 
 ### Added
