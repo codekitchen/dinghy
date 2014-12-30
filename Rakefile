@@ -8,6 +8,10 @@ S3_PATH = "vagrant-images/"
 
 task 'default' => 'build-vagrant-box'
 
+def system!(*args)
+  system(*args) || raise("command error")
+end
+
 task 'build-vagrant-box' do
   s3 = AWS::S3.new.buckets[BUCKET]
   # make sure we have S3 creds, so we don't find out way later
@@ -15,7 +19,7 @@ task 'build-vagrant-box' do
 
   Dir.mktmpdir do |dir|
     Dir.chdir(dir)
-    system("git clone #{REPO} vagrant-box")
+    system!("git clone #{REPO} vagrant-box")
     Dir.chdir("vagrant-box")
     # need a better way to determine version
     File.read("Makefile").match(%r{releases/download/v([\d.]+)/boot2docker})
@@ -27,7 +31,7 @@ task 'build-vagrant-box' do
     template = JSON.parse(File.read("template.json"))
     template["builders"].delete_if { |builder| builder['type'] == 'parallels-iso' }
     File.open("template.json", "wb") { |f| f.write(JSON.generate(template)) }
-    system("make")
+    system!("make")
 
     %w[vmware virtualbox].each do |box_type|
       obj_name = "boot2docker_#{box_type}_#{box_version}.box"
