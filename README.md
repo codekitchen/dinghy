@@ -1,6 +1,6 @@
 # dinghy
 
-Faster, safer Docker on OS X with Vagrant.
+Faster, friendlier Docker on OS X with Vagrant.
 
 ## install
 
@@ -52,8 +52,10 @@ boot2docker, but with some unique features:
 
 1. With vanilla boot2docker VMs on OS X, the clock will get out of synch
    if your computer sleeps with the VM running. Dinghy attempts to solve
-   this issue by forcing an NTP sync every half hour, or when your
-   computer wakes up.
+   this issue by forcing a periodic NTP sync.
+
+1. Our end goal is to make it as easy to develop with Docker on OS X as
+   it is to develop with [pow.cx](http://pow.cx).
 
 ## DNS
 
