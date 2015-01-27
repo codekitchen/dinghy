@@ -35,12 +35,12 @@ class DinghyCLI < Thor
     vagrant.mount(unfs)
     vagrant.install_docker_keys
     Dnsmasq.new.up
-    CheckEnv.new.run
-
     proxy = options[:proxy] || options[:proxy].nil? && previously_proxied?
     if proxy
       HttpProxy.new.up
     end
+    CheckEnv.new.run
+
     preferences.update(proxy: !!proxy)
   end
 
