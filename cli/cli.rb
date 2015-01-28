@@ -1,4 +1,4 @@
-$LOAD_PATH << File.dirname(__FILE__)+"/thor-0.19.1/lib"
+$LOAD_PATH << File.dirname(__FILE__)+"/thor/lib"
 require 'thor'
 
 $LOAD_PATH << File.dirname(__FILE__)

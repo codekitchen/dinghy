@@ -1,0 +1,3 @@
+[submodule "cli/thor"]
+	path = cli/thor
+	url = git@github.com:erikhuda/thor.git
