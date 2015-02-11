@@ -22,7 +22,7 @@ task 'build-vagrant-box' do
     system!("git clone #{REPO} vagrant-box")
     Dir.chdir("vagrant-box")
     # need a better way to determine version
-    File.read("Makefile").match(%r{releases/download/v([\d.]+)/boot2docker})
+    File.read("Makefile").match(%r{VERSION=([\d.]+)})
     box_version = $1
     if box_version.nil?
       raise("couldn't determine the box version from Makefile")
