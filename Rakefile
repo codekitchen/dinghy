@@ -2,7 +2,7 @@ require 'tmpdir'
 require 'json'
 require 'aws-sdk-v1'
 
-REPO = "git@github.com:dduportal/boot2docker-vagrant-box.git"
+REPO = "git@github.com:codekitchen/boot2docker-vagrant-box.git"
 BUCKET = "instructure-engineering"
 S3_PATH = "vagrant-images/"
 
@@ -27,10 +27,6 @@ task 'build-vagrant-box' do
     if box_version.nil?
       raise("couldn't determine the box version from Makefile")
     end
-    # remove the parallels build, since I don't have parallels available
-    template = JSON.parse(File.read("template.json"))
-    template["builders"].delete_if { |builder| builder['type'] == 'parallels-iso' }
-    File.open("template.json", "wb") { |f| f.write(JSON.generate(template)) }
     system!("make")
 
     %w[vmware virtualbox].each do |box_type|
