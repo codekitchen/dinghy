@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 2.2.0 - 2015-02-11
+
 ## 2.1.0 - 2015-01-26
 
 ### Added
