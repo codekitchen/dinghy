@@ -84,8 +84,9 @@ image.
 Any containers that you want proxied, make sure the `VIRTUAL_HOST`
 environment variable is set, either with the `-e` option to docker or
 the environment hash in fig. For instance setting
-`VIRTUAL_HOST=myrailsapp.docker` will make the container's first exposed port
-available at `http://myrailsapp.docker/`.
+`VIRTUAL_HOST=myrailsapp.docker` will make the container's exposed port
+available at `http://myrailsapp.docker/`. If the container exposes more
+than one port, set `VIRTUAL_PORT` to the http port number, as well.
 
 See the nginx-proxy documentation for further details.
 
