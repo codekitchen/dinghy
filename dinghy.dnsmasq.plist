@@ -14,7 +14,7 @@
     <string>--port=19322</string>
     <string>--bind-interfaces</string>
     <string>--no-resolv</string>
-    <string>--address=/docker/192.168.42.10</string>
+    <string>--address=/.docker/192.168.42.10</string>
     <string>--pid-file=%PREFIX%/var/dinghy/dnsmasq.pid</string>
   </array>
   <key>RunAtLoad</key>
