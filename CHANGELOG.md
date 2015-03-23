@@ -5,14 +5,12 @@ All notable changes to this project will be documented in this file.
 
 ## 2.2.1 - 2015-03-23
 
-## 2.2.1 - 2015-03-23
-
-## 2.2.0 - 2015-02-11
-
 ### Changed
 - Tweak the dnsmasq options to fix a reported issue.
 - Fix DHCP on the private interface to avoid IP changes. This should fix
   the issues with NFS breaking until you restart the VM.
+
+## 2.2.0 - 2015-02-11
 
 ### Changed
 - Docker version 1.5.0
