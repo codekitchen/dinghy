@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Tweak the dnsmasq options to fix a reported issue.
+- Fix DHCP on the private interface to avoid IP changes. This should fix
+  the issues with NFS breaking until you restart the VM.
 
 ### Changed
 - Docker version 1.5.0

@@ -43,8 +43,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # remove the eth1 dhcp daemon, to avoid issues with vmware changing the private network IP address
   config.vm.provision :shell, run: "always", inline: <<-EOT
     sleep 5
+    private_iface=`ip route get 192.168.42.1 | head -n1 | awk '{print $3}'`
+    echo private interface is $private_iface
     sudo /sbin/udhcpc > /dev/null
-    pgrep -lf udhcpc | grep eth1 | cut -f1 -d' ' | sudo xargs kill
+    pgrep -lf udhcpc | grep $private_iface | cut -f1 -d' ' | sudo xargs kill
     cat /etc/resolv.conf
   EOT
 
