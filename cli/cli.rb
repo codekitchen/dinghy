@@ -57,6 +57,16 @@ class DinghyCLI < Thor
     puts "HTTP: #{HttpProxy.new.status}"
   end
 
+  desc "ip", "get the VM's IP address"
+  def ip
+    if Vagrant.new.running?
+      puts VM_IP
+    else
+      $stderr.puts "The VM is not running, `dinghy up` to start"
+      exit 1
+    end
+  end
+
   desc "halt", "stop the VM and services"
   def halt
     Vagrant.new.halt

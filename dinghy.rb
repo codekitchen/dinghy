@@ -8,6 +8,10 @@ class Dinghy < Formula
   head 'https://github.com/codekitchen/dinghy.git', branch: :master
   version DINGHY_VERSION
 
+  devel do
+    url './'
+  end
+
   depends_on 'docker'
   depends_on 'unfs3'
   depends_on 'dnsmasq'

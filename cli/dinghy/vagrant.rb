@@ -50,6 +50,10 @@ https://www.vagrantup.com
     output.find { |line| line =~ /state-human-short/ }.split(",")[3]
   end
 
+  def running?
+    status == "running"
+  end
+
   def mount(unfs)
     puts "Mounting NFS #{unfs.mount_dir}"
     ssh("sudo mount -t nfs #{HOST_IP}:#{unfs.mount_dir} #{unfs.mount_dir} -o nfsvers=3,udp,mountport=19321,port=19321,nolock,hard,intr")
