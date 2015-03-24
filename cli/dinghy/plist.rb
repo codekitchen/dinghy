@@ -5,6 +5,7 @@ module Plist
     halt
 
     puts starting_message
+    system!("preparing", "mkdir", "-p", File.dirname(plist_install_path.to_s))
     system!("linking", "cp", plist_path.to_s, plist_install_path.to_s)
     system!("launching", "launchctl", "load", "-w", plist_install_path.to_s)
   end
