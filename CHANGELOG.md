@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file.
 ### Added
 - `dinghy ip` command to get the VM IP address.
 
+### Changed
+- Revert back to Virtualbox host DNS.
+
 ## 2.2.1 - 2015-03-23
 
 ### Changed

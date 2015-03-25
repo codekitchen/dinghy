@@ -32,8 +32,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider :virtualbox do |v|
     v.customize ['modifyvm', :id, '--memory', RAM] if RAM
     v.customize ['modifyvm', :id, '--cpus', CPUS] if CPUS
-    v.customize ['modifyvm', :id, '--natdnsproxy1', 'off']
-    v.customize ['modifyvm', :id, '--natdnshostresolver1', 'off']
+    v.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
   end
 
   # Disable synced folder by default, we add the full NFS mount below
