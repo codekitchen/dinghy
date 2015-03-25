@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 2.2.2 - 2015-03-24
+
 ### Added
 - `dinghy ip` command to get the VM IP address.
 
