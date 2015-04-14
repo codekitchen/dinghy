@@ -3,6 +3,15 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+
+- Configure user permission squashing on the NFS mount, so that files created on
+  mounted volumes will be owned by the host machine user, not by root or a
+  non-existent user.
+
+  Upgrade note: you'll need to chown any root-owned files to
+  be owned by your user.
+
 ## 2.2.2 - 2015-03-24
 
 ### Added

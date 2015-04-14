@@ -19,6 +19,8 @@ class Dinghy < Formula
   def install
     inreplace("dinghy-nfs-exports") do |s|
       s.gsub!("%HOME%", ENV.fetch("HOME"))
+      s.gsub!("%UID%", Process.uid.to_s)
+      s.gsub!("%GID%", Process.gid.to_s)
     end
 
     # Not using the normal homebrew plist infrastructure here, since dinghy
