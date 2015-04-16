@@ -37,7 +37,7 @@ task 'build-vagrant-box' do
       puts "https://s3.amazonaws.com/#{BUCKET}/#{S3_PATH}#{obj_name}"
     end
 
-    # TODO: update vagrant cloud (aka atlas) automatically
-    puts "use the paths above to update vagrant cloud https://vagrantcloud.com/codekitchen/boxes/boot2docker"
+    # TODO: update atlas automatically
+    puts "use the paths above to update atlas https://atlas.hashicorp.com/codekitchen/boxes/boot2docker"
   end
 end
