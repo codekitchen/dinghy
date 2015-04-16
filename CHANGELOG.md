@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file.
   Upgrade note: you'll need to chown any root-owned files to
   be owned by your user.
 
+- Docker version 1.6.0
+
 ## 2.2.2 - 2015-03-24
 
 ### Added
