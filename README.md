@@ -127,6 +127,14 @@ To update the Docker VM, run:
 This will delete your current VM, so you'll have to re-download docker
 image layers. It won't delete any data on the NFS share, though.
 
+### prereleases
+
+You can install Dinghy's master branch with:
+
+    $ brew reinstall --HEAD https://github.com/codekitchen/dinghy/raw/master/dinghy.rb
+
+This branch may be less stable, so this isn't recommended in general.
+
 ## built on
 
  - https://github.com/mitchellh/boot2docker-vagrant-box
