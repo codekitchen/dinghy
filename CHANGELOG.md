@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
   be owned by your user.
 
 - Docker version 1.6.0
+- HTTP proxy is now enabled by default. --no-proxy to disable.
 
 ## 2.2.2 - 2015-03-24
 

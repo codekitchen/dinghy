@@ -35,13 +35,13 @@ class DinghyCLI < Thor
     vagrant.mount(unfs)
     vagrant.install_docker_keys
     Dnsmasq.new.up
-    proxy = options[:proxy] || options[:proxy].nil? && previously_proxied?
+    proxy = options[:proxy] || (options[:proxy].nil? && !proxy_disabled?)
     if proxy
       HttpProxy.new.up
     end
     CheckEnv.new.run
 
-    preferences.update(proxy: !!proxy)
+    preferences.update(proxy: proxy)
   end
 
   desc "ssh [args...]", "run vagrant ssh on the VM"
@@ -109,7 +109,7 @@ class DinghyCLI < Thor
     @preferences ||= Preferences.load
   end
 
-  def previously_proxied?
-    preferences[:proxy] == true
+  def proxy_disabled?
+    preferences[:proxy] == false
   end
 end

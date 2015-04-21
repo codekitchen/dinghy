@@ -69,17 +69,15 @@ container that exposes port 3000 to the host, and you like to call it
 
 ## optional HTTP proxy
 
-Dinghy will optionally run a HTTP proxy inside a docker container in
+Dinghy will run a HTTP proxy inside a docker container in
 the VM, giving you easy access to web apps running in other containers.
 This uses the excellent [nginx-proxy](https://github.com/jwilder/nginx-proxy)
 docker tool.
 
-To enable the proxy, run dinghy up with the --proxy option:
+The proxy will take a few moments to download the first time you launch the VM.
+To disable the proxy, run dinghy up with the --no-proxy option:
 
-    $ dinghy up --proxy
-
-This might take a few minutes the first time, to download the container
-image.
+    $ dinghy up --no-proxy
 
 Any containers that you want proxied, make sure the `VIRTUAL_HOST`
 environment variable is set, either with the `-e` option to docker or
