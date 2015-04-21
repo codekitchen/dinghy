@@ -41,7 +41,7 @@ class DinghyCLI < Thor
     end
     CheckEnv.new.run
 
-    preferences.update(proxy: proxy)
+    preferences.update(proxy_disabled: !proxy)
   end
 
   desc "ssh [args...]", "run vagrant ssh on the VM"
@@ -110,6 +110,6 @@ class DinghyCLI < Thor
   end
 
   def proxy_disabled?
-    preferences[:proxy] == false
+    preferences[:proxy_disabled] == true
   end
 end
