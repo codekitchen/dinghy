@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 3.0.0 - 2015-04-22
+
 ### Changed
 
 - Configure user permission squashing on the NFS mount, so that files created on
