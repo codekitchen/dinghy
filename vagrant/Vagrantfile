@@ -33,6 +33,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.customize ['modifyvm', :id, '--memory', RAM] if RAM
     v.customize ['modifyvm', :id, '--cpus', CPUS] if CPUS
     v.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
+    v.customize ["modifyvm", :id, "--nictype1", "virtio"]
   end
 
   # Disable synced folder by default, we add the full NFS mount below
