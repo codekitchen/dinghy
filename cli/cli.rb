@@ -97,6 +97,11 @@ class DinghyCLI < Thor
     puts "VM base box updated, run `dinghy up` to re-create the VM"
   end
 
+  desc "shellinit", "returns env variables to set, should be run like $(dinghy shellinit)"
+  def shellinit
+    CheckEnv.new.print
+  end
+
   map "-v" => :version
   desc "version", "display dinghy version"
   def version
