@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+- `dinghy shellinit` command for setting env vars.
+
 ## 3.0.0 - 2015-04-22
 
 ### Changed
