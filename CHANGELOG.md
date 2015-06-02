@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file.
 ### Added
 - `dinghy shellinit` command for setting env vars.
 
+### Changed
+- Increase the http proxy max body size.
+
 ## 3.0.0 - 2015-04-22
 
 ### Changed
