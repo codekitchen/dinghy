@@ -14,7 +14,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define 'dinghy'
 
   config.vm.box = "codekitchen/boot2docker"
-  config.vm.box_version = "1.6.0"
+  config.vm.box_version = "1.7.0"
 
   config.vm.network "private_network", ip: PRIVATE_IP
 

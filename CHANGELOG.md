@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Increase the http proxy max body size.
+- Docker version 1.7.0
 
 ## 3.0.0 - 2015-04-22
 
