@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+- Docker version 1.7.1-rc2
+
 ## 3.0.1 - 2015-06-24
 
 ### Added
