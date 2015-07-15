@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 3.0.2 - 2015-07-15
+
 ### Changed
 - Docker version 1.7.1
 
