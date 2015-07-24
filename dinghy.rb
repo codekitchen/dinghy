@@ -8,6 +8,13 @@ class Dinghy < Formula
   head 'https://github.com/codekitchen/dinghy.git', branch: :master
   version DINGHY_VERSION
 
+  attr_reader :user_home_dir
+
+  def initialize(*a, &b)
+    @user_home_dir = ENV.fetch("HOME")
+    super
+  end
+
   devel do
     url './'
   end
@@ -18,7 +25,7 @@ class Dinghy < Formula
 
   def install
     inreplace("dinghy-nfs-exports") do |s|
-      s.gsub!("%HOME%", ENV.fetch("HOME"))
+      s.gsub!("%HOME%", user_home_dir)
       s.gsub!("%UID%", Process.uid.to_s)
       s.gsub!("%GID%", Process.gid.to_s)
     end

@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+- Fix for Homebrew HOME env munging.
+
 ## 3.0.2 - 2015-07-15
 
 ### Changed
