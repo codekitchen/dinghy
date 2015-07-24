@@ -55,8 +55,8 @@ https://www.vagrantup.com
   end
 
   def mount(unfs)
-    puts "Mounting NFS #{unfs.mount_dir}"
-    ssh("sudo mount -t nfs #{HOST_IP}:#{unfs.mount_dir} #{unfs.mount_dir} -o nfsvers=3,udp,mountport=19321,port=19321,nolock,hard,intr")
+    puts "Mounting NFS #{unfs.guest_mount_dir}"
+    ssh("sudo mount -t nfs #{HOST_IP}:#{unfs.host_mount_dir} #{unfs.guest_mount_dir} -o nfsvers=3,udp,mountport=19321,port=19321,nolock,hard,intr")
   end
 
   def halt

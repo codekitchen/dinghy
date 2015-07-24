@@ -58,7 +58,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Mount the NFS volume from our own unfs daemon
   config.vm.provision :shell, run: "always" do |s|
-    mount_dir = ENV.fetch("HOME")
+    mount_dir = ENV['DINGHY_GUEST_MOUNT_DIR'] || ENV.fetch("HOME")
     s.inline = <<-EOT
       echo Preparing #{mount_dir} NFS mount
       sudo umount #{mount_dir} 2> /dev/null
