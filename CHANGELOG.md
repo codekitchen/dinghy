@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 3.0.4 - 2015-08-03
+
 ### Changed
 - Fix incompatibility with `devel` and the new version of Homebrew.
 
