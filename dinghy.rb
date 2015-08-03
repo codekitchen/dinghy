@@ -15,10 +15,6 @@ class Dinghy < Formula
     super
   end
 
-  devel do
-    url './'
-  end
-
   depends_on 'docker'
   depends_on 'unfs3'
   depends_on 'dnsmasq'
