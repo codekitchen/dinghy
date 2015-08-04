@@ -31,8 +31,12 @@ class Unfs
     end
   end
 
-  def mount_dir
-    HOME
+  def host_mount_dir
+    ENV['DINGHY_HOST_MOUNT_DIR'] || HOME
+  end
+
+  def guest_mount_dir
+    ENV['DINGHY_GUEST_MOUNT_DIR'] || HOME
   end
 
   def plist_name
