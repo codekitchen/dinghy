@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - The NFS mount dir can now be configured using environment variables.
+- Filesystem events are now forwarded to the VM, using `fsevents_to_vm`.
 
 ## 3.0.4 - 2015-08-03
 
