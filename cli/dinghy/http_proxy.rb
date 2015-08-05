@@ -9,7 +9,7 @@ class HttpProxy
   def up
     puts "Starting the HTTP proxy"
     capture_output do
-      Vagrant.new.ssh("docker rm -f #{CONTAINER_NAME}") rescue nil
+      Vagrant.new.ssh("docker rm -fv #{CONTAINER_NAME}") rescue nil
     end
     Vagrant.new.ssh("docker run -d -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock --name #{CONTAINER_NAME} codekitchen/dinghy-http-proxy")
   end
