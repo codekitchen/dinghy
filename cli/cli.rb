@@ -5,6 +5,7 @@ $LOAD_PATH << File.dirname(__FILE__)
 
 require 'dinghy/check_env'
 require 'dinghy/dnsmasq'
+require 'dinghy/fsevents_to_vm'
 require 'dinghy/http_proxy'
 require 'dinghy/preferences'
 require 'dinghy/unfs'
@@ -26,6 +27,9 @@ class DinghyCLI < Thor
   option :proxy,
     type: :boolean,
     desc: "start the HTTP proxy as well"
+  option :fsevents,
+    type: :boolean,
+    desc: "start the FS event forwarder"
   desc "up", "start the Docker VM and services"
   def up
     vagrant = Vagrant.new
@@ -34,6 +38,10 @@ class DinghyCLI < Thor
     unfs.up
     vagrant.mount(unfs)
     vagrant.install_docker_keys
+    fsevents = options[:fsevents] || (options[:fsevents].nil? && !fsevents_disabled?)
+    if fsevents
+      FseventsToVm.new.up
+    end
     Dnsmasq.new.up
     proxy = options[:proxy] || (options[:proxy].nil? && !proxy_disabled?)
     if proxy
@@ -41,7 +49,10 @@ class DinghyCLI < Thor
     end
     CheckEnv.new.run
 
-    preferences.update(proxy_disabled: !proxy)
+    preferences.update(
+      proxy_disabled: !proxy,
+      fsevents_disabled: !fsevents,
+    )
   end
 
   desc "ssh [args...]", "run vagrant ssh on the VM"
@@ -53,6 +64,7 @@ class DinghyCLI < Thor
   def status
     puts "  VM: #{Vagrant.new.status}"
     puts " NFS: #{Unfs.new.status}"
+    puts "FSEV: #{FseventsToVm.new.status}"
     puts " DNS: #{Dnsmasq.new.status}"
     puts "HTTP: #{HttpProxy.new.status}"
   end
@@ -69,6 +81,7 @@ class DinghyCLI < Thor
 
   desc "halt", "stop the VM and services"
   def halt
+    FseventsToVm.new.halt
     Vagrant.new.halt
     Unfs.new.halt
     Dnsmasq.new.halt
@@ -116,5 +129,9 @@ class DinghyCLI < Thor
 
   def proxy_disabled?
     preferences[:proxy_disabled] == true
+  end
+
+  def fsevents_disabled?
+    preferences[:fsevents_disabled] == true
   end
 end
