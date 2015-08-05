@@ -27,9 +27,9 @@ class Dinghy < Formula
     end
 
     # Not using the normal homebrew plist infrastructure here, since dinghy
-    # controls the loading and unloading of its own plist.
+    # controls the loading and unloading of its own plists.
     inreplace(["dinghy.unfs.plist", "dinghy.dnsmasq.plist"]) do |s|
-      s.gsub!("%PREFIX%", HOMEBREW_PREFIX)
+      s.gsub!("%HOMEBREW_PREFIX%", HOMEBREW_PREFIX)
       s.gsub!("%ETC%", prefix/"etc", false)
     end
 

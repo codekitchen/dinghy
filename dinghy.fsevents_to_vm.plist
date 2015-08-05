@@ -5,21 +5,11 @@
   <key>KeepAlive</key>
   <true/>
   <key>Label</key>
-  <string>dinghy.unfs</string>
+  <string>dinghy.fsevents_to_vm</string>
   <key>ProgramArguments</key>
   <array>
-    <string>%HOMEBREW_PREFIX%/sbin/unfsd</string>
-    <string>-e</string>
-    <string>%ETC%/dinghy-nfs-exports</string>
-    <string>-n</string>
-    <string>19321</string>
-    <string>-m</string>
-    <string>19321</string>
-    <string>-l</string>
-    <string>192.168.42.1</string>
-    <string>-p</string>
-    <string>-b</string>
-    <string>-d</string>
+    <string>/usr/bin/fsevents_to_vm</string>
+    <string>start</string>
   </array>
   <key>RunAtLoad</key>
   <true/>
