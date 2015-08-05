@@ -8,6 +8,12 @@ class Dinghy < Formula
   head 'https://github.com/codekitchen/dinghy.git', branch: :master
   version DINGHY_VERSION
 
+  PLISTS = %w[
+    dinghy.unfs.plist
+    dinghy.dnsmasq.plist
+    dinghy.fsevents_to_vm.plist
+  ]
+
   attr_reader :user_home_dir
 
   def initialize(*a, &b)
@@ -28,12 +34,12 @@ class Dinghy < Formula
 
     # Not using the normal homebrew plist infrastructure here, since dinghy
     # controls the loading and unloading of its own plists.
-    inreplace(["dinghy.unfs.plist", "dinghy.dnsmasq.plist"]) do |s|
+    inreplace(PLISTS) do |s|
       s.gsub!("%HOMEBREW_PREFIX%", HOMEBREW_PREFIX)
       s.gsub!("%ETC%", prefix/"etc", false)
     end
 
-    (prefix/"etc").install "dinghy-nfs-exports", "dinghy.unfs.plist", "dinghy.dnsmasq.plist"
+    (prefix/"etc").install "dinghy-nfs-exports", *PLISTS
 
     FileUtils.mkdir_p(var/"dinghy/vagrant")
     FileUtils.cp("vagrant/Vagrantfile", var/"dinghy/vagrant/Vagrantfile")
