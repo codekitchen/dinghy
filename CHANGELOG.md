@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+- The NFS mount dir can now be configured using environment variables.
+
 ## 3.0.4 - 2015-08-03
 
 ### Changed
