@@ -32,6 +32,6 @@ class FseventsToVm
     %x{gem list -i -v '#{VERSION}' fsevents_to_vm}
     return if $?.success?
     puts "Installing fsevents_to_vm, this will require sudo"
-    system!("installing", "sudo", "/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/gem", "install", "fsevents_to_vm", "-v", VERSION)
+    system!("installing", "sudo", "/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/gem", "install", "--no-rdoc", "--no-ri", "fsevents_to_vm", "-v", VERSION)
   end
 end
