@@ -44,6 +44,15 @@ https://www.vagrantup.com
     end
   end
 
+  def ssh_config
+    cd
+    output = `vagrant ssh-config --host dinghy`
+    if command_failed?
+      raise("Error executing ssh-config")
+    end
+    output
+  end
+
   def status
     cd
     output = `vagrant status --machine-readable`.split("\n")
