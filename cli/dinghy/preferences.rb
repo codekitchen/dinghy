@@ -26,9 +26,7 @@ class Preferences
     end
   end
 
-  protected
-
-  def migrate_if_necessary
+  def self.migrate_if_necessary
     if File.file?(LEGACY_PREFERENCES_FILE) && !File.file?(PREFERENCES_FILE)
       File.rename(LEGACY_PREFERENCES_FILE, PREFERENCES_FILE)
     end
