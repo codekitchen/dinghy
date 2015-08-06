@@ -20,6 +20,8 @@ class Vagrant
     if command_failed?
       raise("There was an error bringing up the Vagrant box. Dinghy cannot continue.")
     end
+
+    write_ssh_config!
   end
 
   def check_for_vagrant
@@ -51,6 +53,10 @@ https://www.vagrantup.com
       raise("Error executing ssh-config")
     end
     output
+  end
+
+  def write_ssh_config!
+    File.open(ssh_config_path, 'wb') { |f| f.write(ssh_config) }
   end
 
   def status
@@ -110,6 +116,11 @@ https://www.vagrantup.com
 
   def key_dir
     Pathname.new("#{HOME}/.dinghy/certs")
+  end
+
+  def ssh_config_path
+    # this is hard-coded inside the fsevents_to_vm plist, as well
+    Pathname.new("#{HOME}/.dinghy/ssh-config")
   end
 
   def created?

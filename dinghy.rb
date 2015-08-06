@@ -35,7 +35,8 @@ class Dinghy < Formula
     # Not using the normal homebrew plist infrastructure here, since dinghy
     # controls the loading and unloading of its own plists.
     inreplace(PLISTS) do |s|
-      s.gsub!("%HOMEBREW_PREFIX%", HOMEBREW_PREFIX)
+      s.gsub!("%HOME%", user_home_dir, false)
+      s.gsub!("%HOMEBREW_PREFIX%", HOMEBREW_PREFIX, false)
       s.gsub!("%ETC%", prefix/"etc", false)
     end
 

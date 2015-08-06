@@ -3,7 +3,7 @@ require 'dinghy/plist'
 class FseventsToVm
   include Plist
   BIN_PATH = "/usr/bin/fsevents_to_vm"
-  VERSION = "~> 1.0"
+  VERSION = "~> 1.0.1"
 
   def up
     install_if_necessary!
