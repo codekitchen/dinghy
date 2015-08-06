@@ -10,7 +10,7 @@
   <array>
     <string>/usr/bin/fsevents_to_vm</string>
     <string>start</string>
-    <string>--ssh-config-path=%HOME%/.dinghy/ssh-config</string>
+    <string>--ssh-config-file=%HOME%/.dinghy/ssh-config</string>
   </array>
   <key>RunAtLoad</key>
   <true/>
