@@ -3,9 +3,11 @@ require 'yaml/store'
 require 'dinghy/constants'
 
 class Preferences
-  PREFERENCES_FILE = BREW+"etc/dinghy.yml"
+  LEGACY_PREFERENCES_FILE = BREW+"etc/dinghy.yml"
+  PREFERENCES_FILE = HOME+"/.dinghy/preferences.yml"
 
   def self.load(path = PREFERENCES_FILE)
+    migrate_if_necessary
     new(path)
   end
 
@@ -21,6 +23,14 @@ class Preferences
   def update(config)
     @store.transaction do
       @store[:preferences] = @store[:preferences].merge(config)
+    end
+  end
+
+  protected
+
+  def migrate_if_necessary
+    if File.file?(LEGACY_PREFERENCES_FILE) && !File.file?(PREFERENCES_FILE)
+      File.rename(LEGACY_PREFERENCES_FILE, PREFERENCES_FILE)
     end
   end
 end
