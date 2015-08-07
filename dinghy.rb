@@ -36,11 +36,18 @@ class Dinghy < Formula
     # controls the loading and unloading of its own plists.
     inreplace(PLISTS) do |s|
       s.gsub!("%HOME%", user_home_dir, false)
+      s.gsub!("%HOME_DINGHY%", "#{user_home_dir}/.dinghy", false)
       s.gsub!("%HOMEBREW_PREFIX%", HOMEBREW_PREFIX, false)
       s.gsub!("%ETC%", prefix/"etc", false)
     end
 
-    (prefix/"etc").install "dinghy-nfs-exports", *PLISTS
+    # Install nfs exports file to ~/.dinghy if it is missing
+    unless(File.file?("#{user_home_dir}/.dinghy/dinghy-nfs-exports"))
+        FileUtils.cp("dinghy-nfs-exports", "#{user_home_dir}/.dinghy")
+    end
+
+    # install plits
+    (prefix/"etc").install *PLISTS
 
     FileUtils.mkdir_p(var/"dinghy/vagrant")
     FileUtils.cp("vagrant/Vagrantfile", var/"dinghy/vagrant/Vagrantfile")
