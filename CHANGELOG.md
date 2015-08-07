@@ -7,6 +7,9 @@ All notable changes to this project will be documented in this file.
 - The NFS mount dir can now be configured using environment variables.
 - Filesystem events are now forwarded to the VM, using `fsevents_to_vm`.
 
+### Changed
+- Removed redundant network interface from the VM Vagrantfile.
+
 ## 3.0.4 - 2015-08-03
 
 ### Changed
