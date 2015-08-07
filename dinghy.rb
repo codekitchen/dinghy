@@ -28,6 +28,7 @@ class Dinghy < Formula
   def install
     inreplace("dinghy-nfs-exports") do |s|
       s.gsub!("%HOME%", user_home_dir)
+      s.gsub!("%HOME_DINGHY%", "#{user_home_dir}/.dinghy")
       s.gsub!("%UID%", Process.uid.to_s)
       s.gsub!("%GID%", Process.gid.to_s)
     end
@@ -40,7 +41,11 @@ class Dinghy < Formula
       s.gsub!("%ETC%", prefix/"etc", false)
     end
 
-    (prefix/"etc").install "dinghy-nfs-exports", *PLISTS
+    # Install nfs exports file to ~/.dinghy
+    ("#{user_home_dir}/.dinghy").install "dinghy-nfs-exports"
+
+    # install plits
+    (prefix/"etc").install *PLISTS
 
     FileUtils.mkdir_p(var/"dinghy/vagrant")
     FileUtils.cp("vagrant/Vagrantfile", var/"dinghy/vagrant/Vagrantfile")

@@ -10,7 +10,7 @@
   <array>
     <string>%HOMEBREW_PREFIX%/sbin/unfsd</string>
     <string>-e</string>
-    <string>%ETC%/dinghy-nfs-exports</string>
+    <string>%HOME_DINGHY%/dinghy-nfs-exports</string>
     <string>-n</string>
     <string>19321</string>
     <string>-m</string>
