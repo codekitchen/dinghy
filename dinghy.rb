@@ -28,7 +28,6 @@ class Dinghy < Formula
   def install
     inreplace("dinghy-nfs-exports") do |s|
       s.gsub!("%HOME%", user_home_dir)
-      s.gsub!("%HOME_DINGHY%", "#{user_home_dir}/.dinghy")
       s.gsub!("%UID%", Process.uid.to_s)
       s.gsub!("%GID%", Process.gid.to_s)
     end
@@ -37,12 +36,15 @@ class Dinghy < Formula
     # controls the loading and unloading of its own plists.
     inreplace(PLISTS) do |s|
       s.gsub!("%HOME%", user_home_dir, false)
+      s.gsub!("%HOME_DINGHY%", "#{user_home_dir}/.dinghy", false)
       s.gsub!("%HOMEBREW_PREFIX%", HOMEBREW_PREFIX, false)
       s.gsub!("%ETC%", prefix/"etc", false)
     end
 
-    # Install nfs exports file to ~/.dinghy
-    ("#{user_home_dir}/.dinghy").install "dinghy-nfs-exports"
+    # Install nfs exports file to ~/.dinghy if it is missing
+    unless(File.file?("#{user_home_dir}/.dinghy/dinghy-nfs-exports"))
+        FileUtils.cp("dinghy-nfs-exports", "#{user_home_dir}/.dinghy")
+    end
 
     # install plits
     (prefix/"etc").install *PLISTS
