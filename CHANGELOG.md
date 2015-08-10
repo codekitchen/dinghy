@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Removed redundant network interface from the VM Vagrantfile.
+- Increase the inotify watcher limit, so fsevents can be used on larger projects.
 
 ## 3.0.4 - 2015-08-03
 

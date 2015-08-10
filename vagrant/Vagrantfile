@@ -56,6 +56,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     echo '*/5 * * * * /usr/local/bin/ntpclient -s -h pool.ntp.org' | sudo crontab -
   EOT
 
+  # Increase the inotify watcher limit
+  config.vm.provision :shell, run: "always", inline: <<-EOT
+    echo fs.inotify.max_user_watches=#{ENV.fetch('DINGHY_INOTIFY_LIMIT', '524288')} | sudo tee -a /etc/sysctl.conf > /dev/null
+    sudo sysctl -p > /dev/null
+  EOT
+
   # Mount the NFS volume from our own unfs daemon
   config.vm.provision :shell, run: "always" do |s|
     mount_dir = ENV['DINGHY_GUEST_MOUNT_DIR'] || ENV.fetch("HOME")
