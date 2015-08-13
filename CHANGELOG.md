@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 3.1.1 - 2015-08-13
+
 ### Changed
 - Docker version 1.8.1
 
