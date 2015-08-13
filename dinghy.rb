@@ -5,7 +5,7 @@ DINGHY_VERSION='3.1.1'
 class Dinghy < Formula
   homepage 'https://github.com/codekitchen/dinghy'
   url  'https://github.com/codekitchen/dinghy.git', tag: "v#{DINGHY_VERSION}"
-  head 'https://github.com/codekitchen/dinghy.git', branch: :master
+  head 'https://github.com/codekitchen/dinghy.git', branch: :machine
   version DINGHY_VERSION
 
   PLISTS = %w[
@@ -22,6 +22,7 @@ class Dinghy < Formula
   end
 
   depends_on 'docker'
+  depends_on 'docker-machine'
   depends_on 'unfs3'
   depends_on 'dnsmasq'
 
