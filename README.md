@@ -1,6 +1,9 @@
 # dinghy
 
-Faster, friendlier Docker on OS X with Vagrant.
+Faster, friendlier Docker on OS X. Built on docker-machine.
+
+This is a WIP branch re-implementing dinghy on top of docker-machine. There is
+known brokenness.
 
 ## install
 
@@ -8,11 +11,10 @@ First the prerequisites:
 
 1. OS X Yosemite (10.10) (Mavericks has a known issue, see [#6](https://github.com/codekitchen/dinghy/issues/6))
 1. [Homebrew](https://github.com/Homebrew/homebrew)
-1. [Vagrant](http://vagrantup.com)
 
 Then:
 
-    $ brew install https://github.com/codekitchen/dinghy/raw/latest/dinghy.rb
+    $ brew install --HEAD https://github.com/codekitchen/dinghy/raw/machine/dinghy.rb
 
 This will install the Docker client as well, using Homebrew. If you
 already have the Docker client installed, you will need to remove it or
