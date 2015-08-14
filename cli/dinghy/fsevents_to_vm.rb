@@ -49,12 +49,12 @@ class FseventsToVm
   <array>
     <string>/usr/bin/fsevents_to_vm</string>
     <string>start</string>
-    <string>--ssh-config-file=<%= HOME %>/.dinghy/ssh-config</string>
+    <string>--ssh-config-file=#{HOME}/.dinghy/ssh-config</string>
   </array>
   <key>RunAtLoad</key>
   <true/>
   <key>WorkingDirectory</key>
-  <string><%= BREW %></string>
+  <string>#{BREW}</string>
 </dict>
 </plist>
     XML

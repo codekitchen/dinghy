@@ -74,19 +74,19 @@ class Dnsmasq
   <string>dinghy.dnsmasq</string>
   <key>ProgramArguments</key>
   <array>
-    <string><%= BREW %>/sbin/dnsmasq</string>
+    <string>#{BREW}/sbin/dnsmasq</string>
     <string>--no-daemon</string>
-    <string>--listen-address=<%= machine.host_ip %></string>
+    <string>--listen-address=#{machine.host_ip}</string>
     <string>--port=19322</string>
     <string>--bind-interfaces</string>
     <string>--no-resolv</string>
-    <string>--address=/.docker/<%= machine.vm_ip %></string>
-    <string>--pid-file=<%= BREW %>/var/dinghy/dnsmasq.pid</string>
+    <string>--address=/.docker/#{machine.vm_ip}</string>
+    <string>--pid-file=#{BREW}/var/dinghy/dnsmasq.pid</string>
   </array>
   <key>RunAtLoad</key>
   <true/>
   <key>WorkingDirectory</key>
-  <string><%= BREW %></string>
+  <string>#{BREW}</string>
 </dict>
 </plist>
     XML

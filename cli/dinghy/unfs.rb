@@ -67,15 +67,15 @@ class Unfs
   <string>dinghy.unfs</string>
   <key>ProgramArguments</key>
   <array>
-    <string><%= BREW %>/sbin/unfsd</string>
+    <string>#{BREW}/sbin/unfsd</string>
     <string>-e</string>
-    <string><%= HOME_DINGHY %>/dinghy-nfs-exports</string>
+    <string>#{HOME_DINGHY}/dinghy-nfs-exports</string>
     <string>-n</string>
     <string>19321</string>
     <string>-m</string>
     <string>19321</string>
     <string>-l</string>
-    <string><%= machine.host_ip %></string>
+    <string>#{machine.host_ip}</string>
     <string>-p</string>
     <string>-b</string>
     <string>-d</string>
@@ -83,7 +83,7 @@ class Unfs
   <key>RunAtLoad</key>
   <true/>
   <key>WorkingDirectory</key>
-  <string><%= BREW %></string>
+  <string>#{BREW}</string>
 </dict>
 </plist>
     XML

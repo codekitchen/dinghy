@@ -1,5 +1,3 @@
-require 'erb'
-
 require 'dinghy/constants'
 
 module Plist
@@ -24,14 +22,10 @@ module Plist
     "#{HOME}/Library/LaunchAgents/#{plist_name}"
   end
 
-  def prepared_plist
-    ERB.new(plist_body).result(binding)
-  end
-
   def plist_path
     if !@tmpfile
       @tmpfile = Tempfile.new(["dinghy", ".plist"])
-      @tmpfile.write(prepared_plist)
+      @tmpfile.write(plist_body)
       @tmpfile.flush
     end
     @tmpfile.path
