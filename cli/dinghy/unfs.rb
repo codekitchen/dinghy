@@ -6,6 +6,12 @@ require 'dinghy/plist'
 class Unfs
   include RootPlist
 
+  attr_reader :machine
+
+  def initialize(machine)
+    @machine = machine
+  end
+
   def up
     super
     wait_for_unfs
@@ -23,7 +29,7 @@ class Unfs
   def status
     begin
       Timeout.timeout(1) do
-        TCPSocket.open(HOST_IP, 19321)
+        TCPSocket.open(machine.host_ip, 19321)
       end
       "running"
     rescue Errno::ECONNREFUSED, Timeout::Error

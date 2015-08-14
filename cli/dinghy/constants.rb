@@ -5,8 +5,10 @@ MEM_DEFAULT=2048
 CPU_DEFAULT=1
 
 BREW = Pathname.new(`brew --prefix`.strip)
-DINGHY = BREW+"opt/dinghy/etc"
-VAGRANT = BREW+"var/dinghy/vagrant"
-HOST_IP = "192.168.42.1"
-VM_IP = "192.168.42.10"
+# makes local dev easier
+if $0 == "bin/dinghy"
+  DINGHY = Pathname.new(File.expand_path("../..", File.dirname(__FILE__)))
+else
+  DINGHY = BREW+"opt/dinghy/etc"
+end
 HOME = ENV.fetch("HOME")

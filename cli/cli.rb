@@ -9,7 +9,7 @@ require 'dinghy/fsevents_to_vm'
 require 'dinghy/http_proxy'
 require 'dinghy/preferences'
 require 'dinghy/unfs'
-require 'dinghy/vagrant'
+require 'dinghy/machine'
 require 'dinghy/version'
 
 class DinghyCLI < Thor
@@ -23,7 +23,7 @@ class DinghyCLI < Thor
     desc: "number of CPUs to allocate to the virtual machine (default #{CPU_DEFAULT})"
   option :provider,
     aliases: :p,
-    desc: "which Vagrant provider to use, only takes effect when initializing a new VM"
+    desc: "which docker-machine provider to use, only takes effect when initializing a new VM"
   option :proxy,
     type: :boolean,
     desc: "start the HTTP proxy as well"
@@ -32,20 +32,19 @@ class DinghyCLI < Thor
     desc: "start the FS event forwarder"
   desc "up", "start the Docker VM and services"
   def up
-    vagrant = Vagrant.new
-    unfs = Unfs.new
-    vagrant.up(options.dup)
+    machine = Machine.new
+    unfs = Unfs.new(machine)
+    machine.up(options.dup)
     unfs.up
-    vagrant.mount(unfs)
-    vagrant.install_docker_keys
+    # machine.mount(unfs)
     fsevents = options[:fsevents] || (options[:fsevents].nil? && !fsevents_disabled?)
     if fsevents
-      FseventsToVm.new.up
+      # FseventsToVm.new.up
     end
-    Dnsmasq.new.up
+    # Dnsmasq.new.up
     proxy = options[:proxy] || (options[:proxy].nil? && !proxy_disabled?)
     if proxy
-      HttpProxy.new.up
+      # HttpProxy.new.up
     end
     CheckEnv.new.run
 
@@ -57,7 +56,7 @@ class DinghyCLI < Thor
 
   desc "ssh [args...]", "run vagrant ssh on the VM"
   def ssh(*args)
-    Vagrant.new.ssh(args.join(' '))
+    Machine.new.ssh(args.join(' '))
   end
 
   desc "ssh-config", "print ssh configuration for the VM"
@@ -67,8 +66,8 @@ class DinghyCLI < Thor
 
   desc "status", "get VM and services status"
   def status
-    puts "  VM: #{Vagrant.new.status}"
-    puts " NFS: #{Unfs.new.status}"
+    puts "  VM: #{Machine.new.status}"
+    # puts " NFS: #{Unfs.new.status}"
     puts "FSEV: #{FseventsToVm.new.status}"
     puts " DNS: #{Dnsmasq.new.status}"
     puts "HTTP: #{HttpProxy.new.status}"
@@ -87,8 +86,9 @@ class DinghyCLI < Thor
   desc "halt", "stop the VM and services"
   def halt
     FseventsToVm.new.halt
-    Vagrant.new.halt
-    Unfs.new.halt
+    machine = Machine.new
+    machine.halt
+    Unfs.new(machine).halt
     Dnsmasq.new.halt
   end
 

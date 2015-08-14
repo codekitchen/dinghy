@@ -1,6 +1,6 @@
 require 'stringio'
 
-require 'dinghy/vagrant'
+require 'dinghy/machine'
 
 # we ssh in, so this succeeds even if the env vars haven't been set yet
 class HttpProxy
