@@ -46,7 +46,7 @@ class DinghyCLI < Thor
     if proxy
       HttpProxy.new(machine).up
     end
-    CheckEnv.new.run
+    CheckEnv.new(machine).run
 
     preferences.update(
       proxy_disabled: !proxy,
@@ -118,7 +118,7 @@ class DinghyCLI < Thor
 
   desc "shellinit", "returns env variables to set, should be run like $(dinghy shellinit)"
   def shellinit
-    CheckEnv.new.print
+    CheckEnv.new(Machine.new).print
   end
 
   map "-v" => :version

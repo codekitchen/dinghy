@@ -39,6 +39,10 @@ class Machine
     inspect['DriverName']
   end
 
+  def store_path
+    inspect['StorePath']
+  end
+
   def inspect
     JSON.parse(`docker-machine inspect #{machine_name} 2>/dev/null`)
   end
@@ -54,7 +58,7 @@ Host dinghy
   UserKnownHostsFile /dev/null
   StrictHostKeyChecking no
   PasswordAuthentication no
-  IdentityFile #{HOME}/.docker/machine/machines/#{machine_name}/id_rsa
+  IdentityFile #{store_path}/id_rsa
   IdentitiesOnly yes
   LogLevel FATAL
     SSH
