@@ -61,7 +61,7 @@ class DinghyCLI < Thor
 
   desc "ssh-config", "print ssh configuration for the VM"
   def ssh_config
-    puts Vagrant.new.ssh_config
+    puts Machine.new.ssh_config
   end
 
   desc "status", "get VM and services status"

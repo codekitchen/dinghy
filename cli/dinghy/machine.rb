@@ -44,8 +44,20 @@ class Machine
   end
 
   def ssh_config
-    # TODO: syntesize the ssh config from docker-machine inspect
-    ""
+    # TODO: constructing the IdentityFile path ourselves is a recipe for sadness,
+    # but I haven't found a way to get it out of docker-machine.
+    <<-SSH
+Host dinghy
+  HostName #{vm_ip}
+  User docker
+  Port 22
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  PasswordAuthentication no
+  IdentityFile #{HOME}/.docker/machine/machines/#{machine_name}/id_rsa
+  IdentitiesOnly yes
+  LogLevel FATAL
+    SSH
   end
 
   def write_ssh_config!
