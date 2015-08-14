@@ -12,3 +12,4 @@ else
   DINGHY = BREW+"opt/dinghy/etc"
 end
 HOME = ENV.fetch("HOME")
+HOME_DINGHY = "#{HOME}/.dinghy"

@@ -8,12 +8,6 @@ class Dinghy < Formula
   head 'https://github.com/codekitchen/dinghy.git', branch: :machine
   version DINGHY_VERSION
 
-  PLISTS = %w[
-    dinghy.unfs.plist
-    dinghy.dnsmasq.plist
-    dinghy.fsevents_to_vm.plist
-  ]
-
   attr_reader :user_home_dir
 
   def initialize(*a, &b)
@@ -33,22 +27,10 @@ class Dinghy < Formula
       s.gsub!("%GID%", Process.gid.to_s)
     end
 
-    # Not using the normal homebrew plist infrastructure here, since dinghy
-    # controls the loading and unloading of its own plists.
-    inreplace(PLISTS) do |s|
-      s.gsub!("%HOME%", user_home_dir, false)
-      s.gsub!("%HOME_DINGHY%", "#{user_home_dir}/.dinghy", false)
-      s.gsub!("%HOMEBREW_PREFIX%", HOMEBREW_PREFIX, false)
-      s.gsub!("%ETC%", prefix/"etc", false)
-    end
-
     # Install nfs exports file to ~/.dinghy if it is missing
     unless(File.file?("#{user_home_dir}/.dinghy/dinghy-nfs-exports"))
         FileUtils.cp("dinghy-nfs-exports", "#{user_home_dir}/.dinghy")
     end
-
-    # install plits
-    (prefix/"etc").install *PLISTS
 
     FileUtils.mkdir_p(var/"dinghy/vagrant")
     FileUtils.cp("vagrant/Vagrantfile", var/"dinghy/vagrant/Vagrantfile")

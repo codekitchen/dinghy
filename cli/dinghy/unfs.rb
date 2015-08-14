@@ -52,4 +52,40 @@ class Unfs
   def name
     "NFS"
   end
+
+  protected
+
+  def plist_body
+    <<-XML
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>KeepAlive</key>
+  <true/>
+  <key>Label</key>
+  <string>dinghy.unfs</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string><%= BREW %>/sbin/unfsd</string>
+    <string>-e</string>
+    <string><%= HOME_DINGHY %>/dinghy-nfs-exports</string>
+    <string>-n</string>
+    <string>19321</string>
+    <string>-m</string>
+    <string>19321</string>
+    <string>-l</string>
+    <string>192.168.42.1</string>
+    <string>-p</string>
+    <string>-b</string>
+    <string>-d</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>WorkingDirectory</key>
+  <string><%= BREW %></string>
+</dict>
+</plist>
+    XML
+  end
 end

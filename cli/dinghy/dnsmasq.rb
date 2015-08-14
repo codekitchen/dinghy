@@ -53,4 +53,36 @@ class Dnsmasq
     port 19322
     EOS
   end
+
+  protected
+
+  def plist_body
+    <<-XML
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>KeepAlive</key>
+  <true/>
+  <key>Label</key>
+  <string>dinghy.dnsmasq</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string><%= BREW %>/sbin/dnsmasq</string>
+    <string>--no-daemon</string>
+    <string>--listen-address=192.168.42.1</string>
+    <string>--port=19322</string>
+    <string>--bind-interfaces</string>
+    <string>--no-resolv</string>
+    <string>--address=/.docker/192.168.42.10</string>
+    <string>--pid-file=<%= BREW %>/var/dinghy/dnsmasq.pid</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>WorkingDirectory</key>
+  <string><%= BREW %></string>
+</dict>
+</plist>
+    XML
+  end
 end
