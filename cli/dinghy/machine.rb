@@ -66,7 +66,7 @@ Host dinghy
 
   def status
     if created?
-      `docker-machine status #{machine_name}`
+      `docker-machine status #{machine_name}`.strip.downcase
     else
       "not created"
     end

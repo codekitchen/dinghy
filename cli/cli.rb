@@ -76,8 +76,9 @@ class DinghyCLI < Thor
 
   desc "ip", "get the VM's IP address"
   def ip
-    if Vagrant.new.running?
-      puts VM_IP
+    machine = Machine.new
+    if machine.running?
+      puts machine.vm_ip
     else
       $stderr.puts "The VM is not running, `dinghy up` to start"
       exit 1
