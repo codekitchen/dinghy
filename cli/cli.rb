@@ -39,12 +39,12 @@ class DinghyCLI < Thor
     machine.mount(unfs)
     fsevents = options[:fsevents] || (options[:fsevents].nil? && !fsevents_disabled?)
     if fsevents
-      # FseventsToVm.new.up
+      FseventsToVm.new.up
     end
-    # Dnsmasq.new.up
+    Dnsmasq.new(machine).up
     proxy = options[:proxy] || (options[:proxy].nil? && !proxy_disabled?)
     if proxy
-      # HttpProxy.new.up
+      HttpProxy.new(machine).up
     end
     CheckEnv.new.run
 
@@ -66,11 +66,12 @@ class DinghyCLI < Thor
 
   desc "status", "get VM and services status"
   def status
-    puts "  VM: #{Machine.new.status}"
-    # puts " NFS: #{Unfs.new.status}"
+    machine = Machine.new
+    puts "  VM: #{machine.status}"
+    puts " NFS: #{Unfs.new(machine).status}"
     puts "FSEV: #{FseventsToVm.new.status}"
-    puts " DNS: #{Dnsmasq.new.status}"
-    puts "HTTP: #{HttpProxy.new.status}"
+    puts " DNS: #{Dnsmasq.new(machine).status}"
+    puts "HTTP: #{HttpProxy.new(machine).status}"
   end
 
   desc "ip", "get the VM's IP address"
@@ -89,7 +90,7 @@ class DinghyCLI < Thor
     machine = Machine.new
     machine.halt
     Unfs.new(machine).halt
-    Dnsmasq.new.halt
+    Dnsmasq.new(machine).halt
   end
 
   desc "restart", "restart the VM and services"

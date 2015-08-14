@@ -6,17 +6,23 @@ require 'dinghy/machine'
 class HttpProxy
   CONTAINER_NAME = "dinghy_http_proxy"
 
+  attr_reader :machine
+
+  def initialize(machine)
+    @machine = machine
+  end
+
   def up
     puts "Starting the HTTP proxy"
     capture_output do
-      Vagrant.new.ssh("docker rm -fv #{CONTAINER_NAME}") rescue nil
+      machine.ssh("docker rm -fv #{CONTAINER_NAME}") rescue nil
     end
-    Vagrant.new.ssh("docker run -d -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock --name #{CONTAINER_NAME} codekitchen/dinghy-http-proxy")
+    machine.ssh("docker run -d -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock --name #{CONTAINER_NAME} codekitchen/dinghy-http-proxy")
   end
 
   def status
     output, _ = capture_output do
-      Vagrant.new.ssh("docker inspect -f '{{ .State.Running }}' #{CONTAINER_NAME}")
+      machine.ssh("docker inspect -f '{{ .State.Running }}' #{CONTAINER_NAME}")
     end
 
     if output.strip == "true"
