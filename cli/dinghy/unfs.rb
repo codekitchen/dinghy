@@ -75,7 +75,7 @@ class Unfs
     <string>-m</string>
     <string>19321</string>
     <string>-l</string>
-    <string>192.168.42.1</string>
+    <string><%= machine.host_ip %></string>
     <string>-p</string>
     <string>-b</string>
     <string>-d</string>

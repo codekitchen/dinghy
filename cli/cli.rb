@@ -36,7 +36,7 @@ class DinghyCLI < Thor
     unfs = Unfs.new(machine)
     machine.up(options.dup)
     unfs.up
-    # machine.mount(unfs)
+    machine.mount(unfs)
     fsevents = options[:fsevents] || (options[:fsevents].nil? && !fsevents_disabled?)
     if fsevents
       # FseventsToVm.new.up

@@ -66,7 +66,10 @@ class Machine
 
   def mount(unfs)
     puts "Mounting NFS #{unfs.guest_mount_dir}"
-    ssh("sudo mount -t nfs #{HOST_IP}:#{unfs.host_mount_dir} #{unfs.guest_mount_dir} -o nfsvers=3,udp,mountport=19321,port=19321,nolock,hard,intr")
+    # TODO: this shouldn't be hard-coded, and should check that it's currently mounted
+    ssh("sudo umount /Users || true")
+    ssh("sudo mkdir -p #{unfs.guest_mount_dir}")
+    ssh("sudo mount -t nfs #{host_ip}:#{unfs.host_mount_dir} #{unfs.guest_mount_dir} -o nfsvers=3,udp,mountport=19321,port=19321,nolock,hard,intr")
   end
 
   def halt
