@@ -32,7 +32,7 @@ class Unfs
         TCPSocket.open(machine.host_ip, 19321)
       end
       "running"
-    rescue Errno::ECONNREFUSED, Timeout::Error
+    rescue Errno::ECONNREFUSED, Timeout::Error, JSON::ParserError
       "not running"
     end
   end

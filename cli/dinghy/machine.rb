@@ -40,7 +40,7 @@ class Machine
   end
 
   def inspect
-    JSON.parse(`docker-machine inspect #{machine_name}`)
+    JSON.parse(`docker-machine inspect #{machine_name} 2>/dev/null`)
   end
 
   def ssh_config
@@ -86,6 +86,10 @@ Host dinghy
 
   def halt
     machine("stop", machine_name)
+  end
+
+  def upgrade
+    machine("upgrade", machine_name)
   end
 
   def destroy(options = {})

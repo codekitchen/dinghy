@@ -112,9 +112,8 @@ class DinghyCLI < Thor
 
   desc "upgrade", "upgrade the boot2docker VM to the newest available"
   def upgrade
-    halt
     Machine.new.upgrade
-    puts "VM base box updated, run `dinghy up` to re-create the VM"
+    # TODO: this restarts the box, shutting down the http proxy
   end
 
   desc "shellinit", "returns env variables to set, should be run like $(dinghy shellinit)"
