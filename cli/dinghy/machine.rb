@@ -10,7 +10,7 @@ class Machine
     end
 
     if command_failed?
-      raise("There was an error bringing up the Vagrant box. Dinghy cannot continue.")
+      raise("There was an error bringing up the VM. Dinghy cannot continue.")
     end
 
     write_ssh_config!
@@ -89,8 +89,7 @@ Host dinghy
   end
 
   def destroy(options = {})
-    cd
-    system "vagrant destroy #{options[:force] && '--force'}"
+    machine(*["rm", (options[:force] ? '--force' : nil), machine_name].compact)
   end
 
   def command_failed?

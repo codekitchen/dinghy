@@ -54,7 +54,7 @@ class DinghyCLI < Thor
     )
   end
 
-  desc "ssh [args...]", "run vagrant ssh on the VM"
+  desc "ssh [args...]", "ssh to the VM"
   def ssh(*args)
     Machine.new.ssh(args.join(' '))
   end
@@ -107,13 +107,13 @@ class DinghyCLI < Thor
   desc "destroy", "stop and delete all traces of the VM"
   def destroy
     halt
-    Vagrant.new.destroy(force: options[:force])
+    Machine.new.destroy(force: options[:force])
   end
 
   desc "upgrade", "upgrade the boot2docker VM to the newest available"
   def upgrade
     halt
-    Vagrant.new.upgrade
+    Machine.new.upgrade
     puts "VM base box updated, run `dinghy up` to re-create the VM"
   end
 

@@ -32,9 +32,6 @@ class Dinghy < Formula
         FileUtils.cp("dinghy-nfs-exports", "#{user_home_dir}/.dinghy")
     end
 
-    FileUtils.mkdir_p(var/"dinghy/vagrant")
-    FileUtils.cp("vagrant/Vagrantfile", var/"dinghy/vagrant/Vagrantfile")
-
     bin.install "bin/dinghy"
     prefix.install "cli"
   end
