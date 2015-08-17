@@ -39,8 +39,13 @@ class DinghyCLI < Thor
       halt
     end
 
+    if !machine.created?
+      provider = options[:provider] || preferences[:provider]
+      preferences.update(provider: provider)
+    end
+
     unfs = Unfs.new(machine)
-    machine.up(options.dup)
+    machine.up(options.merge(provider: provider))
     unfs.up
     machine.mount(unfs)
     fsevents = options[:fsevents] || (options[:fsevents].nil? && !fsevents_disabled?)

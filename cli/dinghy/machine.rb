@@ -90,13 +90,10 @@ class Machine
 
   def provider(name)
     case name
-    when "virtualbox"
+    when nil, "virtualbox"
       "virtualbox"
     when "vmware", "vmware_fusion", "vmwarefusion", "vmware_desktop"
       "vmwarefusion"
-    when nil
-      # TODO: autodetect?
-      "virtualbox"
     else
       raise(ArgumentError, "unknown VM provider: #{name}")
     end
