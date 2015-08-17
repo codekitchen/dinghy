@@ -34,6 +34,11 @@ class DinghyCLI < Thor
     desc: "start the FS event forwarder"
   desc "up", "start the Docker VM and services"
   def up
+    if machine.running?
+      puts "#{machine.name} already running, restarting..."
+      halt
+    end
+
     unfs = Unfs.new(machine)
     machine.up(options.dup)
     unfs.up
