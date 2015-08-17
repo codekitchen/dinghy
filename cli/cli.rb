@@ -10,6 +10,7 @@ require 'dinghy/http_proxy'
 require 'dinghy/preferences'
 require 'dinghy/unfs'
 require 'dinghy/machine'
+require 'dinghy/ssh'
 require 'dinghy/version'
 
 class DinghyCLI < Thor
@@ -32,7 +33,6 @@ class DinghyCLI < Thor
     desc: "start the FS event forwarder"
   desc "up", "start the Docker VM and services"
   def up
-    machine = Machine.new
     unfs = Unfs.new(machine)
     machine.up(options.dup)
     unfs.up
@@ -56,17 +56,21 @@ class DinghyCLI < Thor
 
   desc "ssh [args...]", "ssh to the VM"
   def ssh(*args)
-    Machine.new.ssh(args.join(' '))
+    ssh = Ssh.new(machine)
+    if args.empty?
+      ssh.exec
+    else
+      ssh.run(*args)
+    end
   end
 
   desc "ssh-config", "print ssh configuration for the VM"
   def ssh_config
-    puts Machine.new.ssh_config
+    puts Ssh.new(machine).ssh_config
   end
 
   desc "status", "get VM and services status"
   def status
-    machine = Machine.new
     puts "  VM: #{machine.status}"
     puts " NFS: #{Unfs.new(machine).status}"
     puts "FSEV: #{FseventsToVm.new.status}"
@@ -76,7 +80,6 @@ class DinghyCLI < Thor
 
   desc "ip", "get the VM's IP address"
   def ip
-    machine = Machine.new
     if machine.running?
       puts machine.vm_ip
     else
@@ -88,7 +91,6 @@ class DinghyCLI < Thor
   desc "halt", "stop the VM and services"
   def halt
     FseventsToVm.new.halt
-    machine = Machine.new
     machine.halt
     Unfs.new(machine).halt
     Dnsmasq.new(machine).halt
@@ -107,18 +109,18 @@ class DinghyCLI < Thor
   desc "destroy", "stop and delete all traces of the VM"
   def destroy
     halt
-    Machine.new.destroy(force: options[:force])
+    machine.destroy(force: options[:force])
   end
 
   desc "upgrade", "upgrade the boot2docker VM to the newest available"
   def upgrade
-    Machine.new.upgrade
+    machine.upgrade
     # TODO: this restarts the box, shutting down the http proxy
   end
 
   desc "shellinit", "returns env variables to set, should be run like $(dinghy shellinit)"
   def shellinit
-    CheckEnv.new(Machine.new).print
+    CheckEnv.new(machine).print
   end
 
   map "-v" => :version
@@ -139,5 +141,9 @@ class DinghyCLI < Thor
 
   def fsevents_disabled?
     preferences[:fsevents_disabled] == true
+  end
+
+  def machine
+    @machine ||= Machine.new
   end
 end

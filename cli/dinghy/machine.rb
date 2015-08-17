@@ -4,27 +4,16 @@ require 'json'
 class Machine
   def up(options = {})
     if created?
-      machine("start", machine_name)
+      system("start", machine_name)
     else
-      machine("create", "-d", provider(options[:provider]), machine_name)
+      system("create", "-d", provider(options[:provider]), machine_name)
     end
 
     if command_failed?
       raise("There was an error bringing up the VM. Dinghy cannot continue.")
     end
 
-    write_ssh_config!
-  end
-
-  def ssh(command)
-    if command && !command.empty?
-      machine("ssh", machine_name, "--", command)
-      if command_failed?
-        raise("Error executing command: #{command}")
-      end
-    else
-      exec("docker-machine", "ssh", machine_name)
-    end
+    Ssh.new(self).write_ssh_config!
   end
 
   def host_ip
@@ -47,27 +36,6 @@ class Machine
     JSON.parse(`docker-machine inspect #{machine_name} 2>/dev/null`)
   end
 
-  def ssh_config
-    # TODO: constructing the IdentityFile path ourselves is a recipe for sadness,
-    # but I haven't found a way to get it out of docker-machine.
-    <<-SSH
-Host dinghy
-  HostName #{vm_ip}
-  User docker
-  Port 22
-  UserKnownHostsFile /dev/null
-  StrictHostKeyChecking no
-  PasswordAuthentication no
-  IdentityFile #{store_path}/id_rsa
-  IdentitiesOnly yes
-  LogLevel FATAL
-    SSH
-  end
-
-  def write_ssh_config!
-    File.open(ssh_config_path, 'wb') { |f| f.write(ssh_config) }
-  end
-
   def status
     if created?
       `docker-machine status #{machine_name}`.strip.downcase
@@ -88,25 +56,20 @@ Host dinghy
     ssh("sudo mount -t nfs #{host_ip}:#{unfs.host_mount_dir} #{unfs.guest_mount_dir} -o nfsvers=3,udp,mountport=19321,port=19321,nolock,hard,intr")
   end
 
+  def ssh(*command)
+    Ssh.new(self).run(*command)
+  end
+
   def halt
-    machine("stop", machine_name)
+    system("stop", machine_name)
   end
 
   def upgrade
-    machine("upgrade", machine_name)
+    system("upgrade", machine_name)
   end
 
   def destroy(options = {})
-    machine(*["rm", (options[:force] ? '--force' : nil), machine_name].compact)
-  end
-
-  def command_failed?
-    !$?.success?
-  end
-
-  def ssh_config_path
-    # this is hard-coded inside the fsevents_to_vm plist, as well
-    Pathname.new("#{HOME}/.dinghy/ssh-config")
+    system(*["rm", (options[:force] ? '--force' : nil), machine_name].compact)
   end
 
   def created?
@@ -114,14 +77,20 @@ Host dinghy
     !command_failed?
   end
 
-  def machine(*cmd)
-    system("docker-machine", *cmd)
+  def system(*cmd)
+    Kernel.system("docker-machine", *cmd)
+  end
+
+  def exec(*cmd)
+    Kernel.exec("docker-machine", *cmd)
   end
 
   def machine_name
     'dinghy'
   end
   alias :name :machine_name
+
+  protected
 
   def provider(name)
     case name
@@ -135,5 +104,9 @@ Host dinghy
     else
       raise(ArgumentError, "unknown VM provider: #{name}")
     end
+  end
+
+  def command_failed?
+    !$?.success?
   end
 end
