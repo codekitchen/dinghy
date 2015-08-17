@@ -41,6 +41,11 @@ class Dinghy < Formula
       s.gsub!("%ETC%", prefix/"etc", false)
     end
 
+    # Create the .dinghy dir if it is missing
+    unless(File.directory?("#{user_home_dir}/.dinghy"))
+        FileUtils.mkdir_p("#{user_home_dir}/.dinghy")
+    end
+
     # Install nfs exports file to ~/.dinghy if it is missing
     unless(File.file?("#{user_home_dir}/.dinghy/dinghy-nfs-exports"))
         FileUtils.cp("dinghy-nfs-exports", "#{user_home_dir}/.dinghy")
