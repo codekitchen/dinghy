@@ -2,8 +2,7 @@
 
 Faster, friendlier Docker on OS X. Built on docker-machine.
 
-This is a WIP branch re-implementing dinghy on top of docker-machine. There is
-known brokenness.
+This is a WIP branch re-implementing dinghy on top of docker-machine.
 
 ## install
 
@@ -118,7 +117,7 @@ flavor of NFS sharing is safer than Vagrant's built-in solution.
 
 To update Dinghy itself, run:
 
-    $ brew reinstall https://github.com/codekitchen/dinghy/raw/latest/dinghy.rb
+    $ brew reinstall https://github.com/codekitchen/dinghy/raw/machine/dinghy.rb
 
 To update the Docker VM, run:
 
