@@ -1,8 +1,16 @@
 # dinghy
 
-Faster, friendlier Docker on OS X. Built on docker-machine.
+Docker on OS X with batteries included, aimed at making a more pleasant local development experience.
+Runs on top of [docker-machine](https://github.com/docker/machine).
 
-This is a WIP branch re-implementing dinghy on top of docker-machine.
+  * Faster volume sharing using NFS rather than built-in virtualbox/vmware file shares. A medium-sized Rails app boots in 5 seconds, rather than 30 seconds using vmware file sharing, or 90 seconds using virtualbox file sharing.
+  * Filesystem events work on mounted volumes. Edit files on your host, and see guard/webpack/etc pick up the changes immediately.
+  * Easy access to running containers using built-in DNS and HTTP proxy.
+
+Eventually `docker-machine` may have a rich enough plugin system that dinghy can
+just become a plugin to `docker-machine`. For now, dinghy runs as a wrapper
+around `docker-machine`, shelling out to create the VM and using `launchd` to
+start the various services such as NFS and DNS.
 
 ## install
 
@@ -15,13 +23,14 @@ Then:
 
     $ brew install --HEAD https://github.com/codekitchen/dinghy/raw/machine/dinghy.rb
 
-This will install the Docker client as well, using Homebrew. If you
-already have the Docker client installed, you will need to remove it or
-upgrade it to version 1.4 or higher. Dinghy will
-use your default Vagrant provider, be it VMWare Fusion or Virtual Box,
-though that can be overridden with an option:
+This will install the `docker` client and `docker-machine` using Homebrew, as well.
+
+You can specify provider (virtualbox or vmware), memory and CPU options when creating the VM. See available options:
 
     $ dinghy help up
+
+Then create the VM and start services with:
+
     $ dinghy up
 
 Once the VM is up, you'll get instructions to add some Docker-related
@@ -33,33 +42,6 @@ Sanity check!
 
     $ docker run -it redis
 
-## why
-
-As we've begun using Docker more heavily in development on OS X, we've run into
-a few issues with the current boot2docker solution. Dinghy builds on
-boot2docker, but with some unique features:
-
-1. It uses NFS for sharing files with the VM, and with the Docker containers
-   inside the VM. boot2docker recently added support for sharing all of
-   `/Users` into your VM, but VirtualBox native file sharing is extremely
-   slow. It increases our Rails application's bootup time by an order of
-   magnitude.
-
-1. Dinghy is built on top of Vagrant, which makes Dinghy itself simpler
-   and if you already use Vagrant, allows integration with all of your
-   current Vagrant tooling.
-
-1. Support for both VirtualBox and VMWare Fusion (requires the paid Vagrant plugin).
-
-1. Allow setting VM RAM and CPU parameters dynamically on each startup.
-
-1. With vanilla boot2docker VMs on OS X, the clock will get out of synch
-   if your computer sleeps with the VM running. Dinghy attempts to solve
-   this issue by forcing a periodic NTP sync.
-
-1. Our end goal is to make it as easy to develop with Docker on OS X as
-   it is to develop with [pow.cx](http://pow.cx).
-
 ## DNS
 
 Dinghy installs a DNS server listening on the private interface, which
@@ -68,7 +50,7 @@ container that exposes port 3000 to the host, and you like to call it
 `myrailsapp`, you can connect to it at `myrailsapp.docker` port 3000, e.g.
 `http://myrailsapp.docker:3000/` or `telnet myrailsapp.docker 3000`.
 
-## optional HTTP proxy
+## HTTP proxy
 
 Dinghy will run a HTTP proxy inside a docker container in
 the VM, giving you easy access to web apps running in other containers.
@@ -76,9 +58,6 @@ This uses the excellent [nginx-proxy](https://github.com/jwilder/nginx-proxy)
 docker tool.
 
 The proxy will take a few moments to download the first time you launch the VM.
-To disable the proxy, run dinghy up with the --no-proxy option:
-
-    $ dinghy up --no-proxy
 
 Any containers that you want proxied, make sure the `VIRTUAL_HOST`
 environment variable is set, either with the `-e` option to docker or
@@ -110,21 +89,19 @@ system NFS daemon.
 
 Be aware that there isn't a lot of security around NFSv3 file shares.
 We've tried to lock things down as much as possible (this NFS daemon
-doesn't even listen on other interfaces, for example). We feel that this
-flavor of NFS sharing is safer than Vagrant's built-in solution.
+doesn't even listen on other interfaces, for example).
 
 ## upgrading
 
 To update Dinghy itself, run:
 
-    $ brew reinstall https://github.com/codekitchen/dinghy/raw/machine/dinghy.rb
+    $ brew reinstall --HEAD https://github.com/codekitchen/dinghy/raw/machine/dinghy.rb
 
 To update the Docker VM, run:
 
     $ dinghy upgrade
 
-This will delete your current VM, so you'll have to re-download docker
-image layers. It won't delete any data on the NFS share, though.
+This will run `docker-machine upgrade` and then restart the dinghy services.
 
 ### prereleases
 
@@ -136,9 +113,8 @@ This branch may be less stable, so this isn't recommended in general.
 
 ## built on
 
- - https://github.com/mitchellh/boot2docker-vagrant-box
+ - https://github.com/docker/machine
  - https://github.com/markusn/unfs3
  - https://github.com/Homebrew/homebrew
- - http://vagrantup.com
  - http://www.thekelleys.org.uk/dnsmasq/doc.html
  - https://github.com/jwilder/nginx-proxy
