@@ -18,6 +18,7 @@ First the prerequisites:
 
 1. OS X Yosemite (10.10) (Mavericks has a known issue, see [#6](https://github.com/codekitchen/dinghy/issues/6))
 1. [Homebrew](https://github.com/Homebrew/homebrew)
+1. Either [VirtualBox](https://www.virtualbox.org) or [VMware Fusion](http://www.vmware.com/products/fusion). If using VirtualBox, version 5.0+ is strongly recommended.
 
 Then:
 
