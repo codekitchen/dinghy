@@ -15,7 +15,9 @@ class HttpProxy
   def up
     puts "Starting the HTTP proxy"
     docker = Docker.new(machine)
-    docker.system("rm", "-fv", CONTAINER_NAME)
+    capture_output do
+      docker.system("rm", "-fv", CONTAINER_NAME)
+    end
     docker.system("run", "-d", "-p", "80:80", "-v", "/var/run/docker.sock:/tmp/docker.sock", "--name", CONTAINER_NAME, "codekitchen/dinghy-http-proxy")
   end
 
