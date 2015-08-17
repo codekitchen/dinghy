@@ -10,14 +10,14 @@ class Ssh
   end
 
   def run(*command)
-    machine.system("ssh", machine.name, "--", *command)
+    system("ssh", "-F", ssh_config_path.to_s, "dinghy", "--", *command)
     if command_failed?
       raise("Error executing command: #{command}")
     end
   end
 
   def exec
-    machine.exec("ssh", machine.name)
+    Kernel.exec("ssh", "-F", ssh_config_path.to_s, "dinghy")
   end
 
   def ssh_config

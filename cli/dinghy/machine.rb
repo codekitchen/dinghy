@@ -81,10 +81,6 @@ class Machine
     Kernel.system("docker-machine", *cmd)
   end
 
-  def exec(*cmd)
-    Kernel.exec("docker-machine", *cmd)
-  end
-
   def machine_name
     'dinghy'
   end
