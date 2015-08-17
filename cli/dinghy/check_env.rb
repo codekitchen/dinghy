@@ -9,9 +9,9 @@ class CheckEnv
 
   def run
     if set?
-      puts "Your environment variables are already set correctly."
+      puts "\e[32mYour environment variables are already set correctly.\e[0m"
     else
-      puts "To connect the Docker client to the Docker daemon, please set:"
+      puts "\e[33mTo connect the Docker client to the Docker daemon, please set:\e[0m"
       print
     end
   end
