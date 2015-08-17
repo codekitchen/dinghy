@@ -121,6 +121,7 @@ Host dinghy
   def machine_name
     'dinghy'
   end
+  alias :name :machine_name
 
   def provider(name)
     case name

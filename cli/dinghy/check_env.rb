@@ -21,7 +21,7 @@ class CheckEnv
       "DOCKER_HOST" => "tcp://#{machine.vm_ip}:2376",
       "DOCKER_CERT_PATH" => machine.store_path,
       "DOCKER_TLS_VERIFY" => "1",
-      "DOCKER_MACHINE_NAME" => machine.machine_name,
+      "DOCKER_MACHINE_NAME" => machine.name,
     }
   end
 
