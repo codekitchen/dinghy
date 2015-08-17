@@ -13,6 +13,7 @@ class Unfs
   end
 
   def up
+    write_exports!
     super
     wait_for_unfs
   end
@@ -55,6 +56,20 @@ class Unfs
 
   protected
 
+  def write_exports!
+    File.open(exports_filename, 'wb') { |f| f.write exports_body }
+  end
+
+  def exports_body
+    <<-BODY.gsub(/^    /, '')
+    "#{HOME}" #{machine.vm_ip}(rw,all_squash,anonuid=#{Process.uid},anongid=#{Process.gid})
+    BODY
+  end
+
+  def exports_filename
+    HOME_DINGHY+"machine-nfs-exports-#{machine.name}"
+  end
+
   def plist_body
     <<-XML
 <?xml version="1.0" encoding="UTF-8"?>
@@ -69,7 +84,7 @@ class Unfs
   <array>
     <string>#{BREW}/sbin/unfsd</string>
     <string>-e</string>
-    <string>#{HOME_DINGHY}/dinghy-nfs-exports</string>
+    <string>#{exports_filename}</string>
     <string>-n</string>
     <string>19321</string>
     <string>-m</string>
