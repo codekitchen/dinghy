@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+- Create ~/.dinghy directory on install if it does not exist.
+
 ## 3.1.1 - 2015-08-13
 
 ### Changed
