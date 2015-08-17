@@ -14,10 +14,9 @@ class HttpProxy
 
   def up
     puts "Starting the HTTP proxy"
-    capture_output do
-      machine.ssh("docker rm -fv #{CONTAINER_NAME}") rescue nil
-    end
-    machine.ssh("docker run -d -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock --name #{CONTAINER_NAME} codekitchen/dinghy-http-proxy")
+    docker = Docker.new(machine)
+    docker.system("rm", "-fv", CONTAINER_NAME)
+    docker.system("run", "-d", "-p", "80:80", "-v", "/var/run/docker.sock:/tmp/docker.sock", "--name", CONTAINER_NAME, "codekitchen/dinghy-http-proxy")
   end
 
   def status

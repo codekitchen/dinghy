@@ -4,6 +4,7 @@ require 'thor'
 $LOAD_PATH << File.dirname(__FILE__)
 
 require 'dinghy/check_env'
+require 'dinghy/docker'
 require 'dinghy/dnsmasq'
 require 'dinghy/fsevents_to_vm'
 require 'dinghy/http_proxy'
