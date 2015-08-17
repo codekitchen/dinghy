@@ -50,7 +50,8 @@ class Machine
 
   def mount(unfs)
     puts "Mounting NFS #{unfs.guest_mount_dir}"
-    # TODO: this shouldn't be hard-coded, and should check that it's currently mounted
+    # Remove the existing vbox/vmware shared folder. There isn't an option yet
+    # in docker-machine to skip creating the shared folder in the first place.
     ssh("sudo umount /Users || true")
     ssh("sudo mkdir -p #{unfs.guest_mount_dir}")
     ssh("sudo mount -t nfs #{host_ip}:#{unfs.host_mount_dir} #{unfs.guest_mount_dir} -o nfsvers=3,udp,mountport=19321,port=19321,nolock,hard,intr")
