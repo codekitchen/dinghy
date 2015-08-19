@@ -14,7 +14,6 @@ class HttpProxy
 
   def up
     puts "Starting the HTTP proxy"
-    docker = Docker.new(machine)
     capture_output do
       docker.system("rm", "-fv", CONTAINER_NAME)
     end
@@ -23,7 +22,7 @@ class HttpProxy
 
   def status
     output, _ = capture_output do
-      machine.ssh("docker inspect -f '{{ .State.Running }}' #{CONTAINER_NAME}")
+      docker.system("inspect -f '{{ .State.Running }}' #{CONTAINER_NAME}")
     end
 
     if output.strip == "true"
@@ -36,6 +35,10 @@ class HttpProxy
   end
 
   private
+
+  def docker
+    @docker ||= Docker.new(machine)
+  end
 
   def capture_output
     prev_stdout = $stdout.dup
