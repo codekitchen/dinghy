@@ -22,7 +22,7 @@ class HttpProxy
 
   def status
     output, _ = capture_output do
-      docker.system("inspect -f '{{ .State.Running }}' #{CONTAINER_NAME}")
+      docker.system("inspect", "-f", "{{ .State.Running }}", CONTAINER_NAME)
     end
 
     if output.strip == "true"
