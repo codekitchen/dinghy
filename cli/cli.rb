@@ -77,6 +77,8 @@ class DinghyCLI < Thor
     else
       ssh.run(*args)
     end
+  rescue Ssh::CommandFailed => e
+    exit(e.exitstatus)
   end
 
   desc "ssh-config", "print ssh configuration for the VM"

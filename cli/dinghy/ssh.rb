@@ -1,6 +1,14 @@
 class Ssh
   attr_reader :machine
 
+  class CommandFailed < RuntimeError
+    attr_reader :exitstatus
+    def initialize(message, exitstatus)
+      super(message)
+      @exitstatus = exitstatus
+    end
+  end
+
   def initialize(machine)
     @machine = machine
   end
@@ -12,7 +20,7 @@ class Ssh
   def run(*command)
     system("ssh", "-F", ssh_config_path.to_s, "dinghy", "--", *command)
     if command_failed?
-      raise("Error executing command: #{command}")
+      raise CommandFailed.new("Error executing command: #{command}", $?.exitstatus)
     end
   end
 
