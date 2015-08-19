@@ -4,13 +4,13 @@ require 'json'
 class Machine
   def up(options = {})
     if created?
-      if options[:provider] || options[:cpus] || options[:memory]
-        $stderr.puts("\e[33mThese options only apply when creating a new VM: provider, cpus, memory\e[0m")
+      if options[:provider] || options[:cpus] || options[:memory] || options[:disk]
+        $stderr.puts("\e[33mThese options only apply when creating a new VM: provider, cpus, memory, disk\e[0m")
       end
       system("start", machine_name)
     else
       provider = self.provider(options[:provider])
-      system("create", "-d", provider, *create_options(provider, options), machine_name)
+      system("create", "-d", provider, *CreateOptions.generate(provider, options), machine_name)
     end
 
     if command_failed?
@@ -106,21 +106,5 @@ class Machine
 
   def command_failed?
     !$?.success?
-  end
-
-  def create_options(provider, options)
-    flags = []
-    if options[:memory] && provider == 'virtualbox'
-      flags += ['--virtualbox-memory', options[:memory].to_s]
-    elsif options[:memory] && provider == 'vmwarefusion'
-      flags += ['--vmwarefusion-memory-size', options[:memory].to_s]
-    end
-
-    if options[:cpus] && provider == 'virtualbox'
-      flags += ['--virtualbox-cpu-count', options[:cpus].to_s]
-    elsif options[:cpus] && provider == 'vmwarefusion'
-      flags += ['--vmwarefusion-cpu-count', options[:cpus].to_s]
-    end
-    flags
   end
 end

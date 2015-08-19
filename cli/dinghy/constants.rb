@@ -3,6 +3,7 @@ require 'fileutils'
 
 MEM_DEFAULT=2048
 CPU_DEFAULT=1
+DISK_DEFAULT=20_000
 
 # makes local dev easier
 if $0 == "bin/dinghy" || $0 =~ /rspec/

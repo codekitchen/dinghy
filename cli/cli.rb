@@ -11,6 +11,7 @@ require 'dinghy/http_proxy'
 require 'dinghy/preferences'
 require 'dinghy/unfs'
 require 'dinghy/machine'
+require 'dinghy/machine/create_options'
 require 'dinghy/ssh'
 require 'dinghy/version'
 
@@ -23,6 +24,9 @@ class DinghyCLI < Thor
     type: :numeric,
     aliases: :c,
     desc: "number of CPUs to allocate to the virtual machine (default #{CPU_DEFAULT})"
+    option :disk,
+    aliases: :d,
+    desc: "size of the virtual disk to create, in MB (default #{DISK_DEFAULT})"
   option :provider,
     aliases: :p,
     desc: "which docker-machine provider to use, only takes effect when initializing a new VM"
