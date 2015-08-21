@@ -44,7 +44,6 @@ class DinghyCLI < Thor
 
     create_options = (preferences[:create] || {}).merge(options)
     create_options['provider'] = machine.translate_provider(create_options['provider'])
-    preferences.update(create: create_options)
 
     if create_options['provider'].nil?
       $stderr.puts("Invalid value for required option --provider. Valid values are: 'virtualbox', 'vmware'")
@@ -54,6 +53,7 @@ class DinghyCLI < Thor
     puts "Creating the #{machine.name} VM..."
     machine.create(create_options)
     start_services
+    preferences.update(create: create_options)
   end
 
   option :proxy,
