@@ -2,7 +2,6 @@ require 'stringio'
 
 require 'dinghy/machine'
 
-# we ssh in, so this succeeds even if the env vars haven't been set yet
 class HttpProxy
   CONTAINER_NAME = "dinghy_http_proxy"
 
@@ -21,7 +20,9 @@ class HttpProxy
   end
 
   def status
-    output, _ = capture_output do
+    return "not running" if !machine.running?
+    
+    output, _ = System.capture_output do
       docker.system("inspect", "-f", "{{ .State.Running }}", CONTAINER_NAME)
     end
 
@@ -30,8 +31,6 @@ class HttpProxy
     else
       "not running"
     end
-  rescue # ehhhhhh
-    "not running"
   end
 
   private

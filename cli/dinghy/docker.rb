@@ -1,3 +1,5 @@
+# This wraps the `docker` binary and ensures that we can use it even if the
+# shell doesn't have the necessary ENV vars set.
 class Docker
   attr_reader :machine
 
