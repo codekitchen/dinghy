@@ -28,11 +28,11 @@ This will install the `docker` client and `docker-machine` using Homebrew, as we
 
 You can specify provider (virtualbox or vmware), memory and CPU options when creating the VM. See available options:
 
-    $ dinghy help up
+    $ dinghy help create
 
 Then create the VM and start services with:
 
-    $ dinghy up
+    $ dinghy create --provider virtualbox
 
 Once the VM is up, you'll get instructions to add some Docker-related
 environment variables, so that your Docker client can contact the Docker

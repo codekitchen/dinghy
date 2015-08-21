@@ -14,7 +14,7 @@ class HttpProxy
 
   def up
     puts "Starting the HTTP proxy"
-    capture_output do
+    System.capture_output do
       docker.system("rm", "-fv", CONTAINER_NAME)
     end
     docker.system("run", "-d", "-p", "80:80", "-v", "/var/run/docker.sock:/tmp/docker.sock", "--name", CONTAINER_NAME, "codekitchen/dinghy-http-proxy")
@@ -38,17 +38,5 @@ class HttpProxy
 
   def docker
     @docker ||= Docker.new(machine)
-  end
-
-  def capture_output
-    prev_stdout = $stdout.dup
-    prev_stderr = $stderr.dup
-    $stdout.reopen(Tempfile.new("stdout"))
-    $stderr.reopen(Tempfile.new("stderr"))
-    yield
-    return $stdout.tap(&:rewind).read, $stderr.tap(&:rewind).read
-  ensure
-    $stdout.reopen(prev_stdout)
-    $stderr.reopen(prev_stderr)
   end
 end

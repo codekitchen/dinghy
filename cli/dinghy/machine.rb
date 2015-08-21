@@ -4,17 +4,24 @@ require 'json'
 class Machine
   def create(options = {})
     provider = options[:provider]
-    system("create", "-d", provider, *CreateOptions.generate(provider, options), machine_name)
+
+    out, err = System.capture_output {
+      system("create", "-d", provider, *CreateOptions.generate(provider, options), machine_name)
+    }
 
     if command_failed?
+      $stderr.puts err
       raise("There was an error creating the VM.")
     end
   end
 
   def up
-    system("start", machine_name)
+    out, err = System.capture_output {
+      system("start", machine_name)
+    }
 
     if command_failed?
+      $stderr.puts err
       raise("There was an error bringing up the VM. Dinghy cannot continue.")
     end
 

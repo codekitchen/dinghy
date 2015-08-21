@@ -13,6 +13,7 @@ require 'dinghy/unfs'
 require 'dinghy/machine'
 require 'dinghy/machine/create_options'
 require 'dinghy/ssh'
+require 'dinghy/system'
 require 'dinghy/version'
 
 class DinghyCLI < Thor
@@ -46,6 +47,7 @@ class DinghyCLI < Thor
       exit(1)
     end
 
+    puts "Creating the #{machine.name} VM..."
     machine.create(options.merge(provider: provider))
     start_services
   end
@@ -69,6 +71,7 @@ class DinghyCLI < Thor
       exit(1)
     end
 
+    puts "Starting the #{machine.name} VM..."
     start_services
   end
 
