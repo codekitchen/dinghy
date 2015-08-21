@@ -9,7 +9,7 @@ RSpec.describe Machine::CreateOptions do
   end
 
   it 'generates with passed options' do
-    opts = { memory: 4096, disk: 40000, }
+    opts = { 'memory' => 4096, 'disk' => 40000, }
     expect(subject.generate('vmwarefusion', opts)).to eq([
       '--vmwarefusion-memory-size', '4096',
       '--vmwarefusion-cpu-count', CPU_DEFAULT.to_s,
