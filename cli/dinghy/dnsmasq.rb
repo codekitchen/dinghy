@@ -47,6 +47,7 @@ class Dnsmasq
       system!("creating #{RESOLVER_FILE}", "sudo", "cp", f.path, RESOLVER_FILE)
       system!("creating #{RESOLVER_FILE}", "sudo", "chmod", "644", RESOLVER_FILE)
     end
+    system!("restarting mDNSResponder", "sudo", "killall", "mDNSResponder")
   end
 
   def resolver_configured?
