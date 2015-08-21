@@ -16,9 +16,9 @@ module Machine::CreateOptions
   def self.generate(provider, options)
     flags = OPTION_NAMES[provider]
     [
-      flags[:memory], (options[:memory] || MEM_DEFAULT).to_s,
-      flags[:cpus], (options[:cpus] || CPU_DEFAULT).to_s,
-      flags[:disk], (options[:disk] || DISK_DEFAULT).to_s,
+      flags[:memory], (options['memory'] || MEM_DEFAULT).to_s,
+      flags[:cpus], (options['cpus'] || CPU_DEFAULT).to_s,
+      flags[:disk], (options['disk'] || DISK_DEFAULT).to_s,
     ]
   end
 end

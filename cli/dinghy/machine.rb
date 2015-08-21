@@ -3,7 +3,7 @@ require 'json'
 
 class Machine
   def create(options = {})
-    provider = options[:provider]
+    provider = options['provider']
 
     out, err = System.capture_output {
       system("create", "-d", provider, *CreateOptions.generate(provider, options), machine_name)

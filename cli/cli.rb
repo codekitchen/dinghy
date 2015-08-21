@@ -25,7 +25,8 @@ class DinghyCLI < Thor
     type: :numeric,
     aliases: :c,
     desc: "number of CPUs to allocate to the virtual machine (default #{CPU_DEFAULT})"
-    option :disk,
+  option :disk,
+    type: :numeric,
     aliases: :d,
     desc: "size of the virtual disk to create, in MB (default #{DISK_DEFAULT})"
   option :provider,
@@ -39,16 +40,17 @@ class DinghyCLI < Thor
       exit(1)
     end
 
-    provider = machine.translate_provider(options[:provider] || preferences[:provider])
-    preferences.update(provider: provider) unless provider.nil?
+    create_options = (preferences[:create] || {}).merge(options)
+    create_options['provider'] = machine.translate_provider(create_options['provider'])
+    preferences.update(create: create_options)
 
-    if provider.nil?
+    if create_options['provider'].nil?
       $stderr.puts("Invalid value for required option --provider. Valid values are: 'virtualbox', 'vmware'")
       exit(1)
     end
 
     puts "Creating the #{machine.name} VM..."
-    machine.create(options.merge(provider: provider))
+    machine.create(create_options)
     start_services
   end
 
