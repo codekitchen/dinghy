@@ -29,7 +29,27 @@ class DinghyCLI < Thor
     desc: "size of the virtual disk to create, in MB (default #{DISK_DEFAULT})"
   option :provider,
     aliases: :p,
-    desc: "which docker-machine provider to use, only takes effect when initializing a new VM"
+    desc: "which docker-machine provider to use, 'virtualbox' or 'vmware'"
+  desc "create", "create the docker-machine VM"
+  def create
+    if machine.created?
+      $stderr.puts "The VM '#{machine.name}' already exists in docker-machine."
+      $stderr.puts "Run `dinghy up` to bring up the VM, or `dinghy destroy` to delete it."
+      exit(1)
+    end
+
+    provider = machine.translate_provider(options[:provider] || preferences[:provider])
+    preferences.update(provider: provider) unless provider.nil?
+
+    if provider.nil?
+      $stderr.puts("Invalid value for required option --provider. Valid values are: 'virtualbox', 'vmware'")
+      exit(1)
+    end
+
+    machine.create(options.merge(provider: provider))
+    start_services
+  end
+
   option :proxy,
     type: :boolean,
     desc: "start the HTTP proxy as well"
@@ -44,29 +64,12 @@ class DinghyCLI < Thor
     end
 
     if !machine.created?
-      provider = options[:provider] || preferences[:provider]
-      preferences.update(provider: provider)
+      $stderr.puts "The VM '#{machine.name}' does not exist in docker-machine."
+      $stderr.puts "Run `dinghy create` to create the VM, `dinghy help create` to see available options."
+      exit(1)
     end
 
-    unfs = Unfs.new(machine)
-    machine.up(options.merge(provider: provider))
-    unfs.up
-    machine.mount(unfs)
-    fsevents = options[:fsevents] || (options[:fsevents].nil? && !fsevents_disabled?)
-    if fsevents
-      FseventsToVm.new.up
-    end
-    Dnsmasq.new(machine).up
-    proxy = options[:proxy] || (options[:proxy].nil? && !proxy_disabled?)
-    if proxy
-      HttpProxy.new(machine).up
-    end
-    CheckEnv.new(machine).run
-
-    preferences.update(
-      proxy_disabled: !proxy,
-      fsevents_disabled: !fsevents,
-    )
+    start_services
   end
 
   desc "ssh [args...]", "ssh to the VM"
@@ -163,5 +166,27 @@ class DinghyCLI < Thor
 
   def machine
     @machine ||= Machine.new
+  end
+
+  def start_services
+    unfs = Unfs.new(machine)
+    machine.up
+    unfs.up
+    machine.mount(unfs)
+    fsevents = options[:fsevents] || (options[:fsevents].nil? && !fsevents_disabled?)
+    if fsevents
+      FseventsToVm.new.up
+    end
+    Dnsmasq.new(machine).up
+    proxy = options[:proxy] || (options[:proxy].nil? && !proxy_disabled?)
+    if proxy
+      HttpProxy.new(machine).up
+    end
+    CheckEnv.new(machine).run
+
+    preferences.update(
+      proxy_disabled: !proxy,
+      fsevents_disabled: !fsevents,
+    )
   end
 end

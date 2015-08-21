@@ -2,16 +2,17 @@ require 'dinghy/constants'
 require 'json'
 
 class Machine
-  def up(options = {})
-    if created?
-      if options[:provider] || options[:cpus] || options[:memory] || options[:disk]
-        $stderr.puts("\e[33mThese options only apply when creating a new VM: provider, cpus, memory, disk\e[0m")
-      end
-      system("start", machine_name)
-    else
-      provider = self.provider(options[:provider])
-      system("create", "-d", provider, *CreateOptions.generate(provider, options), machine_name)
+  def create(options = {})
+    provider = options[:provider]
+    system("create", "-d", provider, *CreateOptions.generate(provider, options), machine_name)
+
+    if command_failed?
+      raise("There was an error creating the VM.")
     end
+  end
+
+  def up
+    system("start", machine_name)
 
     if command_failed?
       raise("There was an error bringing up the VM. Dinghy cannot continue.")
@@ -91,18 +92,18 @@ class Machine
   end
   alias :name :machine_name
 
-  protected
-
-  def provider(name)
+  def translate_provider(name)
     case name
-    when nil, "virtualbox"
+    when "virtualbox"
       "virtualbox"
     when "vmware", "vmware_fusion", "vmwarefusion", "vmware_desktop"
       "vmwarefusion"
     else
-      raise(ArgumentError, "unknown VM provider: #{name}")
+      nil
     end
   end
+
+  protected
 
   def command_failed?
     !$?.success?
