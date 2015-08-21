@@ -9,7 +9,7 @@ class Machine
       system("create", "-d", provider, *CreateOptions.generate(provider, options), machine_name)
     }
 
-    if command_failed?
+    if System.command_failed?
       $stderr.puts err
       raise("There was an error creating the VM.")
     end
@@ -20,7 +20,7 @@ class Machine
       system("start", machine_name)
     }
 
-    if command_failed?
+    if System.command_failed?
       $stderr.puts err
       raise("There was an error bringing up the VM. Dinghy cannot continue.")
     end
@@ -87,7 +87,7 @@ class Machine
 
   def created?
     `docker-machine status #{machine_name} 2>&1`
-    !command_failed?
+    !System.command_failed?
   end
 
   def system(*cmd)
@@ -108,11 +108,5 @@ class Machine
     else
       nil
     end
-  end
-
-  protected
-
-  def command_failed?
-    !$?.success?
   end
 end

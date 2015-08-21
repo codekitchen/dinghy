@@ -10,4 +10,8 @@ module System
     $stdout.reopen(prev_stdout)
     $stderr.reopen(prev_stderr)
   end
+
+  def self.command_failed?
+    !$?.success?
+  end
 end
