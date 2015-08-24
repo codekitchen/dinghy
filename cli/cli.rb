@@ -102,7 +102,7 @@ class DinghyCLI < Thor
   def status
     puts "  VM: #{machine.status}"
     puts " NFS: #{Unfs.new(machine).status}"
-    puts "FSEV: #{FseventsToVm.new.status}"
+    puts "FSEV: #{FseventsToVm.new(machine).status}"
     puts " DNS: #{Dnsmasq.new(machine).status}"
     puts "HTTP: #{HttpProxy.new(machine).status}"
   end
@@ -119,7 +119,7 @@ class DinghyCLI < Thor
 
   desc "halt", "stop the VM and services"
   def halt
-    FseventsToVm.new.halt
+    FseventsToVm.new(machine).halt
     machine.halt
     Unfs.new(machine).halt
     Dnsmasq.new(machine).halt
@@ -184,7 +184,7 @@ class DinghyCLI < Thor
     machine.mount(unfs)
     fsevents = options[:fsevents] || (options[:fsevents].nil? && !fsevents_disabled?)
     if fsevents
-      FseventsToVm.new.up
+      FseventsToVm.new(machine).up
     end
     Dnsmasq.new(machine).up
     proxy = options[:proxy] || (options[:proxy].nil? && !proxy_disabled?)

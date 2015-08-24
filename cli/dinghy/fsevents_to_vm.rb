@@ -5,8 +5,15 @@ class FseventsToVm
   BIN_PATH = "/usr/bin/fsevents_to_vm"
   VERSION = "~> 1.0.1"
 
+  attr_reader :machine
+
+  def initialize(machine)
+    @machine = machine
+  end
+
   def up
     install_if_necessary!
+    increase_inotify_limit
     super
   end
 
@@ -33,6 +40,11 @@ class FseventsToVm
     return if $?.success?
     puts "Installing fsevents_to_vm, this will require sudo"
     system!("installing", "sudo", "/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/gem", "install", "--no-rdoc", "--no-ri", "fsevents_to_vm", "-v", VERSION)
+  end
+
+  def increase_inotify_limit
+    machine.ssh("echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf > /dev/null")
+    machine.ssh("sudo sysctl -p > /dev/null")
   end
 
   def plist_body
