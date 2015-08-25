@@ -2,4 +2,5 @@
 # encoding: UTF-8
 
 require(File.realpath(__FILE__)+"/../../cli/cli")
+Dinghy.run_checks
 DinghyCLI.start(ARGV)

@@ -3,6 +3,7 @@ require 'thor'
 
 $LOAD_PATH << File.dirname(__FILE__)
 
+require 'dinghy.rb'
 require 'dinghy/check_env'
 require 'dinghy/docker'
 require 'dinghy/dnsmasq'
@@ -34,8 +35,6 @@ class DinghyCLI < Thor
     desc: "which docker-machine provider to use, 'virtualbox' or 'vmware'"
   desc "create", "create the docker-machine VM"
   def create
-    version_check!
-
     if machine.created?
       $stderr.puts "The VM '#{machine.name}' already exists in docker-machine."
       $stderr.puts "Run `dinghy up` to bring up the VM, or `dinghy destroy` to delete it."
@@ -64,8 +63,6 @@ class DinghyCLI < Thor
     desc: "start the FS event forwarder"
   desc "up", "start the Docker VM and services"
   def up
-    version_check!
-
     if machine.running?
       puts "#{machine.name} already running, restarting..."
       halt
@@ -200,32 +197,5 @@ class DinghyCLI < Thor
       proxy_disabled: !proxy,
       fsevents_disabled: !fsevents,
     )
-  end
-
-  REQUIRED_VERSIONS = {
-    'docker' => Gem::Version.new("1.8.1"),
-    'docker-machine' => Gem::Version.new("0.4.0"),
-  }
-
-  def version_check!
-    REQUIRED_VERSIONS.each do |command, required_version|
-      installed_version = version(command)
-      if installed_version < required_version
-        $stderr.puts "#{command} version #{installed_version} is too old, please upgrade to version #{required_version}"
-        exit(2)
-      end
-    end
-  end
-
-  def version(command)
-    text, _ = System.capture_output { system(command, "--version") }
-    if System.command_failed?
-      raise("Could not check #{command} --version, is it installed?")
-    end
-    version = text.match(%r{\b\d+\.\d+\.\d+})[0]
-    if version.empty?
-      raise("Could not check #{command} --version, is it installed?")
-    end
-    Gem::Version.new(version)
   end
 end

@@ -14,12 +14,6 @@ class Dinghy < Formula
   depends_on 'dnsmasq'
 
   def install
-
-    # Create the .dinghy dir if it is missing
-    unless(File.directory?("#{user_home_dir}/.dinghy"))
-        FileUtils.mkdir_p("#{user_home_dir}/.dinghy")
-    end
-
     bin.install "bin/dinghy"
     prefix.install "cli"
   end
