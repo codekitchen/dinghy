@@ -189,6 +189,9 @@ class DinghyCLI < Thor
     Dnsmasq.new(machine).up
     proxy = options[:proxy] || (options[:proxy].nil? && !proxy_disabled?)
     if proxy
+      # this is hokey, but it can take a few seconds for docker daemon to be available
+      # TODO: poll in a loop until the docker daemon responds
+      sleep 5
       HttpProxy.new(machine).up
     end
     CheckEnv.new(machine).run

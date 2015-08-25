@@ -13,6 +13,8 @@ class Machine
       $stderr.puts err
       raise("There was an error creating the VM.")
     end
+
+    configure_new_machine(provider)
   end
 
   def up
@@ -108,6 +110,21 @@ class Machine
       "vmwarefusion"
     else
       nil
+    end
+  end
+
+  protected
+
+  def configure_new_machine(provider)
+    if provider == "virtualbox"
+      halt
+      # force host DNS resolving, so that *.docker resolves inside containers
+      Kernel.system("VBoxManage", "modifyvm", machine_name, "--natdnshostresolver1", "on")
+
+      if System.command_failed?
+        raise("There was an error configuring the VM.")
+      end
+      up
     end
   end
 end
