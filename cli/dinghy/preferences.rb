@@ -4,7 +4,7 @@ require 'dinghy/constants'
 
 class Preferences
   LEGACY_PREFERENCES_FILE = BREW+"etc/dinghy.yml"
-  PREFERENCES_FILE = HOME+"/.dinghy/preferences.yml"
+  PREFERENCES_FILE = HOME_DINGHY+"preferences.yml"
 
   def self.load(path = PREFERENCES_FILE)
     migrate_if_necessary

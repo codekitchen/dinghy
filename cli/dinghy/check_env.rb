@@ -1,20 +1,27 @@
 require 'dinghy/constants'
 
 class CheckEnv
+  attr_reader :machine
+
+  def initialize(machine)
+    @machine = machine
+  end
+
   def run
     if set?
-      puts "Your environment variables are already set correctly."
+      puts "\e[32mYour environment variables are already set correctly.\e[0m"
     else
-      puts "To connect the Docker client to the Docker daemon, please set:"
+      puts "\e[33mTo connect the Docker client to the Docker daemon, please set:\e[0m"
       print
     end
   end
 
   def expected
     {
-      "DOCKER_HOST" => "tcp://127.0.0.1:2376",
-      "DOCKER_CERT_PATH" => "#{HOME}/.dinghy/certs",
+      "DOCKER_HOST" => "tcp://#{machine.vm_ip}:2376",
+      "DOCKER_CERT_PATH" => machine.store_path,
       "DOCKER_TLS_VERIFY" => "1",
+      "DOCKER_MACHINE_NAME" => machine.name,
     }
   end
 

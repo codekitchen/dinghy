@@ -23,7 +23,12 @@ module Plist
   end
 
   def plist_path
-    DINGHY+plist_name
+    if !@tmpfile
+      @tmpfile = Tempfile.new(["dinghy", ".plist"])
+      @tmpfile.write(plist_body)
+      @tmpfile.flush
+    end
+    @tmpfile.path
   end
 
   def system!(step, *args)

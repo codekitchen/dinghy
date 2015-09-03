@@ -3,13 +3,18 @@ require 'thor'
 
 $LOAD_PATH << File.dirname(__FILE__)
 
+require 'dinghy.rb'
 require 'dinghy/check_env'
+require 'dinghy/docker'
 require 'dinghy/dnsmasq'
 require 'dinghy/fsevents_to_vm'
 require 'dinghy/http_proxy'
 require 'dinghy/preferences'
 require 'dinghy/unfs'
-require 'dinghy/vagrant'
+require 'dinghy/machine'
+require 'dinghy/machine/create_options'
+require 'dinghy/ssh'
+require 'dinghy/system'
 require 'dinghy/version'
 
 class DinghyCLI < Thor
@@ -21,9 +26,35 @@ class DinghyCLI < Thor
     type: :numeric,
     aliases: :c,
     desc: "number of CPUs to allocate to the virtual machine (default #{CPU_DEFAULT})"
+  option :disk,
+    type: :numeric,
+    aliases: :d,
+    desc: "size of the virtual disk to create, in MB (default #{DISK_DEFAULT})"
   option :provider,
     aliases: :p,
-    desc: "which Vagrant provider to use, only takes effect when initializing a new VM"
+    desc: "which docker-machine provider to use, 'virtualbox' or 'vmware'"
+  desc "create", "create the docker-machine VM"
+  def create
+    if machine.created?
+      $stderr.puts "The VM '#{machine.name}' already exists in docker-machine."
+      $stderr.puts "Run `dinghy up` to bring up the VM, or `dinghy destroy` to delete it."
+      exit(1)
+    end
+
+    create_options = (preferences[:create] || {}).merge(options)
+    create_options['provider'] = machine.translate_provider(create_options['provider'])
+
+    if create_options['provider'].nil?
+      $stderr.puts("Invalid value for required option --provider. Valid values are: 'virtualbox', 'vmware'")
+      exit(1)
+    end
+
+    puts "Creating the #{machine.name} VM..."
+    machine.create(create_options)
+    start_services
+    preferences.update(create: create_options)
+  end
+
   option :proxy,
     type: :boolean,
     desc: "start the HTTP proxy as well"
@@ -32,52 +63,51 @@ class DinghyCLI < Thor
     desc: "start the FS event forwarder"
   desc "up", "start the Docker VM and services"
   def up
-    vagrant = Vagrant.new
-    unfs = Unfs.new
-    vagrant.up(options.dup)
-    unfs.up
-    vagrant.mount(unfs)
-    vagrant.install_docker_keys
-    fsevents = options[:fsevents] || (options[:fsevents].nil? && !fsevents_disabled?)
-    if fsevents
-      FseventsToVm.new.up
+    if machine.running?
+      puts "#{machine.name} already running, restarting..."
+      halt
     end
-    Dnsmasq.new.up
-    proxy = options[:proxy] || (options[:proxy].nil? && !proxy_disabled?)
-    if proxy
-      HttpProxy.new.up
-    end
-    CheckEnv.new.run
 
-    preferences.update(
-      proxy_disabled: !proxy,
-      fsevents_disabled: !fsevents,
-    )
+    if !machine.created?
+      $stderr.puts "The VM '#{machine.name}' does not exist in docker-machine."
+      $stderr.puts "Run `dinghy create` to create the VM, `dinghy help create` to see available options."
+      exit(1)
+    end
+
+    puts "Starting the #{machine.name} VM..."
+    start_services
   end
 
-  desc "ssh [args...]", "run vagrant ssh on the VM"
+  desc "ssh [args...]", "ssh to the VM"
   def ssh(*args)
-    Vagrant.new.ssh(args.join(' '))
+    ssh = Ssh.new(machine)
+    if args.empty?
+      ssh.exec
+    else
+      ssh.run(*args)
+    end
+  rescue Ssh::CommandFailed => e
+    exit(e.exitstatus)
   end
 
   desc "ssh-config", "print ssh configuration for the VM"
   def ssh_config
-    puts Vagrant.new.ssh_config
+    puts Ssh.new(machine).ssh_config
   end
 
   desc "status", "get VM and services status"
   def status
-    puts "  VM: #{Vagrant.new.status}"
-    puts " NFS: #{Unfs.new.status}"
-    puts "FSEV: #{FseventsToVm.new.status}"
-    puts " DNS: #{Dnsmasq.new.status}"
-    puts "HTTP: #{HttpProxy.new.status}"
+    puts "  VM: #{machine.status}"
+    puts " NFS: #{Unfs.new(machine).status}"
+    puts "FSEV: #{FseventsToVm.new(machine).status}"
+    puts " DNS: #{Dnsmasq.new(machine).status}"
+    puts "HTTP: #{HttpProxy.new(machine).status}"
   end
 
   desc "ip", "get the VM's IP address"
   def ip
-    if Vagrant.new.running?
-      puts VM_IP
+    if machine.running?
+      puts machine.vm_ip
     else
       $stderr.puts "The VM is not running, `dinghy up` to start"
       exit 1
@@ -86,10 +116,10 @@ class DinghyCLI < Thor
 
   desc "halt", "stop the VM and services"
   def halt
-    FseventsToVm.new.halt
-    Vagrant.new.halt
-    Unfs.new.halt
-    Dnsmasq.new.halt
+    FseventsToVm.new(machine).halt
+    machine.halt
+    Unfs.new(machine).halt
+    Dnsmasq.new(machine).halt
   end
 
   desc "restart", "restart the VM and services"
@@ -105,19 +135,19 @@ class DinghyCLI < Thor
   desc "destroy", "stop and delete all traces of the VM"
   def destroy
     halt
-    Vagrant.new.destroy(force: options[:force])
+    machine.destroy(force: options[:force])
   end
 
   desc "upgrade", "upgrade the boot2docker VM to the newest available"
   def upgrade
-    halt
-    Vagrant.new.upgrade
-    puts "VM base box updated, run `dinghy up` to re-create the VM"
+    machine.upgrade
+    # restart to re-enable the http proxy, etc
+    restart
   end
 
   desc "shellinit", "returns env variables to set, should be run like $(dinghy shellinit)"
   def shellinit
-    CheckEnv.new.print
+    CheckEnv.new(machine).print
   end
 
   map "-v" => :version
@@ -138,5 +168,34 @@ class DinghyCLI < Thor
 
   def fsevents_disabled?
     preferences[:fsevents_disabled] == true
+  end
+
+  def machine
+    @machine ||= Machine.new
+  end
+
+  def start_services
+    unfs = Unfs.new(machine)
+    machine.up
+    unfs.up
+    machine.mount(unfs)
+    fsevents = options[:fsevents] || (options[:fsevents].nil? && !fsevents_disabled?)
+    if fsevents
+      FseventsToVm.new(machine).up
+    end
+    Dnsmasq.new(machine).up
+    proxy = options[:proxy] || (options[:proxy].nil? && !proxy_disabled?)
+    if proxy
+      # this is hokey, but it can take a few seconds for docker daemon to be available
+      # TODO: poll in a loop until the docker daemon responds
+      sleep 5
+      HttpProxy.new(machine).up
+    end
+    CheckEnv.new(machine).run
+
+    preferences.update(
+      proxy_disabled: !proxy,
+      fsevents_disabled: !fsevents,
+    )
   end
 end

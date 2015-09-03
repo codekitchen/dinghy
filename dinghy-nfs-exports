@@ -1,1 +1,0 @@
-"%HOME%" 192.168.42.10(rw,all_squash,anonuid=%UID%,anongid=%GID%)

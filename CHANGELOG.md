@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+- Major change: removed `vagrant` support, replaced with `docker-machine`.
+- Gracefully handle `dinghy up` when the VM is already running.
+
+### Added
+- Split VM creation into a separate `dinghy create` command.
+
 ## 3.1.2 - 2015-08-17
 
 ### Changed
