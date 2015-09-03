@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 4.0.0 - 2015-09-03
+
 ### Changed
 - Major change: removed `vagrant` support, replaced with `docker-machine`.
 - Gracefully handle `dinghy up` when the VM is already running.
