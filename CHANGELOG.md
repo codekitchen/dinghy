@@ -4,8 +4,9 @@ All notable changes to this project will be documented in this file.
 ## Unreleased
 
 ### Changed
-- Removed `vagrant` support, replaced with `docker-machine`.
-- Don't break in the NFS mounting if `dinghy up` is called when it is already running.
+- Major change: removed `vagrant` support, replaced with `docker-machine`.
+- Gracefully handle `dinghy up` when the VM is already running.
+- Split VM creation into a separate `dinghy create` command.
 
 ## 3.1.1 - 2015-08-13
 
