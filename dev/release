@@ -18,4 +18,5 @@ if [ "$2" == "frd" ]; then
   git tag "v$VERSION"
   git push origin HEAD:latest
   git push origin "v$VERSION"
+  git push origin master:master
 fi
