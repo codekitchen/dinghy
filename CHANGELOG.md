@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 4.0.1 - 2015-09-04
+
 ### Added
 - `dinghy` command shim to unset GEM_HOME env vars, to fix issues with rvm/chruby.
 
