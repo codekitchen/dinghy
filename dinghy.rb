@@ -15,6 +15,7 @@ class Dinghy < Formula
 
   def install
     bin.install "bin/dinghy"
+    bin.install "bin/_dinghy_command"
     prefix.install "cli"
   end
 
