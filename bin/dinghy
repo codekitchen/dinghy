@@ -1,6 +1,11 @@
-#!/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/ruby -W0
-# encoding: UTF-8
+#!/bin/sh
 
-require(File.realpath(__FILE__)+"/../../cli/cli")
-Dinghy.run_checks
-DinghyCLI.start(ARGV)
+set -e
+
+# Users may have these set, pointing the system Ruby
+# at non-system gem paths
+unset GEM_HOME
+unset GEM_PATH
+
+BIN_DIR=$(cd "${0%/*}" > /dev/null && pwd -P)
+exec $BIN_DIR/_dinghy_command "$@"
