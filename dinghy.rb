@@ -5,7 +5,7 @@ DINGHY_VERSION='4.0.0'
 class Dinghy < Formula
   homepage 'https://github.com/codekitchen/dinghy'
   url  'https://github.com/codekitchen/dinghy.git', tag: "v#{DINGHY_VERSION}"
-  head 'https://github.com/codekitchen/dinghy.git', branch: :machine
+  head 'https://github.com/codekitchen/dinghy.git', branch: :master
   version DINGHY_VERSION
 
   depends_on 'docker'
