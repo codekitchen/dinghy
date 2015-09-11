@@ -51,6 +51,26 @@ Sanity check!
 
     $ docker run -it redis
 
+## CLI Usage
+
+```bash
+$ dinghy help
+Commands:
+  dinghy create          # create the docker-machine VM
+  dinghy destroy         # stop and delete all traces of the VM
+  dinghy halt            # stop the VM and services
+  dinghy help [COMMAND]  # Describe available commands or one specific command
+  dinghy ip              # get the VM's IP address
+  dinghy restart         # restart the VM and services
+  dinghy shellinit       # returns env variables to set, should be run like $(dinghy shellinit)
+  dinghy ssh [args...]   # ssh to the VM
+  dinghy ssh-config      # print ssh configuration for the VM
+  dinghy status          # get VM and services status
+  dinghy up              # start the Docker VM and services
+  dinghy upgrade         # upgrade the boot2docker VM to the newest available
+  dinghy version         # display dinghy version
+```
+
 ## DNS
 
 Dinghy installs a DNS server listening on the private interface, which
