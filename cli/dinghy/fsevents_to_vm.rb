@@ -2,7 +2,7 @@ require 'dinghy/plist'
 
 class FseventsToVm
   include Plist
-  BIN_PATH = "/usr/bin/fsevents_to_vm"
+  BIN_PATH = "#{Gem.bindir}/fsevents_to_vm"
   VERSION = "~> 1.0.1"
 
   attr_reader :machine
@@ -59,7 +59,7 @@ class FseventsToVm
   <string>dinghy.fsevents_to_vm</string>
   <key>ProgramArguments</key>
   <array>
-    <string>/usr/bin/fsevents_to_vm</string>
+    <string>#{BIN_PATH}</string>
     <string>start</string>
     <string>--ssh-config-file=#{HOME}/.dinghy/ssh-config</string>
   </array>
