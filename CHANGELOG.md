@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 4.0.2 - 2015-09-16
+
 ### Changed
 - Fix fsevents_to_vm path on OS X 10.11.
 
