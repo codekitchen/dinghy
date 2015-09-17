@@ -113,7 +113,7 @@ web:
 
 Dinghy shares your home directory (`/Users/<you>`) over NFS, using a
 private network interface between your host machine and the Dinghy
-Vagrant VM. This sharing is done using a separate NFS daemon, not the
+Docker Host. This sharing is done using a separate NFS daemon, not the
 system NFS daemon.
 
 Be aware that there isn't a lot of security around NFSv3 file shares.
