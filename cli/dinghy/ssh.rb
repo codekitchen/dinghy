@@ -41,7 +41,7 @@ Host dinghy
   PasswordAuthentication no
   IdentityFile #{machine.store_path}/id_rsa
   IdentitiesOnly yes
-  LogLevel FATAL
+  LogLevel ERROR
     SSH
   end
 

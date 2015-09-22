@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+- Increase SSH error logging.
+
 ## 4.0.2 - 2015-09-16
 
 ### Changed
