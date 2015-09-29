@@ -30,7 +30,7 @@ installed.
 
 Then:
 
-    $ brew install --HEAD https://github.com/codekitchen/dinghy/raw/latest/dinghy.rb
+    $ brew install https://github.com/codekitchen/dinghy/raw/latest/dinghy.rb
 
 This will install the `docker` client and `docker-machine` using Homebrew, as well.
 
@@ -124,7 +124,7 @@ doesn't even listen on other interfaces, for example).
 
 To update Dinghy itself, run:
 
-    $ brew reinstall --HEAD https://github.com/codekitchen/dinghy/raw/latest/dinghy.rb
+    $ brew reinstall https://github.com/codekitchen/dinghy/raw/latest/dinghy.rb
 
 To update the Docker VM, run:
 
