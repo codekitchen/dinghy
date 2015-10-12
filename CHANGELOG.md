@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 4.0.4 - 2015-10-12
+
 ### Changed
 - Fix an issue with fsevents_to_vm after upgrading to El Capitan with Dinghy already installed.
 
