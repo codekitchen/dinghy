@@ -37,7 +37,7 @@ class FseventsToVm
 
   def install_if_necessary!
     %x{/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/gem list -i -v '#{VERSION}' fsevents_to_vm}
-    return if $?.success?
+    return if $?.success? and File.exists? BIN_PATH
     puts "Installing fsevents_to_vm, this will require sudo"
     system!("installing", "sudo", "/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/gem", "install", "--no-rdoc", "--no-ri", "fsevents_to_vm", "-v", VERSION)
   end
