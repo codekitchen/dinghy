@@ -7,6 +7,8 @@ Runs on top of [docker-machine](https://github.com/docker/machine).
   * Filesystem events work on mounted volumes. Edit files on your host, and see guard/webpack/etc pick up the changes immediately.
   * Easy access to running containers using built-in DNS and HTTP proxy.
 
+Dinghy creates its own VM using `docker-machine`, it will not modify your existing `docker-machine` VMs.
+
 Eventually `docker-machine` may have a rich enough plugin system that dinghy can
 just become a plugin to `docker-machine`. For now, dinghy runs as a wrapper
 around `docker-machine`, shelling out to create the VM and using `launchd` to
