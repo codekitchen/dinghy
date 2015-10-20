@@ -78,6 +78,8 @@ class DinghyCLI < Thor
     start_services
   end
 
+  map "start" => :up
+
   desc "ssh [args...]", "ssh to the VM"
   def ssh(*args)
     ssh = Ssh.new(machine)
@@ -121,6 +123,9 @@ class DinghyCLI < Thor
     Unfs.new(machine).halt
     Dnsmasq.new(machine).halt
   end
+
+  map "down" => :halt
+  map "stop" => :halt
 
   desc "restart", "restart the VM and services"
   def restart
