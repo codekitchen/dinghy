@@ -5,6 +5,8 @@ Want to help with Dinghy? Great! Thanks much.
 Fork, then clone the repo:
 
     git clone git@github.com:your-username/dinghy.git
+    cd ./dinghy
+    git submodule update --init
 
 Make sure you base your changes on the `master` branch, not the `latest` release
 branch (which is set as the github default just so people see the correct README
