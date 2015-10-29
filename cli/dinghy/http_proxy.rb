@@ -20,8 +20,8 @@ class HttpProxy
   end
 
   def status
-    return "not running" if !machine.running?
-    
+    return "stopped" if !machine.running?
+
     output, _ = System.capture_output do
       docker.system("inspect", "-f", "{{ .State.Running }}", CONTAINER_NAME)
     end
@@ -29,7 +29,7 @@ class HttpProxy
     if output.strip == "true"
       "running"
     else
-      "not running"
+      "stopped"
     end
   end
 

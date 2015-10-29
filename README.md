@@ -126,7 +126,9 @@ doesn't even listen on other interfaces, for example).
 
 To update Dinghy itself, run:
 
+    $ dinghy stop
     $ brew reinstall https://github.com/codekitchen/dinghy/raw/latest/dinghy.rb
+    $ dinghy start
 
 To update the Docker VM, run:
 

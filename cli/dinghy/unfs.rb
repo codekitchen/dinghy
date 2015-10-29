@@ -1,10 +1,10 @@
 require 'timeout'
 require 'socket'
 
-require 'dinghy/plist'
+require 'dinghy/daemon'
 
 class Unfs
-  include RootPlist
+  include Dinghy::Daemon
 
   attr_reader :machine
 
@@ -13,9 +13,25 @@ class Unfs
   end
 
   def up
-    write_exports!
-    super
-    wait_for_unfs
+    if root?
+      super
+    else
+      write_exports!
+      system("sudo", "#{DINGHY}/bin/dinghy", "nfs", "start")
+      wait_for_unfs
+    end
+  end
+
+  def halt
+    if root?
+      super
+    else
+      system("sudo", "#{DINGHY}/bin/dinghy", "nfs", "stop")
+    end
+  end
+
+  def root?
+    Process.uid == 0
   end
 
   def wait_for_unfs
@@ -24,17 +40,6 @@ class Unfs
       while status != "running"
         sleep 1
       end
-    end
-  end
-
-  def status
-    begin
-      Timeout.timeout(1) do
-        TCPSocket.open(machine.host_ip, 19321)
-      end
-      "running"
-    rescue Errno::ECONNREFUSED, Timeout::Error, JSON::ParserError
-      "not running"
     end
   end
 
@@ -70,37 +75,24 @@ class Unfs
     HOME_DINGHY+"machine-nfs-exports-#{machine.name}"
   end
 
-  def plist_body
-    <<-XML
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-  <key>KeepAlive</key>
-  <true/>
-  <key>Label</key>
-  <string>dinghy.unfs</string>
-  <key>ProgramArguments</key>
-  <array>
-    <string>#{BREW}/sbin/unfsd</string>
-    <string>-e</string>
-    <string>#{exports_filename}</string>
-    <string>-n</string>
-    <string>19321</string>
-    <string>-m</string>
-    <string>19321</string>
-    <string>-l</string>
-    <string>#{machine.host_ip}</string>
-    <string>-p</string>
-    <string>-b</string>
-    <string>-d</string>
-  </array>
-  <key>RunAtLoad</key>
-  <true/>
-  <key>WorkingDirectory</key>
-  <string>#{BREW}</string>
-</dict>
-</plist>
-    XML
+  def starting_message
+    "Starting #{name} daemon, this will require sudo"
+  end
+
+  def stopping_message
+    "Stopping #{name} daemon, this will require sudo"
+  end
+
+  def command
+    [
+      "#{BREW}/sbin/unfsd",
+      "-e", "#{exports_filename}",
+      "-n", "19321",
+      "-m", "19321",
+      "-l", "#{machine.host_ip}",
+      "-p",
+      "-b",
+      "-d"
+    ]
   end
 end

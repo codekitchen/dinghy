@@ -1,9 +1,9 @@
 require 'tempfile'
 
-require 'dinghy/plist'
+require 'dinghy/daemon'
 
 class Dnsmasq
-  include Plist
+  include Dinghy::Daemon
   RESOLVER_DIR = Pathname("/etc/resolver")
   RESOLVER_FILE = RESOLVER_DIR.join("docker")
 
@@ -20,20 +20,8 @@ class Dnsmasq
     super
   end
 
-  def plist_name
-    "dinghy.dnsmasq.plist"
-  end
-
   def name
     "DNS"
-  end
-
-  def status
-    if `pgrep dnsmasq`.strip.to_i > 0
-      "running"
-    else
-      "not running"
-    end
   end
 
   def configure_resolver!
@@ -63,33 +51,15 @@ class Dnsmasq
 
   protected
 
-  def plist_body
-    <<-XML
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-  <key>KeepAlive</key>
-  <true/>
-  <key>Label</key>
-  <string>dinghy.dnsmasq</string>
-  <key>ProgramArguments</key>
-  <array>
-    <string>#{BREW}/sbin/dnsmasq</string>
-    <string>--no-daemon</string>
-    <string>--listen-address=#{machine.host_ip}</string>
-    <string>--port=19322</string>
-    <string>--bind-interfaces</string>
-    <string>--no-resolv</string>
-    <string>--address=/.docker/#{machine.vm_ip}</string>
-    <string>--pid-file=#{BREW}/var/dinghy/dnsmasq.pid</string>
-  </array>
-  <key>RunAtLoad</key>
-  <true/>
-  <key>WorkingDirectory</key>
-  <string>#{BREW}</string>
-</dict>
-</plist>
-    XML
+  def command
+    [
+      "#{BREW}/sbin/dnsmasq",
+      "--no-daemon",
+      "--listen-address=#{machine.host_ip}",
+      "--port=19322",
+      "--bind-interfaces",
+      "--no-resolv",
+      "--address=/.docker/#{machine.vm_ip}"
+    ]
   end
 end

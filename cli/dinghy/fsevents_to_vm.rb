@@ -1,7 +1,7 @@
-require 'dinghy/plist'
+require 'dinghy/daemon'
 
 class FseventsToVm
-  include Plist
+  include Dinghy::Daemon
   INSTALL_PATH = BREW+"bin"
   BIN_PATH = INSTALL_PATH+"fsevents_to_vm"
   VERSION = "~> 1.0.1"
@@ -26,14 +26,6 @@ class FseventsToVm
     "FsEvents"
   end
 
-  def status
-    if `pgrep fsevents_to_vm`.strip.to_i > 0
-      "running"
-    else
-      "not running"
-    end
-  end
-
   protected
 
   def install_if_necessary!
@@ -48,28 +40,11 @@ class FseventsToVm
     machine.ssh("sudo sysctl -p > /dev/null")
   end
 
-  def plist_body
-    <<-XML
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-  <key>KeepAlive</key>
-  <true/>
-  <key>Label</key>
-  <string>dinghy.fsevents_to_vm</string>
-  <key>ProgramArguments</key>
-  <array>
-    <string>#{BIN_PATH}</string>
-    <string>start</string>
-    <string>--ssh-config-file=#{HOME}/.dinghy/ssh-config</string>
-  </array>
-  <key>RunAtLoad</key>
-  <true/>
-  <key>WorkingDirectory</key>
-  <string>#{BREW}</string>
-</dict>
-</plist>
-    XML
+  def command
+    %W[
+      #{BIN_PATH}
+      start
+      --ssh-config-file=#{HOME}/.dinghy/ssh-config
+    ]
   end
 end

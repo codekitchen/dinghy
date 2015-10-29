@@ -1,5 +1,7 @@
 $LOAD_PATH << File.dirname(__FILE__)+"/thor/lib"
 require 'thor'
+$LOAD_PATH << File.dirname(__FILE__)+"/daemons/lib"
+require 'daemons'
 
 $LOAD_PATH << File.dirname(__FILE__)
 
@@ -121,6 +123,7 @@ class DinghyCLI < Thor
   desc "halt", "stop the VM and services"
   def halt
     FseventsToVm.new(machine).halt
+    puts "Stopping the #{machine.name} VM..."
     machine.halt
     Unfs.new(machine).halt
     Dnsmasq.new(machine).halt
@@ -155,6 +158,24 @@ class DinghyCLI < Thor
   desc "shellinit", "returns env variables to set, should be run like $(dinghy shellinit)"
   def shellinit
     CheckEnv.new(machine).print
+  end
+
+  desc "nfs", "start or stop the internal nfs daemon"
+  def nfs(cmd)
+    if Process.uid != 0
+      $stderr.puts "nfs command must be run as root"
+      return
+    end
+
+    unfs = Unfs.new(machine)
+    case cmd
+    when "start"
+      unfs.up
+    when "stop"
+      unfs.halt
+    else
+      $stderr.puts "unknown nfs subcommand: #{cmd}"
+    end
   end
 
   map "-v" => :version
