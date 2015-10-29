@@ -3,4 +3,4 @@
 	url = https://github.com/erikhuda/thor.git
 [submodule "cli/daemons"]
 	path = cli/daemons
-	url = git@github.com:thuehlinger/daemons.git
+	url = https://github.com/thuehlinger/daemons.git
