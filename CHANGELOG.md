@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 4.0.5 - 2015-10-29
+
 ### Added
 - `start` alias for `dinghy up`.
 - `stop` and `down` aliases for `dinghy halt`.
