@@ -7,6 +7,9 @@ All notable changes to this project will be documented in this file.
 - `start` alias for `dinghy up`.
 - `stop` and `down` aliases for `dinghy halt`.
 
+### Changed
+- Always install the `fsevents_to_vm` binary to a set path, to avoid differences between Yosemite and El Capitan installs.
+
 ## 4.0.4 - 2015-10-12
 
 ### Changed

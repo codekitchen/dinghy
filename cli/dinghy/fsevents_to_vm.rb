@@ -2,7 +2,8 @@ require 'dinghy/plist'
 
 class FseventsToVm
   include Plist
-  BIN_PATH = "#{Gem.bindir}/fsevents_to_vm"
+  INSTALL_PATH = BREW+"bin"
+  BIN_PATH = INSTALL_PATH+"fsevents_to_vm"
   VERSION = "~> 1.0.1"
 
   attr_reader :machine
@@ -39,7 +40,7 @@ class FseventsToVm
     %x{/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/gem list -i -v '#{VERSION}' fsevents_to_vm}
     return if $?.success? and File.exists? BIN_PATH
     puts "Installing fsevents_to_vm, this will require sudo"
-    system!("installing", "sudo", "/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/gem", "install", "--no-rdoc", "--no-ri", "fsevents_to_vm", "-v", VERSION)
+    system!("installing", "sudo", "/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/gem", "install", "--no-rdoc", "--no-ri", "-n", INSTALL_PATH, "fsevents_to_vm", "-v", VERSION)
   end
 
   def increase_inotify_limit
