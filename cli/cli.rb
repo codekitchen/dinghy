@@ -17,6 +17,8 @@ require 'dinghy/ssh'
 require 'dinghy/system'
 require 'dinghy/version'
 
+$0 = 'dinghy' # fix our binary name, since we launch via the _dinghy_command wrapper
+
 class DinghyCLI < Thor
   option :memory,
     type: :numeric,

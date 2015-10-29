@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+- Fix `dinghy` binary name in the help text.
+
 ## 4.0.5 - 2015-10-29
 
 ### Added
