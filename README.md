@@ -140,7 +140,9 @@ This will run `docker-machine upgrade` and then restart the dinghy services.
 
 You can install Dinghy's master branch with:
 
+    $ dinghy stop
     $ brew reinstall --HEAD https://github.com/codekitchen/dinghy/raw/master/dinghy.rb
+    $ dinghy start
 
 This branch may be less stable, so this isn't recommended in general.
 
