@@ -9,13 +9,14 @@ DISK_DEFAULT=20_000
 if $0 =~ /bin\/_dinghy_command/ || $0 =~ /rspec/
   BREW = Pathname.new('/usr/local')
   DINGHY = Pathname.new(File.expand_path("../..", File.dirname(__FILE__)))
+  VAR = Pathname.new(File.expand_path("../../local/var", File.dirname(__FILE__)))
 else
   BREW = Pathname.new(`brew --prefix`.strip)
   DINGHY = BREW+"opt/dinghy"
+  VAR = BREW+"var/dinghy"
 end
 HOME = Pathname.new(ENV.fetch("HOME"))
 HOME_DINGHY = HOME+'.dinghy'
-VAR = BREW+"var/dinghy"
 unless VAR.directory?
   FileUtils.mkdir_p VAR
 end
