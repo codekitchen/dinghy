@@ -12,13 +12,21 @@ class Unfs
     @machine = machine
   end
 
+  # We have to jump through some hoops to make this work. unfsd needs to run as
+  # root, even though we're squashing all permissions to the user's uid -- as
+  # far as I can tell, it's just buggy when run as non-root.
+  #
+  # But, we don't want to run dinghy as a whole as root, and we want to avoid
+  # setuid.
+  #
+  # So, we sudo out to the dinghy binary again, and run a special command to
+  # start unfsd in that sudo'd process.
   def up
     if root?
       super
     else
       write_exports!
       system("sudo", "#{DINGHY}/bin/dinghy", "nfs", "start")
-      wait_for_unfs
     end
   end
 
@@ -35,12 +43,15 @@ class Unfs
   end
 
   def wait_for_unfs
-    Timeout.timeout(20) do
+    Timeout.timeout(10) do
       puts "Waiting for #{name} daemon..."
-      while status != "running"
+      while !daemon_listening?
         sleep 1
       end
     end
+    true
+  rescue Timeout::Error
+    false
   end
 
   def host_mount_dir
@@ -94,5 +105,16 @@ class Unfs
       "-b",
       "-d"
     ]
+  end
+
+  def daemon_listening?
+    begin
+      Timeout.timeout(1) do
+        TCPSocket.open(machine.host_ip, 19321)
+      end
+      true
+    rescue Errno::ECONNREFUSED, Timeout::Error, JSON::ParserError
+      false
+    end
   end
 end

@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Fix `dinghy` binary name in the help text.
+- Switched from using launchd to managing our own daemons.
+- Added better error handling and logging for the fsev/dns/nfs daemons.
 
 ## 4.0.5 - 2015-10-29
 

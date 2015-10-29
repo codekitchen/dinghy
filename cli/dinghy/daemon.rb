@@ -46,6 +46,10 @@ module Dinghy::Daemon
     end
   end
 
+  def logfile
+    daemon.output_logfile
+  end
+
   def running?
     daemon.running?
   end

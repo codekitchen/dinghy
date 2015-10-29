@@ -104,10 +104,20 @@ class DinghyCLI < Thor
   desc "status", "get VM and services status"
   def status
     puts "  VM: #{machine.status}"
-    puts " NFS: #{Unfs.new(machine).status}"
-    puts "FSEV: #{FseventsToVm.new(machine).status}"
-    puts " DNS: #{Dnsmasq.new(machine).status}"
+    unfs = Unfs.new(machine)
+    puts " NFS: #{unfs.status}"
+    fsevents = FseventsToVm.new(machine)
+    puts "FSEV: #{fsevents.status}"
+    dns = Dnsmasq.new(machine)
+    puts " DNS: #{dns.status}"
     puts "HTTP: #{HttpProxy.new(machine).status}"
+    return unless machine.status == 'running'
+    [unfs, dns, fsevents].each do |daemon|
+      if !daemon.running?
+        puts "\n\e[33m#{daemon.name} failed to run\e[0m"
+        puts "details available in log file: #{daemon.logfile}"
+      end
+    end
   end
 
   desc "ip", "get the VM's IP address"
@@ -206,12 +216,18 @@ class DinghyCLI < Thor
     unfs = Unfs.new(machine)
     machine.up
     unfs.up
-    machine.mount(unfs)
-    fsevents = options[:fsevents] || (options[:fsevents].nil? && !fsevents_disabled?)
-    if fsevents
-      FseventsToVm.new(machine).up
+    if unfs.wait_for_unfs
+      machine.mount(unfs)
+    else
+      puts "NFS mounting failed"
     end
-    Dnsmasq.new(machine).up
+    use_fsevents = options[:fsevents] || (options[:fsevents].nil? && !fsevents_disabled?)
+    if use_fsevents
+      fsevents = FseventsToVm.new(machine)
+      fsevents.up
+    end
+    dns = Dnsmasq.new(machine)
+    dns.up
     proxy = options[:proxy] || (options[:proxy].nil? && !proxy_disabled?)
     if proxy
       # this is hokey, but it can take a few seconds for docker daemon to be available
@@ -219,11 +235,13 @@ class DinghyCLI < Thor
       sleep 5
       HttpProxy.new(machine).up
     end
-    CheckEnv.new(machine).run
 
     preferences.update(
       proxy_disabled: !proxy,
       fsevents_disabled: !fsevents,
     )
+
+    status
+    CheckEnv.new(machine).run
   end
 end
