@@ -126,9 +126,9 @@ doesn't even listen on other interfaces, for example).
 
 To update Dinghy itself, run:
 
-    $ dinghy stop
+    $ dinghy halt
     $ brew reinstall https://github.com/codekitchen/dinghy/raw/latest/dinghy.rb
-    $ dinghy start
+    $ dinghy up
 
 To update the Docker VM, run:
 
@@ -140,9 +140,9 @@ This will run `docker-machine upgrade` and then restart the dinghy services.
 
 You can install Dinghy's master branch with:
 
-    $ dinghy stop
+    $ dinghy halt
     $ brew reinstall --HEAD https://github.com/codekitchen/dinghy/raw/master/dinghy.rb
-    $ dinghy start
+    $ dinghy up
 
 This branch may be less stable, so this isn't recommended in general.
 
