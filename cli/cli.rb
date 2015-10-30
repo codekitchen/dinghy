@@ -118,6 +118,8 @@ class DinghyCLI < Thor
         puts "details available in log file: #{daemon.logfile}"
       end
     end
+    puts
+    CheckEnv.new(machine).run
   end
 
   desc "ip", "get the VM's IP address"
@@ -242,6 +244,5 @@ class DinghyCLI < Thor
     )
 
     status
-    CheckEnv.new(machine).run
   end
 end
