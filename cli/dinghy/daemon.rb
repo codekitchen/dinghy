@@ -3,7 +3,7 @@ require 'daemons'
 
 module Dinghy::Daemon
   def up
-    puts starting_message
+    puts starting_message unless root?
     # remove any old logfile sitting around
     FileUtils.rm(daemon.output_logfile) if File.file?(daemon.output_logfile)
     start
@@ -71,24 +71,8 @@ module Dinghy::Daemon
   def run
     exec(*command)
   end
-end
 
-# We have to jump through some hoops to get root daemons to work without
-# resorting to running all of dinghy as root, and without using suid binaries.
-# To make it work, we shell out to a new process using sudo, and that new
-# process starts up the daemon.
-module Dinghy::RootDaemon
-  include Dinghy::Daemon
-
-  def start
-    system("sudo", "#{File.dirname(__FILE__)}/run_root_daemon.rb", self.class.name)
-  end
-
-  def starting_message
-    "Starting #{name} daemon, this will require sudo"
-  end
-
-  def stopping_message
-    "Stopping #{name} daemon, this will require sudo"
+  def root?
+    Process.uid == 0
   end
 end

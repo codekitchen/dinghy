@@ -26,6 +26,7 @@ class Unfs
       super
     else
       write_exports!
+      puts starting_message
       system("sudo", "#{DINGHY}/bin/dinghy", "nfs", "start")
     end
   end
@@ -36,10 +37,6 @@ class Unfs
     else
       system("sudo", "#{DINGHY}/bin/dinghy", "nfs", "stop")
     end
-  end
-
-  def root?
-    Process.uid == 0
   end
 
   def wait_for_unfs
