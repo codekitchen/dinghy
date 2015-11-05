@@ -173,13 +173,14 @@ class DinghyCLI < Thor
   end
 
   desc "nfs", "start or stop the internal nfs daemon"
-  def nfs(cmd)
+  def nfs(cmd, port)
     if Process.uid != 0
       $stderr.puts "nfs command must be run as root"
       return
     end
 
     unfs = Unfs.new(machine)
+    unfs.port = port.to_i
     case cmd
     when "start"
       unfs.up

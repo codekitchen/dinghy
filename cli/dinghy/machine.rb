@@ -69,7 +69,7 @@ class Machine
     ssh("sudo umount /Users || true")
 
     ssh("sudo mkdir -p #{unfs.guest_mount_dir}")
-    ssh("sudo mount -t nfs #{host_ip}:#{unfs.host_mount_dir} #{unfs.guest_mount_dir} -o nfsvers=3,udp,mountport=19321,port=19321,nolock,hard,intr")
+    ssh("sudo mount -t nfs #{host_ip}:#{unfs.host_mount_dir} #{unfs.guest_mount_dir} -o nfsvers=3,udp,mountport=#{unfs.port},port=#{unfs.port},nolock,hard,intr")
   end
 
   def ssh(*command)
