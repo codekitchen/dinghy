@@ -10,7 +10,7 @@ class Dinghy < Formula
 
   depends_on 'docker'
   depends_on 'docker-machine'
-  depends_on 'unfs3'
+  depends_on 'unfs3' => %w[--HEAD]
   depends_on 'dnsmasq'
 
   def install
