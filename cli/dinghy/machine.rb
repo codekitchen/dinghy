@@ -68,7 +68,7 @@ class Machine
     # Remove the existing vbox/vmware shared folder. There isn't an option yet
     # in docker-machine to skip creating the shared folder in the first place.
 
-    ssh("if [ $(grep -c #{Shellwords.escape(unfs.guest_mount_dir.to_s)} /proc/mounts) -gt 0 ]; then sudo umount #{unfs.guest_mount_dir} || true; fi;")
+    ssh("if [ $(grep -c #{Shellwords.escape('/Users[^/]')} /proc/mounts) -gt 0 ]; then sudo umount /Users || true; fi;")
 
     ssh("sudo mkdir -p #{unfs.guest_mount_dir}")
     ssh("sudo mount -t nfs #{host_ip}:#{unfs.host_mount_dir} #{unfs.guest_mount_dir} -o nfsvers=3,udp,mountport=19321,port=19321,nolock,hard,intr")
