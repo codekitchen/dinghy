@@ -8,6 +8,11 @@ All notable changes to this project will be documented in this file.
 - Switched from using launchd to managing our own daemons.
 - Added better error handling and logging for the fsev/dns/nfs daemons.
 
+## 4.0.7 - 2015-11-08
+
+### Changed
+- Revert AuthOptions commit due to docker-machine inconsistency.
+
 ## 4.0.6 - 2015-11-08
 
 ### Changed
