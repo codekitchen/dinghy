@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 4.0.6 - 2015-11-08
+
 ### Changed
 - Fix compatibility with docker-machine 0.5.0
 
