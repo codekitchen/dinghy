@@ -45,8 +45,12 @@ class Machine
   end
 
   def store_path
-    path = inspect.fetch('HostOptions', {}).fetch('AuthOptions', {})['StorePath']
-    path || inspect['StorePath']
+    driver = inspect['Driver']
+    if driver.key?('StorePath')
+      File.join(driver['StorePath'], 'machines', driver['MachineName'])
+    else
+      inspect['StorePath']
+    end
   end
 
   def inspect
