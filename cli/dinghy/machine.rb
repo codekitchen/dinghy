@@ -1,5 +1,6 @@
 require 'dinghy/constants'
 require 'json'
+require 'shellwords'
 
 class Machine
   def create(options = {})
@@ -73,7 +74,8 @@ class Machine
     puts "Mounting NFS #{unfs.guest_mount_dir}"
     # Remove the existing vbox/vmware shared folder. There isn't an option yet
     # in docker-machine to skip creating the shared folder in the first place.
-    ssh("sudo umount /Users || true")
+
+    ssh("if [ $(grep -c #{Shellwords.escape('/Users[^/]')} /proc/mounts) -gt 0 ]; then sudo umount /Users || true; fi;")
 
     ssh("sudo mkdir -p #{unfs.guest_mount_dir}")
     ssh("sudo mount -t nfs #{host_ip}:#{unfs.host_mount_dir} #{unfs.guest_mount_dir} -o nfsvers=3,udp,mountport=#{unfs.port},port=#{unfs.port},nolock,hard,intr")
