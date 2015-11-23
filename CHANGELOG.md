@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - Switched from using launchd to managing our own daemons.
 - Added better error handling and logging for the fsev/dns/nfs daemons.
 - Allow installing docker/docker-machine from any source by removing the brew dependencies.
+- docker-machine 0.5.1 compatibility.
 
 ## 4.0.7 - 2015-11-08
 

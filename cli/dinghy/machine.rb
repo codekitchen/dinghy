@@ -38,7 +38,7 @@ class Machine
   end
 
   def vm_ip
-    inspect['Driver']['IPAddress']
+    inspect_driver['IPAddress']
   end
 
   def provider
@@ -46,7 +46,7 @@ class Machine
   end
 
   def store_path
-    driver = inspect['Driver']
+    driver = inspect_driver
     if driver.key?('StorePath')
       File.join(driver['StorePath'], 'machines', driver['MachineName'])
     else
@@ -56,6 +56,11 @@ class Machine
 
   def inspect
     JSON.parse(`docker-machine inspect #{machine_name} 2>/dev/null`)
+  end
+
+  def inspect_driver
+    output = inspect
+    output['Driver']['Driver'] || output['Driver']
   end
 
   def status
