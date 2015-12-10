@@ -101,7 +101,6 @@ class Unfs
       "-m", port.to_s,
       "-l", "#{machine.host_ip}",
       "-p",
-      "-b",
       "-d"
     ]
   end
