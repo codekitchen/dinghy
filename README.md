@@ -27,7 +27,7 @@ First the prerequisites:
 1. Either [VirtualBox](https://www.virtualbox.org) or [VMware Fusion](http://www.vmware.com/products/fusion).
 
 If using VirtualBox, version 5.0+ is strongly recommended, and you'll need the
-[VirtualBox Expansion Pack](https://www.virtualbox.org/wiki/Downloads)
+[VirtualBox Extension Pack](https://www.virtualbox.org/wiki/Downloads)
 installed.
 
 Then:
