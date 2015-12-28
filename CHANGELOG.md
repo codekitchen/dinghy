@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - Added better error handling and logging for the fsev/dns/nfs daemons.
 - Allow installing docker/docker-machine from any source by removing the brew dependencies.
 - Remove the "brute force search" flag from unfsd.
+- Move DNS listener to 127.0.0.1 to work around OS X not even attempting to use it when offline.
 
 ## 4.0.8 - 2015-11-23
 
