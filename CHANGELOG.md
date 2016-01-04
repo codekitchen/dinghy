@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 4.1.0 - 2016-01-04
+
 ### Changed
 - Fix `dinghy` binary name in the help text.
 - Switch from using launchd to managing our own daemons.
