@@ -5,8 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Fix `dinghy` binary name in the help text.
-- Switched from using launchd to managing our own daemons.
-- Added better error handling and logging for the fsev/dns/nfs daemons.
+- Switch from using launchd to managing our own daemons.
+- Add better error handling and logging for the fsev/dns/nfs daemons.
 - Allow installing docker/docker-machine from any source by removing the brew dependencies.
 - Remove the "brute force search" flag from unfsd.
 - Move DNS listener to 127.0.0.1 to work around OS X not even attempting to use it when offline.
