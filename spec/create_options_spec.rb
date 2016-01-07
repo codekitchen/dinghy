@@ -5,6 +5,7 @@ RSpec.describe Machine::CreateOptions do
       '--virtualbox-memory', MEM_DEFAULT.to_s,
       '--virtualbox-cpu-count', CPU_DEFAULT.to_s,
       '--virtualbox-disk-size', DISK_DEFAULT.to_s,
+      '--virtualbox-no-share',
     ])
   end
 
@@ -14,6 +15,7 @@ RSpec.describe Machine::CreateOptions do
       '--vmwarefusion-memory-size', '4096',
       '--vmwarefusion-cpu-count', CPU_DEFAULT.to_s,
       '--vmwarefusion-disk-size', '40000',
+      '--vmwarefusion-no-share',
     ])
   end
 end

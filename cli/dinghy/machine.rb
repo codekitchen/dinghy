@@ -79,11 +79,9 @@ class Machine
 
   def mount(unfs)
     puts "Mounting NFS #{unfs.guest_mount_dir}"
-    # Remove the existing vbox/vmware shared folder. Machine now has
-    # flags to skip the share, `--vmwarefusion-no-share` and
-    # `--virtualbox-no-share`, but there's no way to apply the flag to an
-    # already-created machine. So rather than have two code paths, one for new
-    # machines and one for existing machines, we'll continue to do this for now.
+    # Remove the existing vbox/vmware shared folder. Machine now has flags to
+    # skip mounting the share at all, but there's no way to apply the flag to an
+    # already-created machine. So we have to continue to do this for older VMs.
     ssh("if [ $(grep -c #{Shellwords.escape('/Users[^/]')} /proc/mounts) -gt 0 ]; then sudo umount /Users || true; fi;")
 
     ssh("sudo mkdir -p #{unfs.guest_mount_dir}")
