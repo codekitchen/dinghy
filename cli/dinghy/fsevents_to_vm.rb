@@ -4,7 +4,7 @@ class FseventsToVm
   include Dinghy::Daemon
   INSTALL_PATH = BREW+"bin"
   BIN_PATH = INSTALL_PATH+"fsevents_to_vm"
-  VERSION = "~> 1.0.2"
+  VERSION = "~> 1.1.0"
 
   attr_reader :machine
 
@@ -44,7 +44,8 @@ class FseventsToVm
     %W[
       #{BIN_PATH}
       start
-      --ssh-config-file=#{HOME}/.dinghy/ssh-config
+      --ssh-identity-file=#{machine.ssh_identity_file_path}
+      --ssh-ip=#{machine.vm_ip}
     ]
   end
 end

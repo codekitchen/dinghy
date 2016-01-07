@@ -29,8 +29,6 @@ class Machine
         raise("There was an error bringing up the VM. Dinghy cannot continue.")
       end
     end
-
-    Ssh.new(self).write_ssh_config!
   end
 
   def host_ip
@@ -39,6 +37,10 @@ class Machine
 
   def vm_ip
     inspect_driver['IPAddress']
+  end
+
+  def ssh_identity_file_path
+    inspect_driver['SSHKeyPath']
   end
 
   def provider
@@ -77,9 +79,11 @@ class Machine
 
   def mount(unfs)
     puts "Mounting NFS #{unfs.guest_mount_dir}"
-    # Remove the existing vbox/vmware shared folder. There isn't an option yet
-    # in docker-machine to skip creating the shared folder in the first place.
-
+    # Remove the existing vbox/vmware shared folder. Machine now has
+    # flags to skip the share, `--vmwarefusion-no-share` and
+    # `--virtualbox-no-share`, but there's no way to apply the flag to an
+    # already-created machine. So rather than have two code paths, one for new
+    # machines and one for existing machines, we'll continue to do this for now.
     ssh("if [ $(grep -c #{Shellwords.escape('/Users[^/]')} /proc/mounts) -gt 0 ]; then sudo umount /Users || true; fi;")
 
     ssh("sudo mkdir -p #{unfs.guest_mount_dir}")
@@ -87,7 +91,11 @@ class Machine
   end
 
   def ssh(*command)
-    Ssh.new(self).run(*command)
+    system("ssh", machine_name, *command) || raise("ssh command failed")
+  end
+
+  def ssh_exec(*command)
+    Kernel.exec("docker-machine", "ssh", machine_name, *command)
   end
 
   def halt

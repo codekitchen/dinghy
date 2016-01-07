@@ -111,7 +111,7 @@ class Unfs
         TCPSocket.open(machine.host_ip, port)
       end
       true
-    rescue Errno::ECONNREFUSED, Timeout::Error, JSON::ParserError
+    rescue Errno::ECONNREFUSED, Timeout::Error
       false
     end
   end

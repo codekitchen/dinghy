@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+- Fix for specifying an alternate mount dir.
+- Shell out to `docker-machine ssh` now that it has much improved, and remove our custom ssh code.
+- require Machine version 0.5.5
+
+### Removed
+- `dinghy ssh-config` command.
+
 ## 4.1.0 - 2016-01-04
 
 ### Changed

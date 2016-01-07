@@ -15,7 +15,6 @@ require 'dinghy/preferences'
 require 'dinghy/unfs'
 require 'dinghy/machine'
 require 'dinghy/machine/create_options'
-require 'dinghy/ssh'
 require 'dinghy/system'
 require 'dinghy/version'
 
@@ -86,19 +85,7 @@ class DinghyCLI < Thor
 
   desc "ssh [args...]", "ssh to the VM"
   def ssh(*args)
-    ssh = Ssh.new(machine)
-    if args.empty?
-      ssh.exec
-    else
-      ssh.run(*args)
-    end
-  rescue Ssh::CommandFailed => e
-    exit(e.exitstatus)
-  end
-
-  desc "ssh-config", "print ssh configuration for the VM"
-  def ssh_config
-    puts Ssh.new(machine).ssh_config
+    machine.ssh_exec(*args)
   end
 
   desc "status", "get VM and services status"
