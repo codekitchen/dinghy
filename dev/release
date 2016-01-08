@@ -1,22 +1,26 @@
 #!/bin/bash
 
+# This release script assumes that you have codekitchen/homebrew-dinghy checked
+# out as a sibling to this dinghy checkout.
+
 VERSION=$1
 TODAY=$(date "+%Y-%m-%d")
 
 : ${VERSION:?"Need to specify a version e.g. 2.0.1"}
 
-# We have to repeat the version in the Formula file, since it's the only one
-# that homebrew loads.
-sed -i '' "s/DINGHY_VERSION=.*/DINGHY_VERSION='$VERSION'/g" dinghy.rb
 sed -i '' "s/DINGHY_VERSION=.*/DINGHY_VERSION='$VERSION'/g" cli/dinghy/version.rb
 sed -i '' $'s/## Unreleased/## Unreleased\
 \
 ## '"$VERSION - $TODAY/g" CHANGELOG.md
 
-if [ "$2" == "frd" ]; then
-  git commit -am "v$VERSION"
-  git tag "v$VERSION"
-  git push origin HEAD:latest
-  git push origin "v$VERSION"
-  git push origin master:master
-fi
+git commit -am "v$VERSION"
+git tag "v$VERSION"
+REF=$(git show-ref -s "v$VERSION")
+git push origin "v$VERSION"
+git push origin master:master
+
+pushd ../homebrew-dinghy
+sed -i '' 's|  url ".*|  url "https://github.com/codekitchen/dinghy.git", :tag => "v'$VERSION'", :revision => "'$REF'"' Formula/dinghy.rb
+git commit -am "release v$VERSION"
+git push origin master:master
+popd
