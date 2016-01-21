@@ -1,8 +1,13 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+- [The `docker` client gives an SSL error or times out](#the-docker-client-gives-an-ssl-error-or-times-out)
+- [I can't connect to an app running in docker from another VM (commonly to test in IE)](#i-cant-connect-to-an-app-running-in-docker-from-another-vm-commonly-to-test-in-ie)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Dinghy FAQ
 
 Solutions to many common problems can be found here.
-
-__TOC__
 
 ## The `docker` client gives an SSL error or times out
 
