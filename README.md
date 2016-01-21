@@ -14,6 +14,10 @@ just become a plugin to `docker-machine`. For now, dinghy runs as a wrapper
 around `docker-machine`, shelling out to create the VM and using `launchd` to
 start the various services such as NFS and DNS.
 
+## FAQ and solutions to common problems
+
+Before filing an issue, see the [FAQ](FAQ.md).
+
 ## upgrading from vagrant
 
 If you previously used a version of Dinghy that ran on top of Vagrant, [read this](UPGRADE_FROM_VAGRANT.md).
