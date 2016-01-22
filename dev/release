@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # This release script assumes that you have codekitchen/homebrew-dinghy checked
 # out as a sibling to this dinghy checkout.
 
@@ -20,7 +22,7 @@ git push origin "v$VERSION"
 git push origin master:master
 
 pushd ../homebrew-dinghy
-sed -i '' 's|  url ".*|  url "https://github.com/codekitchen/dinghy.git", :tag => "v'$VERSION'", :revision => "'$REF'"' Formula/dinghy.rb
+sed -i '' 's|  url ".*|  url "https://github.com/codekitchen/dinghy.git", :tag => "v'$VERSION'", :revision => "'$REF'"|' Formula/dinghy.rb
 git commit -am "release v$VERSION"
 git push origin master:master
 popd
