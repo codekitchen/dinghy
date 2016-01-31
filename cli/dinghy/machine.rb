@@ -1,4 +1,5 @@
 require 'dinghy/constants'
+require 'dinghy/preferences'
 require 'json'
 require 'shellwords'
 
@@ -117,8 +118,16 @@ class Machine
     Kernel.system("docker-machine", *cmd)
   end
 
+  def preferences
+    @preferences ||= Preferences.load
+  end
+
   def machine_name
-    'dinghy'
+    if (defined?(preferences[:machine_name])).nil?
+      'dinghy'
+    else
+      preferences[:machine_name]
+    end
   end
   alias :name :machine_name
 
