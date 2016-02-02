@@ -123,7 +123,7 @@ class Machine
   end
 
   def machine_name
-    if (defined?(preferences[:machine_name])).nil?
+    if preferences[:machine_name].nil?
       'dinghy'
     else
       preferences[:machine_name]
