@@ -1,9 +1,12 @@
 require 'dinghy/constants'
-require 'dinghy/preferences'
 require 'json'
 require 'shellwords'
 
 class Machine
+  def initialize(machine_name)
+    @machine_name = machine_name || 'dinghy'
+  end
+
   def create(options = {})
     provider = options['provider']
 
@@ -118,16 +121,8 @@ class Machine
     Kernel.system("docker-machine", *cmd)
   end
 
-  def preferences
-    @preferences ||= Preferences.load
-  end
-
   def machine_name
-    if preferences[:machine_name].nil?
-      'dinghy'
-    else
-      preferences[:machine_name]
-    end
+    @machine_name
   end
   alias :name :machine_name
 

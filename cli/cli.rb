@@ -199,7 +199,7 @@ class DinghyCLI < Thor
   end
 
   def machine
-    @machine ||= Machine.new
+    @machine ||= Machine.new(preferences[:machine_name])
   end
 
   def start_services
