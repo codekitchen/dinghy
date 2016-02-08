@@ -3,6 +3,9 @@ require 'json'
 require 'shellwords'
 
 class Machine
+  attr_reader :machine_name
+  alias :name :machine_name
+
   def initialize(machine_name)
     @machine_name = machine_name || 'dinghy'
   end
@@ -120,11 +123,6 @@ class Machine
   def system(*cmd)
     Kernel.system("docker-machine", *cmd)
   end
-
-  def machine_name
-    @machine_name
-  end
-  alias :name :machine_name
 
   def translate_provider(name)
     case name

@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+- Allow specifying the docker-machine machine name in the preferences file. This is primarily to enable using Dinghy with Kitematic.
+
 ## 4.2.0 - 2016-01-22
 
 ### Changed

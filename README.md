@@ -60,28 +60,6 @@ Sanity check!
 
     $ docker run -it redis
 
-## Preferences
-
-Dinghy creates a preferences file under ```HOME/.dinghy/preferences.yml```, which can be used to override default options. This is an example of the default generated preferenes:
-
-```
-:preferences:
-  :proxy_disabled: false
-  :fsevents_disabled: false
-  :create:
-    provider: virtualbox
-```
-
-If you want to override the dinghy machine name (e.g. to change it to 'default' so it can work with Kitematic), it can be changed here. First, destroy your current dinghy VM and then add the following to your preferences.yml file:
-
-```
-:preferences:
-.
-.
-.
-  :machine_name: default
-```
-
 ## CLI Usage
 
 ```bash
@@ -138,6 +116,28 @@ web:
     - "3000:3000"
   environment:
     VIRTUAL_HOST: myrailsapp.docker
+```
+
+## Preferences
+
+Dinghy creates a preferences file under ```HOME/.dinghy/preferences.yml```, which can be used to override default options. This is an example of the default generated preferenes:
+
+```
+:preferences:
+  :proxy_disabled: false
+  :fsevents_disabled: false
+  :create:
+    provider: virtualbox
+```
+
+If you want to override the dinghy machine name (e.g. to change it to 'default' so it can work with Kitematic), it can be changed here. First, destroy your current dinghy VM and then add the following to your preferences.yml file:
+
+```
+:preferences:
+.
+.
+.
+  :machine_name: default
 ```
 
 ## a note on NFS sharing
