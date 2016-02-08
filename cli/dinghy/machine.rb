@@ -108,6 +108,9 @@ class Machine
   end
 
   def upgrade
+    if !running?
+      up
+    end
     system("upgrade", machine_name)
   end
 
