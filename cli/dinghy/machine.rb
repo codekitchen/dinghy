@@ -3,6 +3,10 @@ require 'json'
 require 'shellwords'
 
 class Machine
+  def initialize(machine_name)
+    @machine_name = machine_name || 'dinghy'
+  end
+
   def create(options = {})
     provider = options['provider']
 
@@ -118,7 +122,7 @@ class Machine
   end
 
   def machine_name
-    'dinghy'
+    @machine_name
   end
   alias :name :machine_name
 
