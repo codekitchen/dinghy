@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Start the VM on `upgrade` when necessary.
 - Remove the `dinghy nfs` command from the public CLI, it is only for internal use.
+- Upgrade the HTTP proxy to deal with docker's new networking layer and docker-compose v2 configs.
 
 ## 4.2.0 - 2016-01-22
 

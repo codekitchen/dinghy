@@ -89,10 +89,9 @@ container that exposes port 3000 to the host, and you like to call it
 
 ## HTTP proxy
 
-Dinghy will run a HTTP proxy inside a docker container in
-the VM, giving you easy access to web apps running in other containers.
-This uses the excellent [nginx-proxy](https://github.com/jwilder/nginx-proxy)
-docker tool.
+Dinghy will run a HTTP proxy inside a docker container in the VM, giving you
+easy access to web apps running in other containers. This is based heavily on
+the excellent [nginx-proxy](https://github.com/jwilder/nginx-proxy) docker tool.
 
 The proxy will take a few moments to download the first time you launch the VM.
 
