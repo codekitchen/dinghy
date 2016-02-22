@@ -159,30 +159,32 @@ class DinghyCLI < Thor
     CheckEnv.new(machine).print
   end
 
-  desc "nfs", "start or stop the internal nfs daemon"
-  def nfs(cmd, port)
-    if Process.uid != 0
-      $stderr.puts "nfs command must be run as root"
-      return
-    end
-
-    unfs = Unfs.new(machine)
-    unfs.port = port.to_i
-    case cmd
-    when "start"
-      unfs.up
-    when "stop"
-      unfs.halt
-    else
-      $stderr.puts "unknown nfs subcommand: #{cmd}"
-    end
-  end
-
   map "-v" => :version
   desc "version", "display dinghy version"
   def version
     puts "Dinghy #{DINGHY_VERSION}"
   end
+
+  no_commands {
+    # this command is only used internally, when we sudo to start the nfs daemon
+    def nfs(cmd, port)
+      if Process.uid != 0
+        $stderr.puts "nfs command must be run as root"
+        return
+      end
+
+      unfs = Unfs.new(machine)
+      unfs.port = port.to_i
+      case cmd
+      when "start"
+        unfs.up
+      when "stop"
+        unfs.halt
+      else
+        $stderr.puts "unknown nfs subcommand: #{cmd}"
+      end
+    end
+  }
 
   private
 

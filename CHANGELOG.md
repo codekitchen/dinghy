@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Start the VM on `upgrade` when necessary.
+- Remove the `dinghy nfs` command from the public CLI, it is only for internal use.
 
 ## 4.2.0 - 2016-01-22
 

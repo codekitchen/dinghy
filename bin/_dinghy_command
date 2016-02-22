@@ -3,4 +3,9 @@
 
 require(File.realpath(__FILE__)+"/../../cli/cli")
 Dinghy.run_checks
-DinghyCLI.start(ARGV)
+
+if ARGV[0] == "nfs"
+  DinghyCLI.new.nfs(*ARGV[1..-1])
+else
+  DinghyCLI.start(ARGV)
+end

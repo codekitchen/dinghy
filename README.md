@@ -70,7 +70,6 @@ Commands:
   dinghy halt            # stop the VM and services
   dinghy help [COMMAND]  # Describe available commands or one specific command
   dinghy ip              # get the VM's IP address
-  dinghy nfs             # start or stop the internal nfs daemon
   dinghy restart         # restart the VM and services
   dinghy shellinit       # returns env variables to set, should be run like $(dinghy shellinit)
   dinghy ssh [args...]   # ssh to the VM
