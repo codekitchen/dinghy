@@ -70,14 +70,14 @@ Commands:
   dinghy halt            # stop the VM and services
   dinghy help [COMMAND]  # Describe available commands or one specific command
   dinghy ip              # get the VM's IP address
+  dinghy nfs             # start or stop the internal nfs daemon
   dinghy restart         # restart the VM and services
   dinghy shellinit       # returns env variables to set, should be run like $(dinghy shellinit)
   dinghy ssh [args...]   # ssh to the VM
   dinghy status          # get VM and services status
   dinghy up              # start the Docker VM and services
   dinghy upgrade         # upgrade the boot2docker VM to the newest available
-  dinghy version         # display dinghy version
-```
+  dinghy version         # display dinghy version```
 
 ## DNS
 
