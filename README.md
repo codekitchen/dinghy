@@ -77,7 +77,8 @@ Commands:
   dinghy status          # get VM and services status
   dinghy up              # start the Docker VM and services
   dinghy upgrade         # upgrade the boot2docker VM to the newest available
-  dinghy version         # display dinghy version```
+  dinghy version         # display dinghy version
+```
 
 ## DNS
 
