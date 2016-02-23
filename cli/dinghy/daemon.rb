@@ -24,7 +24,7 @@ module Dinghy::Daemon
   end
 
   def halt
-    puts stopping_message
+    puts stopping_message unless root?
     stop
   rescue Errno::ENOENT
     # daemon wasn't running

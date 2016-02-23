@@ -37,6 +37,7 @@ class Unfs
     if root?
       super
     else
+      puts stopping_message
       system("sudo", "#{DINGHY}/bin/dinghy", "nfs", "stop", "0") # port unused
     end
   end
