@@ -35,7 +35,7 @@ class DinghyCLI < Thor
     desc: "size of the virtual disk to create, in MB (default #{DISK_DEFAULT})"
   option :provider,
     aliases: :p,
-    desc: "which docker-machine provider to use, 'virtualbox' or 'vmware'"
+    desc: "which docker-machine provider to use, 'virtualbox', 'vmware' or 'xhyve'"
   desc "create", "create the docker-machine VM"
   def create
     if machine.created?
@@ -48,7 +48,7 @@ class DinghyCLI < Thor
     create_options['provider'] = machine.translate_provider(create_options['provider'])
 
     if create_options['provider'].nil?
-      $stderr.puts("Invalid value for required option --provider. Valid values are: 'virtualbox', 'vmware'")
+      $stderr.puts("Invalid value for required option --provider. Valid values are: 'virtualbox', 'vmware' or 'xhyve'")
       exit(1)
     end
 
