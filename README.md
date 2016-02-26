@@ -28,7 +28,7 @@ First the prerequisites:
 
 1. OS X Yosemite (10.10) (Mavericks has a known issue, see [#6](https://github.com/codekitchen/dinghy/issues/6))
 1. [Homebrew](https://github.com/Homebrew/homebrew)
-1. Either [VirtualBox](https://www.virtualbox.org) or [VMware Fusion](http://www.vmware.com/products/fusion).
+1. Either [VirtualBox](https://www.virtualbox.org), [VMware Fusion](http://www.vmware.com/products/fusion) or [xhyve](http://www.xhyve.org/) through the [docker-machine-driver-xhyve](https://github.com/zchee/docker-machine-driver-xhyve#install) project
 
 If using VirtualBox, version 5.0+ is strongly recommended, and you'll need the
 [VirtualBox Extension Pack](https://www.virtualbox.org/wiki/Downloads)
@@ -43,7 +43,7 @@ You will need to install `docker` and `docker-machine` as well, either via Homeb
 
     $ brew install docker docker-machine
 
-You can specify provider (virtualbox or vmware), memory and CPU options when creating the VM. See available options:
+You can specify provider (`virtualbox`, `vmware` or `xhyve`), memory and CPU options when creating the VM. See available options:
 
     $ dinghy help create
 

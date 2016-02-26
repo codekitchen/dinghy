@@ -133,6 +133,8 @@ class Machine
       "virtualbox"
     when "vmware", "vmware_fusion", "vmwarefusion", "vmware_desktop"
       "vmwarefusion"
+    when "xhyve"
+      "xhyve"
     else
       nil
     end

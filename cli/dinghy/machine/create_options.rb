@@ -13,6 +13,13 @@ module Machine::CreateOptions
       disk: '--vmwarefusion-disk-size',
       no_share: '--vmwarefusion-no-share',
     }.freeze,
+
+    'xhyve' => {
+      memory: '--xhyve-memory-size',
+      cpus: '--xhyve-cpu-count',
+      disk: '--xhyve-disk-size',
+      # No shared folders are created on xhyve by default
+    }.freeze,
   }.freeze
 
   def self.generate(provider, options)
@@ -22,6 +29,6 @@ module Machine::CreateOptions
       flags[:cpus], (options['cpus'] || CPU_DEFAULT).to_s,
       flags[:disk], (options['disk'] || DISK_DEFAULT).to_s,
       flags[:no_share],
-    ]
+    ].compact
   end
 end
