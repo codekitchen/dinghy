@@ -5,11 +5,13 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - Allow specifying the docker-machine machine name in the preferences file. This is primarily to enable using Dinghy with Kitematic.
+- Added xhyve support via https://github.com/zchee/docker-machine-driver-xhyve
 
 ### Changed
 - Start the VM on `upgrade` when necessary.
 - Remove the `dinghy nfs` command from the public CLI, it is only for internal use.
 - Upgrade the HTTP proxy to deal with docker's new networking layer and docker-compose v2 configs.
+- Fix `DINGHY_HOST_MOUNT_DIR` option.
 
 ## 4.2.0 - 2016-01-22
 
