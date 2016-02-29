@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Allow specifying the docker-machine machine name in the preferences file. This is primarily to enable using Dinghy with Kitematic.
 - Added xhyve support via https://github.com/zchee/docker-machine-driver-xhyve
+- Added parallels support via https://github.com/Parallels/docker-machine-parallels
 
 ### Changed
 - Start the VM on `upgrade` when necessary.
