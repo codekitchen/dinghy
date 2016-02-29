@@ -35,7 +35,7 @@ class DinghyCLI < Thor
     desc: "size of the virtual disk to create, in MB (default #{DISK_DEFAULT})"
   option :provider,
     aliases: :p,
-    desc: "which docker-machine provider to use, 'virtualbox', 'vmware', 'xhyve', or parallels"
+    desc: "which docker-machine provider to use, 'virtualbox', 'vmware', 'xhyve', or 'parallels'"
   option :boot2docker_url,
     type: :string,
     aliases: :u,
