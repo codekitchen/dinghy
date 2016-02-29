@@ -7,7 +7,7 @@ class Unfs
   include Dinghy::Daemon
 
   attr_reader :machine
-  attr_accessor :port
+  attr_accessor :port, :host_ip
 
   def initialize(machine)
     @machine = machine
@@ -29,7 +29,7 @@ class Unfs
     else
       write_exports!
       puts starting_message
-      system("sudo", "#{DINGHY}/bin/dinghy", "nfs", "start", port.to_s)
+      system("sudo", "#{DINGHY}/bin/dinghy", "nfs", "start", port.to_s, machine.host_ip)
     end
   end
 
@@ -100,7 +100,7 @@ class Unfs
       "-e", "#{exports_filename}",
       "-n", port.to_s,
       "-m", port.to_s,
-      "-l", "#{machine.host_ip}",
+      "-l", "#{host_ip}",
       "-p",
       "-d"
     ]
