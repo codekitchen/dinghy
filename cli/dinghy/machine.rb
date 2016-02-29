@@ -39,7 +39,11 @@ class Machine
   end
 
   def host_ip
-    vm_ip.sub(%r{\.\d+$}, '.1')
+    if provider == 'parallels'
+      vm_ip.sub(%r{\.\d+$}, '.2')
+    else
+      vm_ip.sub(%r{\.\d+$}, '.1')
+    end
   end
 
   def vm_ip
@@ -86,7 +90,7 @@ class Machine
 
   def mount(unfs)
     puts "Mounting NFS #{unfs.guest_mount_dir}"
-    # Remove the existing vbox/vmware shared folder. Machine now has flags to
+    # Remove the existing vbox/vmware/parallels shared folder. Machine now has flags to
     # skip mounting the share at all, but there's no way to apply the flag to an
     # already-created machine. So we have to continue to do this for older VMs.
     ssh("if [ $(grep -c #{Shellwords.escape('/Users[^/]')} /proc/mounts) -gt 0 ]; then sudo umount /Users || true; fi;")
@@ -135,6 +139,8 @@ class Machine
       "vmwarefusion"
     when "xhyve"
       "xhyve"
+    when "parallels", "parallels-desktop"
+      "parallels"
     else
       nil
     end
