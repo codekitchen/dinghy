@@ -5,7 +5,6 @@ require 'dinghy/daemon'
 class Dnsmasq
   include Dinghy::Daemon
   RESOLVER_DIR = Pathname("/etc/resolver")
-  RESOLVER_FILE = RESOLVER_DIR.join("docker")
 
   attr_reader :machine, :resolver_file, :dinghy_domain
 

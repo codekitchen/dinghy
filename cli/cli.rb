@@ -217,7 +217,7 @@ class DinghyCLI < Thor
       fsevents.up
     end
     dns = Dnsmasq.new(machine)
-    dns.dinghy_domain = preference[:dinghy_domain] if preferences[:dinghy_domain] 
+    dns.dinghy_domain = preferences[:dinghy_domain] if preferences[:dinghy_domain]
     dns.up
     proxy = options[:proxy] || (options[:proxy].nil? && !proxy_disabled?)
     if proxy
