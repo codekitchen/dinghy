@@ -163,6 +163,8 @@ class DinghyCLI < Thor
     CheckEnv.new(machine).print
   end
 
+  map "env" => :shellinit
+
   map "-v" => :version
   desc "version", "display dinghy version"
   def version
