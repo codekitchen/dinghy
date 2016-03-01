@@ -11,7 +11,6 @@ class Dnsmasq
   def initialize(machine)
     @machine = machine
     self.dinghy_domain = "docker"
-    @resolver_file = RESOLVER_DIR.join(@dinghy_domain)
   end
 
   def dinghy_domain=(dinghy_domain)
