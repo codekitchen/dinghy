@@ -5,12 +5,17 @@ require 'dinghy/daemon'
 class Dnsmasq
   include Dinghy::Daemon
   RESOLVER_DIR = Pathname("/etc/resolver")
-  RESOLVER_FILE = RESOLVER_DIR.join("docker")
 
-  attr_reader :machine
+  attr_reader :machine, :resolver_file, :dinghy_domain
 
   def initialize(machine)
     @machine = machine
+    self.dinghy_domain = "docker"
+  end
+
+  def dinghy_domain=(dinghy_domain)
+    @dinghy_domain = dinghy_domain
+    @resolver_file = RESOLVER_DIR.join(@dinghy_domain)
   end
 
   def up
@@ -32,14 +37,14 @@ class Dnsmasq
     Tempfile.open('dinghy-dnsmasq') do |f|
       f.write(resolver_contents)
       f.close
-      system!("creating #{RESOLVER_FILE}", "sudo", "cp", f.path, RESOLVER_FILE)
-      system!("creating #{RESOLVER_FILE}", "sudo", "chmod", "644", RESOLVER_FILE)
+      system!("creating #{@resolver_file}", "sudo", "cp", f.path, @resolver_file)
+      system!("creating #{@resolver_file}", "sudo", "chmod", "644", @resolver_file)
     end
     system!("restarting mDNSResponder", "sudo", "killall", "mDNSResponder")
   end
 
   def resolver_configured?
-    RESOLVER_FILE.exist? && File.read(RESOLVER_FILE) == resolver_contents
+    @resolver_file.exist? && File.read(@resolver_file) == resolver_contents
   end
 
   def resolver_contents; <<-EOS.gsub(/^    /, '')
@@ -59,7 +64,7 @@ class Dnsmasq
       "--port=19322",
       "--bind-interfaces",
       "--no-resolv",
-      "--address=/.docker/#{machine.vm_ip}"
+      "--address=/.#{dinghy_domain}/#{machine.vm_ip}"
     ]
   end
 end
