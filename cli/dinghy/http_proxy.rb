@@ -4,7 +4,7 @@ require 'dinghy/machine'
 
 class HttpProxy
   CONTAINER_NAME = "dinghy_http_proxy"
-  IMAGE_NAME = "codekitchen/dinghy-http-proxy:2.0.2"
+  IMAGE_NAME = "codekitchen/dinghy-http-proxy:2.0.3"
 
   attr_reader :machine
 
@@ -17,7 +17,7 @@ class HttpProxy
     System.capture_output do
       docker.system("rm", "-fv", CONTAINER_NAME)
     end
-    docker.system("run", "-d", "-p", "80:80", "-v", "/var/run/docker.sock:/tmp/docker.sock", "-v", "/usr/local/bin/docker:/usr/local/bin/docker", "-e", "CONTAINER_NAME=#{CONTAINER_NAME}", "--name", CONTAINER_NAME, IMAGE_NAME)
+    docker.system("run", "-d", "-p", "80:80", "-v", "/var/run/docker.sock:/tmp/docker.sock", "-e", "CONTAINER_NAME=#{CONTAINER_NAME}", "--name", CONTAINER_NAME, IMAGE_NAME)
   end
 
   def status
