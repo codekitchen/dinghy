@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+- Fix FS Events forwarding to xhyve VMs.
+
 ## 4.3.0 - 2016-03-03
 
 ### Added
