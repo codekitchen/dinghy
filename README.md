@@ -111,8 +111,6 @@ If you use docker-compose, you can add VIRTUAL_HOST to the environment hash in
 ```yaml
 web:
   build: .
-  ports:
-    - "3000:3000"
   environment:
     VIRTUAL_HOST: myrailsapp.docker
 ```
