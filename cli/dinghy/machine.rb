@@ -51,7 +51,14 @@ class Machine
   end
 
   def ssh_identity_file_path
-    inspect_driver['SSHKeyPath']
+    # HACK: The xhyve driver returns this as a blank string on v0.2.2 so we
+    #       manually build the path ourselves
+    ssh_key_path = inspect_driver["SSHKeyPath"]
+    if ssh_key_path != ""
+      ssh_key_path
+    else
+      "#{store_path}/id_rsa"
+    end
   end
 
   def provider
