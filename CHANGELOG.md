@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 4.3.0 - 2016-03-03
+
 ### Added
 - Allow specifying the docker-machine machine name in the preferences file. This is primarily to enable using Dinghy with Kitematic.
 - Added xhyve support via https://github.com/zchee/docker-machine-driver-xhyve
