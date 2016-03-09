@@ -72,8 +72,8 @@ class DinghyCLI < Thor
   def up
     vm_must_exist!
     if machine.running?
-      puts "#{machine.name} already running, restarting..."
-      halt
+      $stderr.puts "The VM '#{machine.name}' is already running."
+      exit(1)
     end
 
     puts "Starting the #{machine.name} VM..."
