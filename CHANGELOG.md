@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+- Don't restart on 'up' if already started.
+- Better handling of commands before the VM is created.
+
 ## 4.3.1 - 2016-03-03
 
 ### Changed
