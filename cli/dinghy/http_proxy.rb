@@ -17,7 +17,7 @@ class HttpProxy
     System.capture_output do
       docker.system("rm", "-fv", CONTAINER_NAME)
     end
-    docker.system("run", "-d", "-p", "80:80", "-v", "/var/run/docker.sock:/tmp/docker.sock", "-e", "CONTAINER_NAME=#{CONTAINER_NAME}", "--name", CONTAINER_NAME, IMAGE_NAME)
+    docker.system("run", "-d", "-p", "80:80", "-v", "/var/run/docker.sock:/tmp/docker.sock", "-v", "#{CONTAINER_NAME}_certs:/etc/nginx/certs", "-e", "CONTAINER_NAME=#{CONTAINER_NAME}", "--name", CONTAINER_NAME, IMAGE_NAME)
   end
 
   def status
