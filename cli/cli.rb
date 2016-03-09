@@ -70,15 +70,10 @@ class DinghyCLI < Thor
     desc: "start the FS event forwarder"
   desc "up", "start the Docker VM and services"
   def up
+    vm_must_exist!
     if machine.running?
       puts "#{machine.name} already running, restarting..."
       halt
-    end
-
-    if !machine.created?
-      $stderr.puts "The VM '#{machine.name}' does not exist in docker-machine."
-      $stderr.puts "Run `dinghy create` to create the VM, `dinghy help create` to see available options."
-      exit(1)
     end
 
     puts "Starting the #{machine.name} VM..."
@@ -89,6 +84,7 @@ class DinghyCLI < Thor
 
   desc "ssh [args...]", "ssh to the VM"
   def ssh(*args)
+    vm_must_exist!
     machine.ssh_exec(*args)
   end
 
@@ -115,6 +111,7 @@ class DinghyCLI < Thor
 
   desc "ip", "get the VM's IP address"
   def ip
+    vm_must_exist!
     if machine.running?
       puts machine.vm_ip
     else
@@ -125,6 +122,7 @@ class DinghyCLI < Thor
 
   desc "halt", "stop the VM and services"
   def halt
+    vm_must_exist!
     FseventsToVm.new(machine).halt
     puts "Stopping the #{machine.name} VM..."
     machine.halt
@@ -153,6 +151,7 @@ class DinghyCLI < Thor
 
   desc "upgrade", "upgrade the boot2docker VM to the newest available"
   def upgrade
+    vm_must_exist!
     machine.upgrade
     # restart to re-enable the http proxy, etc
     restart
@@ -160,6 +159,7 @@ class DinghyCLI < Thor
 
   desc "shellinit", "returns env variables to set, should be run like $(dinghy shellinit)"
   def shellinit
+    vm_must_exist!
     CheckEnv.new(machine).print
   end
 
@@ -194,6 +194,14 @@ class DinghyCLI < Thor
   }
 
   private
+
+  def vm_must_exist!
+    if !machine.created?
+      $stderr.puts "The VM '#{machine.name}' does not exist in docker-machine."
+      $stderr.puts "Run `dinghy create` to create the VM, `dinghy help create` to see available options."
+      exit(1)
+    end
+  end
 
   def preferences
     @preferences ||= Preferences.load
