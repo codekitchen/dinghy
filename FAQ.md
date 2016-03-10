@@ -1,8 +1,10 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 - [Dinghy FAQ](#dinghy-faq)
   - [The `docker` client gives an SSL error or times out](#the-docker-client-gives-an-ssl-error-or-times-out)
   - [The `docker` client reports errors like `x509: certificate is valid for 192.168.x.y, not 192.168.x.z`](#the-docker-client-reports-errors-like-x509-certificate-is-valid-for-192168xy-not-192168xz)
+  - [I'm running into file permissions issues on the NFS mounted volumes](#im-running-into-file-permissions-issues-on-the-nfs-mounted-volumes)
   - [I can't connect to an app running in docker from another VM (commonly to test in IE)](#i-cant-connect-to-an-app-running-in-docker-from-another-vm-commonly-to-test-in-ie)
   - [I want to make my containers reachable from other machines on my LAN](#i-want-to-make-my-containers-reachable-from-other-machines-on-my-lan)
 
@@ -36,6 +38,37 @@ this you need to regenerate the certificates with:
     $ docker-machine regenerate-certs dinghy
 
 Replace `dinghy` with the VM machine name if you aren't using the default name.
+
+## I'm running into file permissions issues on the NFS mounted volumes
+
+Unfortunately, there isn't yet a one-size-fits-all solution for sharing folders
+from the host OS X machine into the Linux VM and then into the docker
+containers, and permissions issues are sometimes a problem. This isn't an issue
+unique to Dinghy, and is a common point of discussion in projects like Docker
+Machine as well.
+
+Because Dinghy is geared toward development, it optimizes for sharing source
+code directories between the containers and host, and then uses NFS for
+performance. This works really well for editing code in OS X and seeing the
+changes immediately in your running containers, but can cause problems with
+mounting volumes from the host in some containers that expect files to be owned
+by certain users, since the files can't be successfully chown'd to the user
+running in the container.
+
+In practice, this means that it's usually best to run containers such as
+postgres using a normal docker volume, rather than a host-shared volume. This is
+the default, so normally nothing needs to be done, but you may run into chown
+errors or other file permissions issues if you try to mount a host volume into
+such containers.
+
+For more background on the decisions made here, see the discussion in issues
+such as https://github.com/codekitchen/dinghy/issues/31 and
+https://github.com/codekitchen/dinghy/issues/15
+
+In the future this may be solvable using user namespacing, which was introduced
+in a very limited form in docker 1.10. It would also be possible in theory to
+modify the NFS server process to do things such as ignore chown commands, but
+this isn't currently planned.
 
 ## I can't connect to an app running in docker from another VM (commonly to test in IE)
 
