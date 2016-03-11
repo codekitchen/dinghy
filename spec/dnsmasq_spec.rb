@@ -1,6 +1,6 @@
 RSpec.describe Dnsmasq do
   let(:machine) { double(:machine, vm_ip: '192.168.99.100') }
-  let(:dnsmasq) { Dnsmasq.new(machine) }
+  let(:dnsmasq) { Dnsmasq.new(machine, nil) }
 
   it 'defaults to `docker` as domain when no preference exists' do
     expect(dnsmasq.dinghy_domain).to eq "docker"

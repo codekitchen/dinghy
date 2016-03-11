@@ -91,13 +91,10 @@ class DinghyCLI < Thor
   desc "status", "get VM and services status"
   def status
     puts "  VM: #{machine.status}"
-    unfs = Unfs.new(machine)
     puts " NFS: #{unfs.status}"
-    fsevents = FseventsToVm.new(machine)
     puts "FSEV: #{fsevents.status}"
-    dns = Dnsmasq.new(machine)
     puts " DNS: #{dns.status}"
-    puts "HTTP: #{HttpProxy.new(machine).status}"
+    puts "HTTP: #{http_proxy.status}"
     return unless machine.status == 'running'
     [unfs, dns, fsevents].each do |daemon|
       if !daemon.running?
@@ -123,11 +120,11 @@ class DinghyCLI < Thor
   desc "halt", "stop the VM and services"
   def halt
     vm_must_exist!
-    FseventsToVm.new(machine).halt
+    fsevents.halt
     puts "Stopping the #{machine.name} VM..."
     machine.halt
-    Unfs.new(machine).halt
-    Dnsmasq.new(machine).halt
+    unfs.halt
+    dns.halt
   end
 
   map "down" => :halt
@@ -179,7 +176,6 @@ class DinghyCLI < Thor
         return
       end
 
-      unfs = Unfs.new(machine)
       unfs.port = port.to_i
       unfs.host_ip = host_ip
       case cmd
@@ -219,8 +215,23 @@ class DinghyCLI < Thor
     @machine ||= Machine.new(preferences[:machine_name])
   end
 
+  def unfs
+    @unfs ||= Unfs.new(machine)
+  end
+
+  def dns
+    @dns ||= Dnsmasq.new(machine, preferences[:dinghy_domain])
+  end
+
+  def http_proxy
+    @http_proxy ||= HttpProxy.new(machine, dns.dinghy_domain)
+  end
+
+  def fsevents
+    FseventsToVm.new(machine)
+  end
+
   def start_services
-    unfs = Unfs.new(machine)
     machine.up
     unfs.up
     if unfs.wait_for_unfs
@@ -230,18 +241,15 @@ class DinghyCLI < Thor
     end
     use_fsevents = options[:fsevents] || (options[:fsevents].nil? && !fsevents_disabled?)
     if use_fsevents
-      fsevents = FseventsToVm.new(machine)
       fsevents.up
     end
-    dns = Dnsmasq.new(machine)
-    dns.dinghy_domain = preferences[:dinghy_domain] if preferences[:dinghy_domain]
     dns.up
     proxy = options[:proxy] || (options[:proxy].nil? && !proxy_disabled?)
     if proxy
       # this is hokey, but it can take a few seconds for docker daemon to be available
       # TODO: poll in a loop until the docker daemon responds
       sleep 5
-      HttpProxy.new(machine).up
+      http_proxy.up
     end
 
     preferences.update(

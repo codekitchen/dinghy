@@ -8,9 +8,9 @@ class Dnsmasq
 
   attr_reader :machine, :resolver_file, :dinghy_domain
 
-  def initialize(machine)
+  def initialize(machine, dinghy_domain)
     @machine = machine
-    self.dinghy_domain = "docker"
+    self.dinghy_domain = dinghy_domain || "docker"
   end
 
   def dinghy_domain=(dinghy_domain)
