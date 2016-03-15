@@ -3,8 +3,8 @@ require 'yaml/store'
 require 'dinghy/constants'
 
 class Preferences
-  LEGACY_PREFERENCES_FILE = BREW+"etc/dinghy.yml"
-  PREFERENCES_FILE = HOME_DINGHY+"preferences.yml"
+  LEGACY_PREFERENCES_FILE = Dinghy.brew+"etc/dinghy.yml"
+  PREFERENCES_FILE = Dinghy.home_dinghy+"preferences.yml"
 
   def self.load(path = PREFERENCES_FILE)
     migrate_if_necessary

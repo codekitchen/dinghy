@@ -1,13 +1,14 @@
+require 'forwardable'
 require 'timeout'
 require 'socket'
 
-require 'dinghy/daemon'
+require 'dinghy/unfs_root_daemon'
 
 class Unfs
-  include Dinghy::Daemon
+  extend Forwardable
+  attr_reader :machine, :port
 
-  attr_reader :machine
-  attr_accessor :port, :host_ip
+  def_delegators :daemon, :name, :status, :running?
 
   def initialize(machine)
     @machine = machine
@@ -24,22 +25,14 @@ class Unfs
   # So, we sudo out to the dinghy binary again, and run a special command to
   # start unfsd in that sudo'd process.
   def up
-    if root?
-      super
-    else
-      write_exports!
-      puts starting_message
-      system("sudo", "#{DINGHY}/bin/dinghy", "nfs", "start", port.to_s, machine.host_ip)
-    end
+    write_exports!
+    puts starting_message
+    system("sudo", "#{Dinghy.dir}/bin/dinghy", "nfs", "start", Dinghy.var.to_s, *command)
   end
 
   def halt
-    if root?
-      super
-    else
-      puts stopping_message
-      system("sudo", "#{DINGHY}/bin/dinghy", "nfs", "stop", "0", "0") # port and host_ip unused
-    end
+    puts stopping_message
+    system("sudo", "#{Dinghy.dir}/bin/dinghy", "nfs", "stop", Dinghy.var.to_s)
   end
 
   def wait_for_unfs
@@ -55,22 +48,18 @@ class Unfs
   end
 
   def host_mount_dir
-    ENV['DINGHY_HOST_MOUNT_DIR'] || HOME
+    ENV['DINGHY_HOST_MOUNT_DIR'] || Dinghy.home
   end
 
   def guest_mount_dir
-    ENV['DINGHY_GUEST_MOUNT_DIR'] || HOME
-  end
-
-  def plist_name
-    "dinghy.unfs.plist"
-  end
-
-  def name
-    "NFS"
+    ENV['DINGHY_GUEST_MOUNT_DIR'] || Dinghy.home
   end
 
   protected
+
+  def daemon
+    UnfsRootDaemon.new(Dinghy.var, [])
+  end
 
   def write_exports!
     File.open(exports_filename, 'wb') { |f| f.write exports_body }
@@ -83,7 +72,7 @@ class Unfs
   end
 
   def exports_filename
-    HOME_DINGHY+"machine-nfs-exports-#{machine.name}"
+    Dinghy.home_dinghy+"machine-nfs-exports-#{machine.name}"
   end
 
   def starting_message
@@ -96,11 +85,11 @@ class Unfs
 
   def command
     [
-      "#{BREW}/sbin/unfsd",
+      "#{Dinghy.brew}/sbin/unfsd",
       "-e", "#{exports_filename}",
       "-n", port.to_s,
       "-m", port.to_s,
-      "-l", "#{host_ip}",
+      "-l", "#{machine.host_ip}",
       "-p",
       "-d"
     ]

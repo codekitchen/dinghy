@@ -1,11 +1,13 @@
 #!/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/ruby -W0
 # encoding: UTF-8
 
-require(File.realpath(__FILE__)+"/../../cli/cli")
-Dinghy.run_checks
+$local_dev = $0 =~ /bin\/_dinghy_command/ || $0 =~ /rspec/
 
 if ARGV[0] == "nfs"
-  DinghyCLI.new.nfs(*ARGV[1..-1])
+  require(File.realpath(__FILE__)+"/../../cli/unfs_cli")
+  UnfsCli.start(*ARGV[1..-1])
 else
+  require(File.realpath(__FILE__)+"/../../cli/cli")
+  Dinghy.run_checks
   DinghyCLI.start(ARGV)
 end

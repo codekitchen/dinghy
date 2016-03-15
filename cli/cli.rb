@@ -168,27 +168,6 @@ class DinghyCLI < Thor
     puts "Dinghy #{DINGHY_VERSION}"
   end
 
-  no_commands {
-    # this command is only used internally, when we sudo to start the nfs daemon
-    def nfs(cmd, port, host_ip)
-      if Process.uid != 0
-        $stderr.puts "nfs command must be run as root"
-        return
-      end
-
-      unfs.port = port.to_i
-      unfs.host_ip = host_ip
-      case cmd
-      when "start"
-        unfs.up
-      when "stop"
-        unfs.halt
-      else
-        $stderr.puts "unknown nfs subcommand: #{cmd}"
-      end
-    end
-  }
-
   private
 
   def vm_must_exist!

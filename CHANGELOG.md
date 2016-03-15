@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Don't restart on 'up' if already started.
 - Better handling of commands before the VM is created.
+- Decrease the logic in the sudo'd NFS process to avoid issues with various sudoers configurations.
 
 ## 4.3.1 - 2016-03-03
 

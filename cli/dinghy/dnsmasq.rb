@@ -58,7 +58,7 @@ class Dnsmasq
 
   def command
     [
-      "#{BREW}/sbin/dnsmasq",
+      "#{Dinghy.brew}/sbin/dnsmasq",
       "--no-daemon",
       "--listen-address=127.0.0.1",
       "--port=19322",

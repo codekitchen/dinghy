@@ -1,6 +1,38 @@
 module Dinghy
+  def self.brew
+    if ENV['CI'] == 'true'
+      Pathname.new('/usr/local')
+    else
+      Pathname.new(`brew --prefix`.strip)
+    end
+  end
+
+  def self.dir
+    if $local_dev
+      Pathname.new(File.expand_path("..", File.dirname(__FILE__)))
+    else
+      Dinghy.brew+"opt/dinghy"
+    end
+  end
+
+  def self.var
+    if $local_dev
+      Pathname.new(File.expand_path("../local/var", File.dirname(__FILE__)))
+    else
+      Dinghy.brew+"var/dinghy"
+    end
+  end
+
+  def self.home
+    Pathname.new(ENV.fetch("HOME"))
+  end
+
+  def self.home_dinghy
+    home+'.dinghy'
+  end
+
   def self.run_checks
-    create_dinghy_dir
+    create_dinghy_dirs
     docker_cmd_checks
     version_check
   end
@@ -10,10 +42,13 @@ module Dinghy
     'docker-machine' => Gem::Version.new("0.6.0"),
   }
 
-  def self.create_dinghy_dir
+  def self.create_dinghy_dirs
     # Create the .dinghy dir if it is missing
-    unless HOME_DINGHY.directory?
-      HOME_DINGHY.mkdir
+    unless Dinghy.home_dinghy.directory?
+      Dinghy.home_dinghy.mkdir
+    end
+    unless Dinghy.var.directory?
+      FileUtils.mkdir_p Dinghy.var
     end
   end
 
