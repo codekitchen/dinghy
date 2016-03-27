@@ -1,6 +1,7 @@
 require 'stringio'
 
 require 'dinghy/machine'
+require 'dinghy/constants'
 
 class HttpProxy
   CONTAINER_NAME = "dinghy_http_proxy"
@@ -20,8 +21,9 @@ class HttpProxy
     end
     docker.system("run", "-d",
       "-p", "80:80",
+      "-p", "443:443",
       "-v", "/var/run/docker.sock:/tmp/docker.sock",
-      "-v", "#{CONTAINER_NAME}_certs:/etc/nginx/certs",
+      "-v", Dinghy.home_dinghy.to_s+"/certs:/etc/nginx/certs",
       "-e", "CONTAINER_NAME=#{CONTAINER_NAME}",
       "-e", "DOMAIN_TLD=#{@dinghy_domain}",
       "--name", CONTAINER_NAME, IMAGE_NAME)
