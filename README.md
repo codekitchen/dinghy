@@ -115,6 +115,40 @@ web:
     VIRTUAL_HOST: myrailsapp.docker
 ```
 
+### SSL Support
+
+SSL is supported using single host certificates using naming conventions.
+
+To enable SSL, just put your certificates and privates keys in the ```HOME/.dinghy/certs``` directory 
+for any virtual hosts in use.  The certificate and keys should be named after the virtual host with a `.crt` and
+`.key` extension.  For example, a container with `VIRTUAL_HOST=foo.bar.com.docker` should have a
+`foo.bar.com.docker.crt` and `foo.bar.com.docker.key` file in the certs directory.
+
+#### How SSL Support Works
+
+The SSL cipher configuration is based on [mozilla nginx intermediate profile](https://wiki.mozilla.org/Security/Server_Side_TLS#Nginx) which
+should provide compatibility with clients back to Firefox 1, Chrome 1, IE 7, Opera 5, Safari 1,
+Windows XP IE8, Android 2.3, Java 7.  The configuration also enables HSTS, and SSL
+session caches.
+
+The behavior for the proxy is as follows:
+
+* If a container has a usable cert, port 80 will redirect to 443 for that container so that HTTPS
+is always preferred when available.
+* If the container does not have a usable cert, port 80 will be used.
+
+#### Hox to quickly generate self-signed certificates
+
+You can generate self-signed certificates using ```openssl```.
+
+``
+openssl req -x509 -newkey rsa:2048 -keyout foo.bar.com.docker.key \
+-out foo.bar.com.docker.crt -days 365 -nodes \
+-subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=foo.bar.com.docker" 
+````
+
+To prevent your browser to emit warning regarding self-signed certificates, you can install them on your system as trusted certificates.
+
 ## Preferences
 
 Dinghy creates a preferences file under ```HOME/.dinghy/preferences.yml```, which can be used to override default options. This is an example of the default generated preferenes:
