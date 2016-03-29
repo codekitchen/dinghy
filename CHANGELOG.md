@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+- Basic HTTPS support in the proxy, using manually-installed certs.
+
 ### Changed
 - Don't restart on 'up' if already started.
 - Better handling of commands before the VM is created.

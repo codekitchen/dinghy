@@ -5,7 +5,7 @@ require 'dinghy/constants'
 
 class HttpProxy
   CONTAINER_NAME = "dinghy_http_proxy"
-  IMAGE_NAME = "codekitchen/dinghy-http-proxy:2.0.4"
+  IMAGE_NAME = "codekitchen/dinghy-http-proxy:2.1.0"
 
   attr_reader :machine
 
@@ -23,7 +23,7 @@ class HttpProxy
       "-p", "80:80",
       "-p", "443:443",
       "-v", "/var/run/docker.sock:/tmp/docker.sock",
-      "-v", Dinghy.home_dinghy.to_s+"/certs:/etc/nginx/certs",
+      "-v", "#{Dinghy.home_dinghy_certs}:/etc/nginx/certs",
       "-e", "CONTAINER_NAME=#{CONTAINER_NAME}",
       "-e", "DOMAIN_TLD=#{@dinghy_domain}",
       "--name", CONTAINER_NAME, IMAGE_NAME)
