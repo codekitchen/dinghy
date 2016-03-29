@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+- Updated jwilder/nginx-proxy base image.
+
 ## 4.3.2 - 2016-03-29
 
 ### Added

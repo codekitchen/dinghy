@@ -5,7 +5,7 @@ require 'dinghy/constants'
 
 class HttpProxy
   CONTAINER_NAME = "dinghy_http_proxy"
-  IMAGE_NAME = "codekitchen/dinghy-http-proxy:2.1.0"
+  IMAGE_NAME = "codekitchen/dinghy-http-proxy:2.2.0"
 
   attr_reader :machine
 
