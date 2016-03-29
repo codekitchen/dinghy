@@ -31,6 +31,10 @@ module Dinghy
     home+'.dinghy'
   end
 
+  def self.home_dinghy_certs
+    home+'.dinghy/certs'
+  end
+
   def self.run_checks
     create_dinghy_dirs
     docker_cmd_checks
@@ -46,6 +50,9 @@ module Dinghy
     # Create the .dinghy dir if it is missing
     unless Dinghy.home_dinghy.directory?
       Dinghy.home_dinghy.mkdir
+    end
+    unless Dinghy.home_dinghy_certs.directory?
+      Dinghy.home_dinghy_certs.mkdir
     end
     unless Dinghy.var.directory?
       FileUtils.mkdir_p Dinghy.var
