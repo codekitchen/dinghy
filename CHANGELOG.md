@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 4.3.2 - 2016-03-29
+
 ### Added
 - Basic HTTPS support in the proxy, using manually-installed certs.
 
