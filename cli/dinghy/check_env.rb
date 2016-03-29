@@ -11,7 +11,11 @@ class CheckEnv
     if set?
       puts "\e[32mYour environment variables are already set correctly.\e[0m"
     else
-      puts "\e[33mTo connect the Docker client to the Docker daemon, please set:\e[0m"
+      puts "\e[33mTo connect the Docker client to the Docker daemon, please set these environment variables."
+      puts "You can set them by running:"
+      puts "    eval $(dinghy env)"
+      puts "It's recommended to add this to your shell config such as ~/.bashrc\e[0m"
+      puts
       print
     end
   end
