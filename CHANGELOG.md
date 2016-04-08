@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Updated jwilder/nginx-proxy base image.
+- Use the new dinghy-http-proxy that contains the DNS resolver.
+
+### Removed
+- Remove the host dnsmasq proxy, as it now runs in Docker.
 
 ## 4.3.2 - 2016-03-29
 

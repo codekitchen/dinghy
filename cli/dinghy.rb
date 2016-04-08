@@ -1,3 +1,5 @@
+require 'tempfile'
+
 module Dinghy
   def self.brew
     if ENV['CI'] == 'true'

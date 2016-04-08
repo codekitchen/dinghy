@@ -8,7 +8,6 @@ $LOAD_PATH << File.dirname(__FILE__)
 require 'dinghy.rb'
 require 'dinghy/check_env'
 require 'dinghy/docker'
-require 'dinghy/dnsmasq'
 require 'dinghy/fsevents_to_vm'
 require 'dinghy/http_proxy'
 require 'dinghy/preferences'
@@ -90,13 +89,12 @@ class DinghyCLI < Thor
 
   desc "status", "get VM and services status"
   def status
-    puts "  VM: #{machine.status}"
-    puts " NFS: #{unfs.status}"
-    puts "FSEV: #{fsevents.status}"
-    puts " DNS: #{dns.status}"
-    puts "HTTP: #{http_proxy.status}"
+    puts "   VM: #{machine.status}"
+    puts "  NFS: #{unfs.status}"
+    puts " FSEV: #{fsevents.status}"
+    puts "PROXY: #{http_proxy.status}"
     return unless machine.status == 'running'
-    [unfs, dns, fsevents].each do |daemon|
+    [unfs, fsevents].each do |daemon|
       if !daemon.running?
         puts "\n\e[33m#{daemon.name} failed to run\e[0m"
         puts "details available in log file: #{daemon.logfile}"
@@ -124,7 +122,6 @@ class DinghyCLI < Thor
     puts "Stopping the #{machine.name} VM..."
     machine.halt
     unfs.halt
-    dns.halt
   end
 
   map "down" => :halt
@@ -198,12 +195,8 @@ class DinghyCLI < Thor
     @unfs ||= Unfs.new(machine)
   end
 
-  def dns
-    @dns ||= Dnsmasq.new(machine, preferences[:dinghy_domain])
-  end
-
   def http_proxy
-    @http_proxy ||= HttpProxy.new(machine, dns.dinghy_domain)
+    @http_proxy ||= HttpProxy.new(machine, preferences[:dinghy_domain])
   end
 
   def fsevents
@@ -222,14 +215,11 @@ class DinghyCLI < Thor
     if use_fsevents
       fsevents.up
     end
-    dns.up
     proxy = options[:proxy] || (options[:proxy].nil? && !proxy_disabled?)
-    if proxy
-      # this is hokey, but it can take a few seconds for docker daemon to be available
-      # TODO: poll in a loop until the docker daemon responds
-      sleep 5
-      http_proxy.up
-    end
+    # this is hokey, but it can take a few seconds for docker daemon to be available
+    # TODO: poll in a loop until the docker daemon responds
+    sleep 5
+    http_proxy.up(expose_proxy: !!proxy)
 
     preferences.update(
       proxy_disabled: !proxy,
