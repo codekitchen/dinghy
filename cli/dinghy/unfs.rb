@@ -24,8 +24,8 @@ class Unfs
   #
   # So, we sudo out to the dinghy binary again, and run a special command to
   # start unfsd in that sudo'd process.
-  def up
-    write_exports!
+  def up(custom_export_options)
+    write_exports!(custom_export_options)
     puts starting_message
     system("sudo", "#{Dinghy.dir}/bin/dinghy", "nfs", "start", Dinghy.var.to_s, *command)
   end
@@ -61,13 +61,19 @@ class Unfs
     UnfsRootDaemon.new(Dinghy.var, [])
   end
 
-  def write_exports!
-    File.open(exports_filename, 'wb') { |f| f.write exports_body }
+  def write_exports!(custom_export_options)
+    File.open(exports_filename, 'wb') { |f| f.write exports_body(custom_export_options) }
   end
 
-  def exports_body
+  def exports_body(custom_export_options)
+    export_options = if custom_export_options.nil?
+      "rw,all_squash,anonuid=#{Process.uid},anongid=#{Process.gid}"
+    else
+      custom_export_options
+    end
+
     <<-BODY.gsub(/^    /, '')
-    "#{host_mount_dir}" #{machine.vm_ip}(rw,all_squash,anonuid=#{Process.uid},anongid=#{Process.gid})
+    "#{host_mount_dir}" #{machine.vm_ip}(#{export_options})
     BODY
   end
 

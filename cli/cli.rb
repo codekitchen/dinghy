@@ -205,7 +205,7 @@ class DinghyCLI < Thor
 
   def start_services
     machine.up
-    unfs.up
+    unfs.up(preferences[:custom_nfs_export_options])
     if unfs.wait_for_unfs
       machine.mount(unfs)
     else
