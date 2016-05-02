@@ -131,13 +131,17 @@ should provide compatibility with clients back to Firefox 1, Chrome 1, IE 7, Ope
 Windows XP IE8, Android 2.3, Java 7.  The configuration also enables HSTS, and SSL
 session caches.
 
-The behavior for the proxy is as follows:
+The default behavior for the proxy when port 80 and 443 are exposed is as follows:
 
 * If a container has a usable cert, port 80 will redirect to 443 for that container so that HTTPS
 is always preferred when available.
 * If the container does not have a usable cert, port 80 will be used.
 
-#### Hox to quickly generate self-signed certificates
+To serve traffic in both SSL and non-SSL modes without redirecting to SSL, you can include the
+environment variable `HTTPS_METHOD=noredirect` (the default is `HTTPS_METHOD=redirect`).  You can also
+disable the non-SSL site entirely with `HTTPS_METHOD=nohttp`.
+
+#### How to quickly generate self-signed certificates
 
 You can generate self-signed certificates using ```openssl```.
 
