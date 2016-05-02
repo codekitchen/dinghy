@@ -5,7 +5,7 @@ require 'dinghy/constants'
 
 class HttpProxy
   CONTAINER_NAME = "dinghy_http_proxy"
-  IMAGE_NAME = "codekitchen/dinghy-http-proxy:2.3.0"
+  IMAGE_NAME = "codekitchen/dinghy-http-proxy:2.3.1"
   RESOLVER_DIR = Pathname("/etc/resolver")
 
   attr_reader :machine, :resolver_file, :dinghy_domain

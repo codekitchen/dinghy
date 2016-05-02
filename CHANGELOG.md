@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 - Updated jwilder/nginx-proxy base image.
 - Use the new dinghy-http-proxy that contains the DNS resolver.
 - Set VirtualBox DNS options on each start, rather than once at VM create.
+- Support [`HTTPS_METHOD`](https://github.com/jwilder/nginx-proxy/pull/298) env var for the proxy.
 
 ### Removed
 - Remove the host dnsmasq proxy, as it now runs in Docker.
