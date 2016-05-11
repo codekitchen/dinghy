@@ -4,7 +4,7 @@ class FseventsToVm
   include Dinghy::Daemon
   INSTALL_PATH = Dinghy.brew+"bin"
   BIN_PATH = INSTALL_PATH+"fsevents_to_vm"
-  VERSION = "~> 1.1.1"
+  VERSION = "~> 1.1.2"
 
   attr_reader :machine
 
