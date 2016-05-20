@@ -91,67 +91,20 @@ container that exposes port 3000 to the host, and you like to call it
 ## HTTP proxy
 
 Dinghy will run a HTTP proxy inside a docker container in the VM, giving you
-easy access to web apps running in other containers. This is based heavily on
-the excellent [nginx-proxy](https://github.com/jwilder/nginx-proxy) docker tool.
+easy access to web apps running in other containers.
 
-The proxy will take a few moments to download the first time you launch the VM.
+For docker-compose projects, hostnames will be automatically generated based on
+the project and service names. For instance, a "web" service in a "myapp"
+docker-compose project will be automatically made available at
+http://web.myapp.docker
 
-Any containers that you want proxied, make sure the `VIRTUAL_HOST`
-environment variable is set, either with the `-e` option to docker or
-the environment hash in docker-compose. For instance setting
-`VIRTUAL_HOST=myrailsapp.docker` will make the container's exposed port
-available at `http://myrailsapp.docker/`. If the container exposes more
-than one port, set `VIRTUAL_PORT` to the http port number, as well.
+Hostnames can also be manually defined, by setting the `VIRTUAL_HOST`
+environment variable on a container.
 
-See the nginx-proxy documentation for further details.
+See the [dinghy-http-proxy documentation](https://github.com/codekitchen/dinghy-http-proxy#dinghy-http-proxy)
+for more details on how to configure and use the proxy.
 
-If you use docker-compose, you can add VIRTUAL_HOST to the environment hash in
-`docker-compose.yml`, for instance:
-
-```yaml
-web:
-  build: .
-  environment:
-    VIRTUAL_HOST: myrailsapp.docker
-```
-
-### SSL Support
-
-SSL is supported using single host certificates using naming conventions.
-
-To enable SSL, just put your certificates and privates keys in the ```HOME/.dinghy/certs``` directory
-for any virtual hosts in use.  The certificate and keys should be named after the virtual host with a `.crt` and
-`.key` extension.  For example, a container with `VIRTUAL_HOST=foo.bar.com.docker` should have a
-`foo.bar.com.docker.crt` and `foo.bar.com.docker.key` file in the certs directory.
-
-#### How SSL Support Works
-
-The SSL cipher configuration is based on [mozilla nginx intermediate profile](https://wiki.mozilla.org/Security/Server_Side_TLS#Nginx) which
-should provide compatibility with clients back to Firefox 1, Chrome 1, IE 7, Opera 5, Safari 1,
-Windows XP IE8, Android 2.3, Java 7.  The configuration also enables HSTS, and SSL
-session caches.
-
-The default behavior for the proxy when port 80 and 443 are exposed is as follows:
-
-* If a container has a usable cert, port 80 will redirect to 443 for that container so that HTTPS
-is always preferred when available.
-* If the container does not have a usable cert, port 80 will be used.
-
-To serve traffic in both SSL and non-SSL modes without redirecting to SSL, you can include the
-environment variable `HTTPS_METHOD=noredirect` (the default is `HTTPS_METHOD=redirect`).  You can also
-disable the non-SSL site entirely with `HTTPS_METHOD=nohttp`.
-
-#### How to quickly generate self-signed certificates
-
-You can generate self-signed certificates using ```openssl```.
-
-```bash
-openssl req -x509 -newkey rsa:2048 -keyout foo.bar.com.docker.key \
--out foo.bar.com.docker.crt -days 365 -nodes \
--subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=foo.bar.com.docker"
-```
-
-To prevent your browser to emit warning regarding self-signed certificates, you can install them on your system as trusted certificates.
+The proxy has basic SSL support as well, see the documentation for details.
 
 ## Preferences
 
