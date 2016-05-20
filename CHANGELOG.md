@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 4.4.0 - 2016-05-20
+
 ### Changed
 - Updated jwilder/nginx-proxy base image.
 - Use the new dinghy-http-proxy that contains the DNS resolver.
