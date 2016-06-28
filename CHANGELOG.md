@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+- Fix NFS daemon `logpath` error.
+
+### Added
+- Added default vhost splash screen to the HTTP proxy.
+
 ## 4.4.0 - 2016-05-20
 
 ### Changed
