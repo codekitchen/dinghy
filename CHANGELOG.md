@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 4.4.1 - 2016-06-28
+
 ### Changed
 - Fix NFS daemon `logpath` error.
 
