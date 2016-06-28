@@ -8,7 +8,7 @@ class Unfs
   extend Forwardable
   attr_reader :machine, :port
 
-  def_delegators :daemon, :name, :status, :running?
+  def_delegators :daemon, :name, :status, :running?, :logfile
 
   def initialize(machine)
     @machine = machine
