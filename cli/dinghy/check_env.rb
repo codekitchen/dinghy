@@ -14,7 +14,7 @@ class CheckEnv
       puts "\e[33mTo connect the Docker client to the Docker daemon, please set these environment variables."
       puts "You can set them by running:"
       puts "    eval $(dinghy env)"
-      puts "It's recommended to add this to your shell config such as ~/.bashrc\e[0m"
+      puts "It's recommended to add this to your shell config such as ~/.bash_profile\e[0m"
       puts
       print
     end
