@@ -108,7 +108,7 @@ The proxy has basic SSL support as well, see the documentation for details.
 
 ## Preferences
 
-Dinghy creates a preferences file under ```HOME/.dinghy/preferences.yml```, which can be used to override default options. This is an example of the default generated preferenes:
+Dinghy creates a preferences file under ```HOME/.dinghy/preferences.yml```, which can be used to override default options. This is an example of the default generated preferences:
 
 ```
 :preferences:
@@ -118,7 +118,7 @@ Dinghy creates a preferences file under ```HOME/.dinghy/preferences.yml```, whic
     provider: virtualbox
 ```
 
-If you want to override the dinghy machine name (e.g. to change it to 'default' so it can work with Kitematic), it can be changed here. First, destroy your current dinghy VM and then add the following to your preferences.yml file:
+If you want to override the Dinghy machine name (e.g. to change it to 'default' so it can work with Kitematic), it can be changed here. First, destroy your current dinghy VM and then add the following to your preferences.yml file:
 
 ```
 :preferences:
@@ -128,7 +128,17 @@ If you want to override the dinghy machine name (e.g. to change it to 'default' 
   :machine_name: default
 ```
 
-## a note on NFS sharing
+Same goes for the default Dinghy dns resolver '\*.docker' it can be changed to '\*.dev' for example:
+
+```
+:preferences:
+.
+.
+.
+  :dinghy_domain: dev
+```
+
+## A note on NFS sharing
 
 Dinghy shares your home directory (`/Users/<you>`) over NFS, using a
 private network interface between your host machine and the Dinghy
@@ -139,7 +149,7 @@ Be aware that there isn't a lot of security around NFSv3 file shares.
 We've tried to lock things down as much as possible (this NFS daemon
 doesn't even listen on other interfaces, for example).
 
-## upgrading
+## Upgrading
 
 If you didn't originally install Dinghy as a tap, you'll need to switch to the
 tap to pull in the latest release:
@@ -159,7 +169,7 @@ To update the Docker VM, run:
 
 This will run `docker-machine upgrade` and then restart the dinghy services.
 
-### prereleases
+### Prereleases
 
 You can install Dinghy's master branch with:
 
@@ -169,7 +179,7 @@ You can install Dinghy's master branch with:
 
 This branch may be less stable, so this isn't recommended in general.
 
-## built on
+## Built on
 
  - https://github.com/docker/machine
  - https://github.com/markusn/unfs3
