@@ -139,6 +139,19 @@ Be aware that there isn't a lot of security around NFSv3 file shares.
 We've tried to lock things down as much as possible (this NFS daemon
 doesn't even listen on other interfaces, for example).
 
+### Custom NFS Mount Location
+
+You can change the shared folder by setting the `DINGHY_HOST_MOUNT_DIR` and `DINGHY_GUEST_MOUNT_DIR` environment variables before starting the dinghy VM. Usually you'll want to set both vars to the same value. For instance if you want to share `/code/projects` over NFS rather than `/Users/<you>`, in bash:
+
+```bash
+$ dinghy halt
+$ export DINGHY_HOST_MOUNT_DIR=/code/projects
+$ export DINGHY_GUEST_MOUNT_DIR=/code/projects
+$ dinghy up
+```
+
+There is an open issue for persisting this in the `~/.dinghy/preferences.yml` file, and allowing multiple dirs to be exported: https://github.com/codekitchen/dinghy/issues/169
+
 ## upgrading
 
 If you didn't originally install Dinghy as a tap, you'll need to switch to the
