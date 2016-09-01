@@ -51,6 +51,21 @@ class HttpProxy
     end
   end
 
+  def http_status
+    overall_status = status
+    return overall_status unless overall_status == "running"
+
+    output, _ = System.capture_output do
+      docker.system("inspect", "-f", '{{ index .HostConfig.PortBindings "80/tcp" }}', CONTAINER_NAME)
+    end
+
+    if output =~ /HostPort/
+      "running"
+    else
+      "stopped"
+    end
+  end
+
   def configure_resolver!
     puts "setting up DNS resolution, this will require sudo"
     unless RESOLVER_DIR.directory?

@@ -44,8 +44,8 @@ module Dinghy
   end
 
   REQUIRED_VERSIONS = {
-    'docker' => Gem::Version.new("1.10.0"),
-    'docker-machine' => Gem::Version.new("0.6.0"),
+    'docker' => Gem::Version.new("1.12.0"),
+    'docker-machine' => Gem::Version.new("0.8.1"),
   }
 
   def self.create_dinghy_dirs

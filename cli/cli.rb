@@ -92,7 +92,8 @@ class DinghyCLI < Thor
     puts "   VM: #{machine.status}"
     puts "  NFS: #{unfs.status}"
     puts " FSEV: #{fsevents.status}"
-    puts "PROXY: #{http_proxy.status}"
+    puts "  DNS: #{http_proxy.status}"
+    puts "PROXY: #{http_proxy.http_status}"
     return unless machine.status == 'running'
     [unfs, fsevents].each do |daemon|
       if !daemon.running?
