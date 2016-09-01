@@ -1,5 +1,5 @@
 RSpec.describe HttpProxy do
-  let(:machine) { double(:machine, vm_ip: '192.168.99.100') }
+  let(:machine) { double(:machine, vm_ip: '192.168.99.100', host_ip: '192.168.99.1') }
   let(:proxy) { described_class.new(machine, nil) }
 
   it 'defaults to `docker` as domain when no preference exists' do
@@ -13,5 +13,9 @@ RSpec.describe HttpProxy do
     expect(proxy.dinghy_domain).to eq "dev"
     expect(proxy.resolver_file).to eq Pathname.new("/etc/resolver/dev")
     expect(proxy.send(:run_args)).to be_include "DOMAIN_TLD=dev"
+  end
+
+  it 'sets the host machine IP option' do
+    expect(proxy.send(:run_args)).to be_include "HOSTMACHINE_IP=192.168.99.1"
   end
 end
