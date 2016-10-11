@@ -1,12 +1,14 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+
 - [Dinghy FAQ](#dinghy-faq)
   - [The `docker` client gives an SSL error or times out](#the-docker-client-gives-an-ssl-error-or-times-out)
   - [The `docker` client reports errors like `x509: certificate is valid for 192.168.x.y, not 192.168.x.z`](#the-docker-client-reports-errors-like-x509-certificate-is-valid-for-192168xy-not-192168xz)
   - [I'm running into file permissions issues on the NFS mounted volumes](#im-running-into-file-permissions-issues-on-the-nfs-mounted-volumes)
   - [I can't connect to an app running in docker from another VM (commonly to test in IE)](#i-cant-connect-to-an-app-running-in-docker-from-another-vm-commonly-to-test-in-ie)
   - [I want to make my containers reachable from other machines on my LAN](#i-want-to-make-my-containers-reachable-from-other-machines-on-my-lan)
+  - [DNS SRV/MX record lookups fail when using VirtualBox](#dns-srvmx-record-lookups-fail-when-using-virtualbox)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -88,3 +90,11 @@ outside your computer by default. To enable others to reach your VM, you can use
 a tool such as [my-proxy](https://github.com/esnunes/my-proxy) to set up a proxy
 server. Please be aware of the security implications of exposing your containers
 in this way, and don't do it on an untrusted network.
+
+## DNS SRV/MX record lookups fail when using VirtualBox
+
+This is an issue with VirtualBox DNS serving, see https://github.com/codekitchen/dinghy/issues/172
+
+There is a workaround there, turning on `natdnsproxy1` for the VM, but
+unfortunately this breaks resolving of `*.docker` domains from within the VM. So
+there is no known VirtualBox configuration that fixes all problems.
