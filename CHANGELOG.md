@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 4.4.2 - 2016-10-24
+
 ### Added
 - Add `hostmachine.docker` DNS address pointing to the host OS X machine for use in containers.
 
