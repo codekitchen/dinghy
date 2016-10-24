@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+- Add `hostmachine.docker` DNS address pointing to the host OS X machine for use in containers.
+
+### Changed
+- Show DNS and Proxy status separately.
+- Slightly improved error handling.
+- Proxy updates.
+
 ## 4.4.1 - 2016-06-28
 
 ### Changed
