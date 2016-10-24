@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+- More improved/consistent error handling.
+
 ## 4.4.2 - 2016-10-24
 
 ### Added
