@@ -77,7 +77,14 @@ class Machine
   end
 
   def inspect
-    JSON.parse(`docker-machine inspect #{machine_name} 2>/dev/null`)
+    out, err = System.capture_output {
+      system('inspect', machine_name)
+    }
+    if System.command_failed?
+      $stderr.puts err
+      raise("Failure calling `docker-machine inspect #{machine_name}`")
+    end
+    JSON.parse(out)
   end
 
   def inspect_driver
