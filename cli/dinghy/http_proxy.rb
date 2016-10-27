@@ -30,7 +30,8 @@ class HttpProxy
       configure_resolver!
     end
     System.capture_output do
-      docker.system("rm", "-fv", CONTAINER_NAME)
+      docker.system("stop", CONTAINER_NAME)
+      docker.system("rm", "-v", CONTAINER_NAME)
     end
     docker.system("run", "-d",
       *run_args(expose_proxy),
