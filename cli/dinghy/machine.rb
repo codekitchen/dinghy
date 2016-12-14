@@ -103,7 +103,7 @@ class Machine
   end
 
   def halt
-    system("stop", machine_name)
+    system("stop", machine_name) if running?
   end
 
   def upgrade
