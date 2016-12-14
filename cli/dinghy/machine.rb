@@ -13,7 +13,7 @@ class Machine
   def create(options = {})
     provider = options['provider']
 
-    system("create", "-d", provider, *CreateOptions.generate(provider, options), machine_name)
+    system_print("create", "-d", provider, *CreateOptions.generate(provider, options), machine_name)
 
     configure_machine(provider)
   end
@@ -110,11 +110,11 @@ class Machine
     if !running?
       up
     end
-    system("upgrade", machine_name)
+    system_print("upgrade", machine_name)
   end
 
   def destroy(options = {})
-    system(*["rm", (options[:force] ? '--force' : nil), machine_name].compact)
+    system_print(*["rm", (options[:force] ? '--force' : nil), machine_name].compact)
   end
 
   def created?
@@ -124,6 +124,10 @@ class Machine
 
   def system(*cmd)
     System.system('docker-machine', *cmd)
+  end
+
+  def system_print(*cmd)
+    System.system_print('docker-machine', *cmd)
   end
 
   def translate_provider(name)
