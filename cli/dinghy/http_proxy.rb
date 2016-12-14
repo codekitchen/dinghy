@@ -28,6 +28,9 @@ class HttpProxy
     puts "Starting DNS#{' and HTTP proxy' if expose_proxy}"
     unless resolver_configured?
       configure_resolver!
+      # Another hokey workaround -- DNS can take a few seconds to stabilize
+      # after we've added the new resolver.
+      sleep 5
     end
     System.capture_output do
       docker.system("stop", CONTAINER_NAME)
