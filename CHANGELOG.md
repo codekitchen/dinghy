@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - More improved/consistent error handling.
+- Work around MacOS DNS resolution failing briefly after configuring the `.docker` domain.
+- Stop the DNS/HTTP proxy more gracefully.
 
 ## 4.4.2 - 2016-10-24
 
