@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 4.4.3 - 2016-12-15
+
 ### Changed
 - More improved/consistent error handling.
 - Work around MacOS DNS resolution failing briefly after configuring the `.docker` domain.
