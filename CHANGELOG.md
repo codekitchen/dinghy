@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+- Track minor version for HTTP proxy, rather than patchlevel version. Now small changes can be made to the proxy without a new version of Dinghy.
+
 ## 4.4.3 - 2016-12-15
 
 ### Changed
