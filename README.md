@@ -106,10 +106,14 @@ http://web.myapp.docker
 Hostnames can also be manually defined, by setting the `VIRTUAL_HOST`
 environment variable on a container.
 
-See the [dinghy-http-proxy documentation](https://github.com/codekitchen/dinghy-http-proxy#dinghy-http-proxy)
-for more details on how to configure and use the proxy.
+The proxy has basic SSL support as well.
 
-The proxy has basic SSL support as well, see the documentation for details.
+See the [dinghy-http-proxy documentation](https://github.com/codekitchen/dinghy-http-proxy#dinghy-http-proxy)
+for more details on how to configure and use the proxy. 
+
+Advanced proxy configuration can be placed in a file at ```HOME/.dinghy/proxy.conf```. Details can be found in jwilder's [nginx-proxy](https://github.com/jwilder/nginx-proxy#custom-nginx-configuration) project.
+
+
 
 ## Preferences
 
