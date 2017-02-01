@@ -102,7 +102,6 @@ class HttpProxy
       "-p", "19322:19322/udp",
       "-v", "/var/run/docker.sock:/tmp/docker.sock:ro",
       "-v", "#{Dinghy.home_dinghy_certs}:/etc/nginx/certs",
-      "-v", "#{Dinghy.home_dinghy}/proxy.conf:/etc/nginx/conf.d/custom.conf",
       "-e", "CONTAINER_NAME=#{CONTAINER_NAME}",
       "-e", "DOMAIN_TLD=#{dinghy_domain}",
       "-e", "DNS_IP=#{machine.vm_ip}",
@@ -112,6 +111,12 @@ class HttpProxy
       args += [
         "-p", "80:80",
         "-p", "443:443",
+      ]
+    end
+    custom_config_file = "#{Dinghy.home_dinghy}/proxy.conf"
+    if File.file?(custom_config_file)
+      args += [
+        "-v",  "#{custom_config_file}:/etc/nginx/conf.d/custom.conf",
       ]
     end
     args
