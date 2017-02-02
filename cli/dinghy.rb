@@ -93,7 +93,7 @@ module Dinghy
   end
 
   def self.version(command)
-    text, _ = System.capture_output { system(command, "--version") }
+    text, _ = unset_env { System.capture_output { system(command, "--version") } }
     if System.command_failed?
       raise("Could not check #{command} --version, is it installed?")
     end
@@ -102,5 +102,15 @@ module Dinghy
       raise("Could not check #{command} --version, is it installed?")
     end
     Gem::Version.new(version)
+  end
+
+  ENV_VARS = %w[DOCKER_HOST DOCKER_CERT_PATH DOCKER_TLS_VERIFY].freeze
+
+  def self.unset_env
+    old_env = {}
+    ENV_VARS.each { |k| old_env[k] = ENV[k] if ENV.key?(k); ENV.delete(k) }
+    yield
+  ensure
+    old_env.each { |k,v| ENV[k] = v }
   end
 end
