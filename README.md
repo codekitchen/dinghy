@@ -181,7 +181,6 @@ tap to pull in the latest release:
 To update Dinghy itself, run:
 
     $ dinghy halt
-    $ brew update
     $ brew upgrade dinghy
     $ dinghy up
 
