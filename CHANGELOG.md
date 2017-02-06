@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 4.5.0 - 2017-02-06
+
 ### Added
 - Custom nginx proxy config support.
 
