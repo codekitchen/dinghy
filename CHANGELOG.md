@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Track minor version for HTTP proxy, rather than patchlevel version. Now small changes can be made to the proxy without a new version of Dinghy.
+- Fix `dinghy create` for Docker 1.13 compatibility.
+- Proxy: leave docker networks when there are no active containers in the network, to make destroying the network easier.
 
 ## 4.4.3 - 2016-12-15
 
