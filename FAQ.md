@@ -91,6 +91,22 @@ a tool such as [my-proxy](https://github.com/esnunes/my-proxy) to set up a proxy
 server. Please be aware of the security implications of exposing your containers
 in this way, and don't do it on an untrusted network.
 
+Alternatively, you can use [stone](http://www.gcd.org/sengoku/stone/) (can be installed with `brew`), which will make a proxy to all exposed Docker ports
+on Dinghy's IP from localhost:
+
+```bash
+stone `docker ps -q | grep -v $(docker ps -q --filter='name=dinghy_http_proxy') | xargs -L 1 docker port | grep -o "[0-9]\+$" | tr '\n' ' ' | sed -e "s/\([0-9]\{1,\}\)/$(dinghy ip):\1 \1 --/g"`
+```
+
+The command can be defined as a bash function in **~/.bash_profile** for quick usage:
+
+```bash
+function dinghy-expose {
+    binds=`docker ps -q | grep -v $(docker ps -q --filter='name=dinghy_http_proxy') | xargs -L 1 docker port | grep -o "[0-9]\+$" | tr '\n' ' ' | sed -e "s/\([0-9]\{1,\}\)/$(dinghy ip):\1 \1 --/g"`
+    eval stone $binds
+}
+```
+
 ## DNS SRV/MX record lookups fail when using VirtualBox
 
 This is an issue with VirtualBox DNS serving, see https://github.com/codekitchen/dinghy/issues/172
