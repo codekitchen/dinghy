@@ -33,7 +33,7 @@ class CheckEnv
     begin
         return `echo $SHELL`.strip
     rescue
-        return
+        return ""
     end
   end
 
