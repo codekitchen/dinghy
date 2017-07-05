@@ -28,9 +28,21 @@ class CheckEnv
       "DOCKER_MACHINE_NAME" => machine.name,
     }
   end
+  
+  def shell
+    begin
+        return `echo $SHELL`.strip
+    rescue
+        return ""
+    end
+  end
 
   def print
-    expected.each { |name,value| puts "    export #{name}=#{value}" }
+    if shell().end_with?('/fish') then
+      expected.each { |name,value| puts "    set -gx #{name} #{value}" }
+    else
+      expected.each { |name,value| puts "    export #{name}=#{value}" }
+    end
   end
 
   def set?
