@@ -3,11 +3,13 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+- Display Fish syntax for setting env variables.
+
 ## 4.5.0 - 2017-02-06
 
 ### Added
 - Custom nginx proxy config support.
-- Display Fish syntax for setting env variables.
 
 ### Changed
 - Track minor version for HTTP proxy, rather than patchlevel version. Now small changes can be made to the proxy without a new version of Dinghy.
