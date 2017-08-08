@@ -105,11 +105,14 @@ class DinghyCLI < Thor
     CheckEnv.new(machine).run
   end
 
+  option :host,
+    type: :boolean,
+    desc: "output the host IP on the VM interface, rather than the VM IP"
   desc "ip", "get the VM's IP address"
   def ip
     vm_must_exist!
     if machine.running?
-      puts machine.vm_ip
+      puts(options[:host] ? machine.host_ip : machine.vm_ip)
     else
       $stderr.puts "The VM is not running, `dinghy up` to start"
       exit 1
