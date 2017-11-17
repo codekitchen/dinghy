@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 4.6.0 - 2017-11-17
+
 ### Added
 - Display Fish syntax for setting env variables.
 - `dinghy ip --host` option to output host IP.
