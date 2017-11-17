@@ -7,6 +7,9 @@ All notable changes to this project will be documented in this file.
 - Display Fish syntax for setting env variables.
 - `dinghy ip --host` option to output host IP.
 
+### Changed
+- Use submodules for fsevents_to_vm rather than a `gem install`.
+
 ## 4.5.0 - 2017-02-06
 
 ### Added
