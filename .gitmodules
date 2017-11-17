@@ -4,3 +4,12 @@
 [submodule "cli/daemons"]
 	path = cli/daemons
 	url = https://github.com/thuehlinger/daemons.git
+[submodule "cli/rb-fsevent"]
+	path = cli/rb-fsevent
+	url = https://github.com/thibaudgg/rb-fsevent.git
+[submodule "cli/net-ssh"]
+	path = cli/net-ssh
+	url = https://github.com/net-ssh/net-ssh.git
+[submodule "cli/fsevents_to_vm"]
+	path = cli/fsevents_to_vm
+	url = https://github.com/codekitchen/fsevents_to_vm.git

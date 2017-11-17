@@ -236,7 +236,7 @@ class DinghyCLI < Thor
   end
 
   def fsevents
-    FseventsToVm.new(machine)
+    FseventsToVmRunner.new(machine)
   end
 
   def start_services

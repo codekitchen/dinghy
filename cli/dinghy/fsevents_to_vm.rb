@@ -1,10 +1,7 @@
 require 'dinghy/daemon'
 
-class FseventsToVm
+class FseventsToVmRunner
   include Dinghy::Daemon
-  INSTALL_PATH = Dinghy.brew+"bin"
-  BIN_PATH = INSTALL_PATH+"fsevents_to_vm"
-  VERSION = "~> 1.1.3"
 
   attr_reader :machine
 
@@ -13,13 +10,8 @@ class FseventsToVm
   end
 
   def up
-    install_if_necessary!
     increase_inotify_limit
     super
-  end
-
-  def plist_name
-    "dinghy.fsevents_to_vm.plist"
   end
 
   def name
@@ -28,24 +20,22 @@ class FseventsToVm
 
   protected
 
-  def install_if_necessary!
-    %x{/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/gem list --config-file '' -i -v '#{VERSION}' fsevents_to_vm}
-    return if $?.success? and File.exists? BIN_PATH
-    puts "Installing fsevents_to_vm, this will require sudo"
-    system!("installing", "sudo", "-H", "/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/gem", "install", "--no-rdoc", "--no-ri", "-n", INSTALL_PATH, "fsevents_to_vm", "-v", VERSION)
-  end
-
   def increase_inotify_limit
     machine.ssh("echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf > /dev/null")
     machine.ssh("sudo sysctl -p > /dev/null")
   end
 
-  def command
-    %W[
-      #{BIN_PATH}
-      start
-      --ssh-identity-file=#{machine.ssh_identity_file_path}
-      --ssh-ip=#{machine.vm_ip}
+  def run
+    $LOAD_PATH << File.expand_path(File.dirname(__FILE__)+"/../net-ssh/lib")
+    $LOAD_PATH << File.expand_path(File.dirname(__FILE__)+"/../rb-fsevent/lib")
+    $LOAD_PATH << File.expand_path(File.dirname(__FILE__)+"/../fsevents_to_vm/lib")
+    require 'fsevents_to_vm/cli'
+    args = [
+      'start',
+      "--ssh-identity-file=#{machine.ssh_identity_file_path}",
+      "--ssh-ip=#{machine.vm_ip}"
     ]
+    $0 = 'fsevents_to_vm'
+    FseventsToVm::Cli.start(args)
   end
 end
