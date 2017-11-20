@@ -39,7 +39,7 @@ class CheckEnv
 
   def print
     if shell().end_with?('/fish') then
-      expected.each { |name,value| puts "    set -gx #{name} #{value}" }
+      expected.each { |name,value| puts %{    set -gx #{name} "#{value}";} }
     else
       expected.each { |name,value| puts "    export #{name}=#{value}" }
     end
