@@ -29,16 +29,16 @@ class CheckEnv
     }
   end
   
-  def shell
+  def is_fish_shell?
     begin
-        return `echo $SHELL`.strip
+        return !`echo $FISH_VERSION`.strip.empty?
     rescue
-        return ""
+        return false
     end
   end
 
   def print
-    if shell().end_with?('/fish') then
+    if is_fish_shell? then
       expected.each { |name,value| puts %{    set -gx #{name} "#{value}";} }
     else
       expected.each { |name,value| puts "    export #{name}=#{value}" }
