@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 ## Unreleased
 
 ### Changed
-- Fix fish syntax for setting env vars.
+- Fix fish shell support for setting env vars.
 
 ## 4.6.0 - 2017-11-17
 

@@ -30,11 +30,7 @@ class CheckEnv
   end
   
   def is_fish_shell?
-    begin
-        return !`echo $FISH_VERSION`.strip.empty?
-    rescue
-        return false
-    end
+    return ENV.key?('FISH_VERSION')
   end
 
   def print
