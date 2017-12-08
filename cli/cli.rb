@@ -267,7 +267,7 @@ class DinghyCLI < Thor
 
     preferences.update(
       unfs_disabled: !use_unfs,
-      proxy_disabled: !dns,
+      proxy_disabled: !proxy,
       dns_disabled: !dns,
       fsevents_disabled: !use_fsevents,
     )
