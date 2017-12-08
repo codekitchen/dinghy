@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 4.6.1 - 2017-12-08
+
 ### Changed
 - Fix fish shell support for setting env vars.
 - Fix `proxy_disabled` logic.
