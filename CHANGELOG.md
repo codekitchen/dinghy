@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+- Remove random port selection for unfsd and use hard-coded port number.
+
 ## 4.6.1 - 2017-12-08
 
 ### Changed

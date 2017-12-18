@@ -12,7 +12,7 @@ class Unfs
 
   def initialize(machine)
     @machine = machine
-    @port = rand(1000) + 19000
+    @port = 19091
   end
 
   # We have to jump through some hoops to make this work. unfsd needs to run as
