@@ -223,12 +223,16 @@ class DinghyCLI < Thor
     preferences[:unfs_disabled] == true
   end
 
+  def nfs_port
+    (preferences[:nfs_port] || 19091).to_i
+  end
+
   def machine
     @machine ||= Machine.new(preferences[:machine_name])
   end
 
   def unfs
-    @unfs ||= Unfs.new(machine)
+    @unfs ||= Unfs.new(machine, nfs_port)
   end
 
   def http_proxy

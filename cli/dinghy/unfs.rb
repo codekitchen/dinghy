@@ -10,9 +10,9 @@ class Unfs
 
   def_delegators :daemon, :name, :status, :running?, :logfile
 
-  def initialize(machine)
+  def initialize(machine, port)
     @machine = machine
-    @port = 19091
+    @port = port
   end
 
   # We have to jump through some hoops to make this work. unfsd needs to run as

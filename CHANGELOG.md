@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+- `nfs_port` preference to define a different NFS port to use on the VM net interface.
+
 ### Changed
 - Remove random port selection for unfsd and use hard-coded port number.
 - Extended error handling for `fsevents_to_vm` SSH errors.
