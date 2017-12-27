@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Remove random port selection for unfsd and use hard-coded port number.
+- Extended error handling for `fsevents_to_vm` SSH errors.
 
 ## 4.6.1 - 2017-12-08
 
