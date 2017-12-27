@@ -8,6 +8,9 @@ module Daemon
     puts starting_message unless root?
     # remove any old logfile sitting around
     FileUtils.rm(daemon.output_logfile) if File.file?(daemon.output_logfile)
+    File.open(logfile, 'a') do |log|
+      log.write("=== Starting #{name} at #{Time.now.iso8601} ===\n\n")
+    end
     start
   end
 
