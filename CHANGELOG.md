@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 4.6.2 - 2018-01-26
+
 ### Added
 - `nfs_port` preference to define a different NFS port to use on the VM net interface.
 
