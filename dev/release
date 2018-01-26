@@ -18,8 +18,8 @@ sed -i '' $'s/## Unreleased/## Unreleased\
 git commit -am "v$VERSION"
 git tag "v$VERSION"
 REF=$(git show-ref -s "v$VERSION")
-git push origin "v$VERSION"
 git push origin master:master
+git push origin "v$VERSION"
 
 pushd ../homebrew-dinghy
 sed -i '' 's|  url ".*|  url "https://github.com/codekitchen/dinghy.git", :tag => "v'$VERSION'", :revision => "'$REF'"|' Formula/dinghy.rb
