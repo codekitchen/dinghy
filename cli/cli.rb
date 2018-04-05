@@ -39,8 +39,10 @@ class DinghyCLI < Thor
     type: :string,
     aliases: :u,
     desc: 'URL of the boot2docker image'
+  option :help, type: :boolean, aliases: :h
   desc "create", "create the docker-machine VM"
   def create
+    check_help!(:create)
     if machine.created?
       $stderr.puts "The VM '#{machine.name}' already exists in docker-machine."
       $stderr.puts "Run `dinghy up` to bring up the VM, or `dinghy destroy` to delete it."
@@ -73,8 +75,10 @@ class DinghyCLI < Thor
   option :unfs,
     type: :boolean,
     desc: "start the NFS (unfsd) server"
+  option :help, type: :boolean, aliases: :h
   desc "up", "start the Docker VM and services"
   def up
+    check_help!(:up)
     vm_must_exist!
     if machine.running?
       $stderr.puts "The VM '#{machine.name}' is already running."
@@ -87,14 +91,18 @@ class DinghyCLI < Thor
 
   map "start" => :up
 
+  option :help, type: :boolean, aliases: :h
   desc "ssh [args...]", "ssh to the VM"
   def ssh(*args)
+    check_help!(:ssh)
     vm_must_exist!
     machine.ssh_exec(*args)
   end
 
+  option :help, type: :boolean, aliases: :h
   desc "status", "get VM and services status"
   def status
+    check_help!(:status)
     puts "   VM: #{machine.status}"
     daemons_enabled = []
     if (!unfs_disabled?)
@@ -130,8 +138,10 @@ class DinghyCLI < Thor
   option :host,
     type: :boolean,
     desc: "output the host IP on the VM interface, rather than the VM IP"
+  option :help, type: :boolean, aliases: :h
   desc "ip", "get the VM's IP address"
   def ip
+    check_help!(:ip)
     vm_must_exist!
     if machine.running?
       puts(options[:host] ? machine.host_ip : machine.vm_ip)
@@ -141,8 +151,10 @@ class DinghyCLI < Thor
     end
   end
 
+  option :help, type: :boolean, aliases: :h
   desc "halt", "stop the VM and services"
   def halt
+    check_help!(:halt)
     vm_must_exist!
     fsevents.halt
     puts "Stopping the #{machine.name} VM..."
@@ -155,8 +167,10 @@ class DinghyCLI < Thor
   map "down" => :halt
   map "stop" => :halt
 
+  option :help, type: :boolean, aliases: :h
   desc "restart", "restart the VM and services"
   def restart
+    check_help!(:restart)
     halt
     up
   end
@@ -165,22 +179,28 @@ class DinghyCLI < Thor
     type: :boolean,
     aliases: :f,
     desc: "destroy without confirmation"
+  option :help, type: :boolean, aliases: :h
   desc "destroy", "stop and delete all traces of the VM"
   def destroy
+    check_help!(:destroy)
     halt
     machine.destroy(force: options[:force])
   end
 
+  option :help, type: :boolean, aliases: :h
   desc "upgrade", "upgrade the boot2docker VM to the newest available"
   def upgrade
+    check_help!(:upgrade)
     vm_must_exist!
     machine.upgrade
     # restart to re-enable the http proxy, etc
     restart
   end
 
+  option :help, type: :boolean, aliases: :h
   desc "shellinit", "returns env variables to set, should be run like $(dinghy shellinit)"
   def shellinit
+    check_help!(:shellinit)
     vm_must_exist!
     CheckEnv.new(machine).print
   end
@@ -277,5 +297,12 @@ class DinghyCLI < Thor
     )
 
     status
+  end
+
+  def check_help!(command)
+    if options[:help]
+      help(command)
+      exit
+    end
   end
 end
