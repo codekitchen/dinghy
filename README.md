@@ -31,7 +31,7 @@ First the prerequisites:
 1. Docker and Docker Machine. These can either be installed with Homebrew (`brew install docker docker-machine`), or using a package such as the Docker Toolbox.
 1. A Virtual Machine provider for Docker Machine. Currently supported options are:
     * [xhyve](http://www.xhyve.org/) installed with [docker-machine-driver-xhyve](https://github.com/zchee/docker-machine-driver-xhyve#install).
-    * [VirtualBox](https://www.virtualbox.org). Version 5.0+ is strongly recommended, and you'll need the [VirtualBox Extension Pack](https://www.virtualbox.org/wiki/Downloads) installed.
+    * [VirtualBox](https://www.virtualbox.org). Version 5.0+ is strongly recommended.
     * [VMware Fusion](http://www.vmware.com/products/fusion).
     * [Parallels](https://www.parallels.com/products/desktop/) installed with [docker-machine-parallels](https://github.com/Parallels/docker-machine-parallels).
 
