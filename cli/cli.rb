@@ -39,6 +39,10 @@ class DinghyCLI < Thor
     type: :string,
     aliases: :u,
     desc: 'URL of the boot2docker image'
+  option :engine_opt,
+    type: :array,
+    aliases: :e,
+    desc: "docker-machine's arbitrary flags to include with the created engine in the form flag=value"
   option :help, type: :boolean, aliases: :h
   desc "create", "create the docker-machine VM"
   def create

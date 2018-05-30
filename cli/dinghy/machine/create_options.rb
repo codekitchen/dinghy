@@ -5,7 +5,8 @@ module Machine::CreateOptions
       cpus: '--virtualbox-cpu-count',
       disk: '--virtualbox-disk-size',
       no_share: '--virtualbox-no-share',
-      boot2docker_url: '--virtualbox-boot2docker-url'
+      boot2docker_url: '--virtualbox-boot2docker-url',
+      engine_opt: '--engine-opt'
     }.freeze,
 
     'vmwarefusion' => {
@@ -13,7 +14,8 @@ module Machine::CreateOptions
       cpus: '--vmwarefusion-cpu-count',
       disk: '--vmwarefusion-disk-size',
       no_share: '--vmwarefusion-no-share',
-      boot2docker_url: '--vmwarefusion-boot2docker-url'
+      boot2docker_url: '--vmwarefusion-boot2docker-url',
+      engine_opt: '--engine-opt'
     }.freeze,
 
     'xhyve' => {
@@ -21,7 +23,8 @@ module Machine::CreateOptions
       cpus: '--xhyve-cpu-count',
       disk: '--xhyve-disk-size',
       # No shared folders are created on xhyve by default
-      boot2docker_url: '--xhyve-boot2docker-url'
+      boot2docker_url: '--xhyve-boot2docker-url',
+      engine_opt: '--engine-opt'
     }.freeze,
 
     'parallels' => {
@@ -29,7 +32,8 @@ module Machine::CreateOptions
       cpus: '--parallels-cpu-count',
       disk: '--parallels-disk-size',
       no_share: '--parallels-no-share',
-      boot2docker_url: '--parallels-boot2docker-url'
+      boot2docker_url: '--parallels-boot2docker-url',
+      engine_opt: '--engine-opt'
     }.freeze
   }.freeze
 
@@ -44,6 +48,12 @@ module Machine::CreateOptions
       unless options['boot2docker_url'].nil?
         create_options << flags[:boot2docker_url]
         create_options << options['boot2docker_url'].to_s
+      end
+      unless options['engine_opt'].nil?
+        options['engine_opt'].each do |option|
+          create_options << flags[:engine_opt]
+          create_options << option.to_s
+        end
       end
     end
   end
