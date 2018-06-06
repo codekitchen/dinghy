@@ -181,7 +181,7 @@ tap to pull in the latest release:
 To update Dinghy itself, run:
 
     $ dinghy halt
-    $ brew upgrade dinghy
+    $ brew upgrade dinghy unfs3
     $ dinghy up
 
 To update the Docker VM, run:
