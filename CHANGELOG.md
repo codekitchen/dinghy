@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 4.6.4 - 2018-06-05
+
 ### Added
 - Coerce Thor to support `-h` and `--help` flags for individual commands.
 - Support for passing through docker-machine's `--engine-opt` flag.
