@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 4.6.5 - 2018-07-05
+
 ### Changed
 - Handle errors closing the SSH connection in `fsevents_to_vm`.
 
