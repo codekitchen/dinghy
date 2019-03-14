@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+- Update to dinghy-http-proxy 2.6 branch. Uses alpine branch of nginx-proxy.
+
 ## 4.6.5 - 2018-07-05
 
 ### Changed
