@@ -61,7 +61,7 @@ class DinghyCLI < Thor
       exit(1)
     end
 
-    puts "Creating the #{machine.name} VM..."
+    puts "Creating the #{machine.name} VM using #{create_options['provider']}..."
     machine.create(create_options)
     start_services
     preferences.update(create: create_options)
@@ -89,7 +89,7 @@ class DinghyCLI < Thor
       exit(1)
     end
 
-    puts "Starting the #{machine.name} VM..."
+    puts "Starting the #{machine.name} VM using #{machine.provider}..."
     start_services
   end
 
