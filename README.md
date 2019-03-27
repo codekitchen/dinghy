@@ -9,10 +9,18 @@ Runs on top of [docker-machine](https://github.com/docker/machine).
 
 Dinghy creates its own VM using `docker-machine`, it will not modify your existing `docker-machine` VMs.
 
-Eventually `docker-machine` may have a rich enough plugin system that dinghy can
-just become a plugin to `docker-machine`. For now, dinghy runs as a wrapper
-around `docker-machine`, shelling out to create the VM and using `launchd` to
-start the various services such as NFS and DNS.
+Dinghy runs as a wrapper around `docker-machine`, shelling out to create the VM
+and using daemons to start the various services such as NFS and DNS.
+
+## PROJECT STATUS
+
+When we started the Dinghy project, Docker for Mac did not exist and there wasn't a great option for using Docker on MacOS easily with high-performance file sharing.
+
+These days, Dinghy still has a performance advantage over Docker for Mac in some use cases where you are sharing lots of files from a host volume. But for the most part, you are fine just using Docker for Mac, you don't necessarily need Dinghy. There is a lot of discussion around the pros and cons in [this issue](https://github.com/codekitchen/dinghy/issues/166).
+
+Dinghy also includes a HTTP(S) proxy and DNS server that can make developing web apps easier, especially if you switch between projects frequently. This proxy can now be used without Dinghy on top of Docker for Mac, see [the instructions in the dinghy-http-proxy README](https://github.com/codekitchen/dinghy-http-proxy).
+
+I am still actively maintaining Dinghy, making small improvements and fixing issues. But it's unlikely that there will be any large new development efforts unless somebody else wants to step up and take them on.
 
 ## FAQ and solutions to common problems
 
