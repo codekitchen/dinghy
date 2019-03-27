@@ -14,13 +14,13 @@ and using daemons to start the various services such as NFS and DNS.
 
 ## PROJECT STATUS
 
+**TL;DR** I am still actively maintaining Dinghy, making small improvements and fixing issues. But it's unlikely that there will be any large new development efforts unless somebody else wants to step up and take them on. Docker for Mac is a great option for most, if not all, people.
+
 When we started the Dinghy project, Docker for Mac did not exist and there wasn't a great option for using Docker on MacOS easily with high-performance file sharing.
 
 These days, Dinghy still has a performance advantage over Docker for Mac in some use cases where you are sharing lots of files from a host volume. But for the most part, you are fine just using Docker for Mac, you don't necessarily need Dinghy. There is a lot of discussion around the pros and cons in [this issue](https://github.com/codekitchen/dinghy/issues/166).
 
 Dinghy also includes a HTTP(S) proxy and DNS server that can make developing web apps easier, especially if you switch between projects frequently. This proxy can now be used without Dinghy on top of Docker for Mac, see [the instructions in the dinghy-http-proxy README](https://github.com/codekitchen/dinghy-http-proxy).
-
-I am still actively maintaining Dinghy, making small improvements and fixing issues. But it's unlikely that there will be any large new development efforts unless somebody else wants to step up and take them on.
 
 ## FAQ and solutions to common problems
 
