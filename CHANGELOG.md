@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Update to dinghy-http-proxy 2.6 branch. Uses alpine branch of nginx-proxy.
+- Fix `fsevents_to_vm` config when overriding DINGHY_HOST_MOUNT_DIR.
+- Add DINGHY_CERT_PATH env var for when overriding DINGHY_HOST_MOUNT_DIR.
 
 ## 4.6.5 - 2018-07-05
 
