@@ -32,6 +32,7 @@ class FseventsToVmRunner
     require 'fsevents_to_vm/cli'
     args = [
       'start',
+      ENV['DINGHY_HOST_MOUNT_DIR'] || ENV['HOME'],
       "--ssh-identity-file=#{machine.ssh_identity_file_path}",
       "--ssh-ip=#{machine.vm_ip}"
     ]
