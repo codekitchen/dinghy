@@ -179,6 +179,16 @@ $ dinghy up
 
 There is an open issue for persisting this in the `~/.dinghy/preferences.yml` file, and allowing multiple dirs to be exported: https://github.com/codekitchen/dinghy/issues/169
 
+### Custom certficate directory
+
+You can change the default certificates directory `~/.dinghy/certs` by setting the `DINGHY_CERT_PATH` environment variable before starting the dinghy VM. This is useful if you have a custom NFS Mount location and your home directory is no more shared, in bash:
+
+```bash
+$ dinghy halt
+$ export DINGHY_CERT_PATH=/code/projects/certs
+$ dinghy up
+```
+
 ## Upgrading
 
 If you didn't originally install Dinghy as a tap, you'll need to switch to the
