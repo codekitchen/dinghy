@@ -97,11 +97,15 @@ class HttpProxy
 
   private
 
+  def dinghy_cert_path
+    ENV['DINGHY_CERT_PATH'] || Dinghy.home_dinghy_certs
+  end
+
   def run_args(expose_proxy = true)
     args = [
       "-p", "19322:19322/udp",
       "-v", "/var/run/docker.sock:/tmp/docker.sock:ro",
-      "-v", "#{Dinghy.home_dinghy_certs}:/etc/nginx/certs",
+      "-v", "#{dinghy_cert_path}:/etc/nginx/certs",
       "-e", "CONTAINER_NAME=#{CONTAINER_NAME}",
       "-e", "DOMAIN_TLD=#{dinghy_domain}",
       "-e", "DNS_IP=#{machine.vm_ip}",
