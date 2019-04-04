@@ -67,7 +67,7 @@ equivalent.
 
 Sanity check!
 
-    $ docker run -it redis
+    $ docker run --rm hello-world
 
 ## CLI Usage
 
