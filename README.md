@@ -38,7 +38,7 @@ First the prerequisites:
 1. [Homebrew](https://github.com/Homebrew/homebrew)
 1. Docker and Docker Machine. These can either be installed with Homebrew (`brew install docker docker-machine`), or using a package such as the Docker Toolbox.
 1. A Virtual Machine provider for Docker Machine. Currently supported options are:
-    * [xhyve](http://www.xhyve.org/) installed with [docker-machine-driver-xhyve](https://github.com/zchee/docker-machine-driver-xhyve#install).
+    * [xhyve](http://www.xhyve.org/) installed with [docker-machine-driver-xhyve](https://github.com/zchee/docker-machine-driver-xhyve#install). This is the recommended option, it is simpler to setup and appears to be more stable overall.
     * [VirtualBox](https://www.virtualbox.org). Version 5.0+ is strongly recommended.
     * [VMware Fusion](http://www.vmware.com/products/fusion).
     * [Parallels](https://www.parallels.com/products/desktop/) installed with [docker-machine-parallels](https://github.com/Parallels/docker-machine-parallels).
@@ -52,13 +52,13 @@ You will need to install `docker` and `docker-machine` as well, either via Homeb
 
     $ brew install docker docker-machine
 
-You can specify provider (`virtualbox`, `vmware`, `xhyve` or `parallels`), memory and CPU options when creating the VM. See available options:
+You can specify provider (`xhyve`, `virtualbox`, `vmware` or `parallels`), memory and CPU options when creating the VM. See available options:
 
     $ dinghy help create
 
 Then create the VM and start services with:
 
-    $ dinghy create --provider virtualbox
+    $ dinghy create --provider xhyve
 
 Once the VM is up, you'll get instructions to add some Docker-related
 environment variables, so that your Docker client can contact the Docker
